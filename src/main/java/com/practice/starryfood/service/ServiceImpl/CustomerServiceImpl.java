@@ -11,6 +11,7 @@ import com.practice.starryfood.service.CustomerService;
 import com.practice.starryfood.util.IDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.util.resources.cldr.ts.CurrencyNames_ts;
 
 import java.util.Date;
 import java.util.List;
@@ -87,7 +88,7 @@ public class CustomerServiceImpl implements CustomerService {
      */
     public int updateCustomer(String uuid, String id, String name, String password) throws Exception {
         Customer test = customerMapper.selectByPrimaryKey(uuid);
-        if (test == null || test.getIsDel()==1) throw new SAException(ExceptionEnum.CUSTOMER_UPDATE_NOT_EXIST);
+        if (test == null || test.getIsDel() == 1) throw new SAException(ExceptionEnum.CUSTOMER_UPDATE_NOT_EXIST);
         Customer customer = new Customer();
         Date date = new Date();
         customer.setUuid(uuid);
@@ -133,7 +134,8 @@ public class CustomerServiceImpl implements CustomerService {
             throw new SAException(ExceptionEnum.CUSTOMER_SEARCH_NOT_EXIST);
         }
         Customer customer = data.get(0);
-        if (customer == null || customer.getIsDel() == 1) throw new SAException(ExceptionEnum.CUSTOMER_SEARCH_NOT_EXIST);
+        if (customer == null || customer.getIsDel() == 1)
+            throw new SAException(ExceptionEnum.CUSTOMER_SEARCH_NOT_EXIST);
 
         return customer;
     }
@@ -146,7 +148,7 @@ public class CustomerServiceImpl implements CustomerService {
      * @Author: StarryHu
      * @Date: 2019/7/1
      */
-    public void login(String id, String password) throws Exception {
+    public Customer login(String id, String password) throws Exception {
         // 采用Example查询
         CustomerExample customerExample = new CustomerExample();
         customerExample.createCriteria().andIdEqualTo(id);
@@ -160,7 +162,8 @@ public class CustomerServiceImpl implements CustomerService {
         if (!password.equals(customer.getPassword())) {
             throw new SAException(ExceptionEnum.CUSTOMER_LOGIN_PSW_ERROR);
         }
-        // 如果正确则正常退出
+        // 如果正确返回顾客对象
+        return customer;
     }
 
     /***
@@ -192,4 +195,31 @@ public class CustomerServiceImpl implements CustomerService {
         }
         throw new SAException(ExceptionEnum.CUSTOMER_REGISTER_FAIL);
     }
+
+    /***
+     * 修改个人密码
+     * @param uuid
+     * @param oldPassword
+     * @param newPassword1
+     * @return
+     */
+    public int editPersonPsw(String uuid, String oldPassword, String newPassword1) {
+        // 查找对象看是否存在
+        Customer customer = customerMapper.selectByPrimaryKey(uuid);
+        if (customer == null || customer.getIsDel() == 1)
+            throw new SAException(ExceptionEnum.CUSTOMER_EDITPSW_NOT_EXIST);
+        // 判断原密码是否输入正确
+        if (!oldPassword.equals(customer.getPassword()))
+            throw new SAException(ExceptionEnum.CUSTOMER_EDITPSW_OLDPSW_ERROR);
+        // 判断新旧密码是否一致，如果一致则不需要修改
+        if (newPassword1.equals(customer.getPassword()))
+            throw new SAException(ExceptionEnum.CUSTOMER_EDITPSW_SAME_WITH_OLD);
+        // 进行密码修改
+        customer.setPassword(newPassword1);
+        int n = customerMapper.updateByPrimaryKey(customer);
+        if (n > 0) return n;
+
+        throw new SAException(ExceptionEnum.CUSTOMER_EDITPSW_FAIL);
+    }
+
 }

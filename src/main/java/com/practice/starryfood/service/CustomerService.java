@@ -18,9 +18,10 @@ public interface CustomerService {
     Customer getCustomerByCId(String id) throws Exception;
 
     // 登录
-    void login(String id, String password) throws Exception;
+    Customer login(String id, String password) throws Exception;
 
     // 注册
     int register(String id, String name, String password) throws Exception;
 
+    int editPersonPsw(String uuid, String oldPassword, String newPassword1);
 }

@@ -150,7 +150,7 @@ public class AdminServiceImpl implements AdminService {
      * @param password 密码
      * @throws Exception
      */
-    public void login(String adminId, String password) throws Exception {
+    public Admin login(String adminId, String password) throws Exception {
         // 设置查询条件
         AdminExample adminExample = new AdminExample();
         adminExample.createCriteria().andAdminIdEqualTo(adminId);
@@ -164,6 +164,35 @@ public class AdminServiceImpl implements AdminService {
         if (admin == null || admin.getIsDel() == 1) throw new SAException(ExceptionEnum.ADMIN_LOGIN_NOT_EXIST);
         // 密码不正确时抛的异常
         if (!password.equals(admin.getPassword()))  throw new SAException(ExceptionEnum.ADMIN_LOGIN_PSW_ERROR);
-        // 如果正确则顺利返回
+        // 如果正确则顺利返回该管理员对象
+        return admin;
+    }
+
+    /***
+     * 修改个人密码（需要判断原密码是否正确）
+     * @param uuid 账户uuid
+     * @param oldPsw 原密码
+     * @param newPsw 新密码
+     * @return
+     * @throws Exception
+     */
+    public int editPersonPsw(String uuid,String oldPsw,String newPsw)throws Exception{
+        // 查看管理员是否存在
+        Admin admin = adminMapper.selectByPrimaryKey(uuid);
+        if (admin == null || admin.getIsDel() == 1)
+            throw new SAException(ExceptionEnum.ADMIN_EDITPSW_NOT_EXIST);
+        // 查看原密码是否输入正确
+        if (!admin.getPassword().equals(oldPsw))
+            throw new SAException(ExceptionEnum.ADMIN_EDITPSW_OLDPSW_ERROR);
+        // 与原密码进行比对，如果无变化则抛出异常，不继续操作
+        if (admin.getPassword().equals(newPsw))
+            throw new SAException(ExceptionEnum.ADMIN_EDITPSW_SAME_WITH_OLD);
+
+        admin.setPassword(newPsw);
+        int n = adminMapper.updateByPrimaryKey(admin);
+        if (n > 0) return n;
+        // 出错的情况
+        throw new SAException(ExceptionEnum.ADMIN_EDITPSW_FAIL);
+
     }
 }
