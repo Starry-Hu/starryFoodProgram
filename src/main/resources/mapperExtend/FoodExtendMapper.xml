@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.practice.starryfood.daoExtend.FoodExtendMapper">
+
+    <!-- 获取全部菜品 -->
+    <select id="getAllFoods" resultType="com.practice.starryfood.pojo.FoodExtend">
+     SELECT
+        A.id,
+        A.`name`,
+        A.price,
+        A.measurement,
+        A.has_sold,
+        A.introduce,
+        A.img,
+        B.admin_name AS create_user,
+        C.admin_name AS update_user
+    FROM
+        food A
+        INNER JOIN admin B ON A.create_user = B.uuid
+        LEFT JOIN admin C ON A.update_user = C.uuid
+    WHERE
+        A.is_del = 0
+    </select>
+
+</mapper>

@@ -2,3 +2,10 @@ server:
   port: 8080
   servlet:
     context-path: /starryfood
+
+# pagehelper
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql

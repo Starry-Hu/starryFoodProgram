@@ -10,6 +10,7 @@ import com.practice.starryfood.util.IDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,25 +33,31 @@ public class AdminServiceImpl implements AdminService {
      * @return
      * @throws Exception
      */
-    public int addAdmin(String adminId, String adminName, String password) throws Exception {
+    public int addAdmin(String adminId, String adminName, String password,String createUser) throws Exception {
         // 设置查询条件
         AdminExample adminExample = new AdminExample();
         adminExample.createCriteria().andAdminIdEqualTo(adminId);
         List<Admin> data = adminMapper.selectByExample(adminExample);
         // 如果查出来的数据不为空，则抛出账户已存在异常
-        if (data.size() != 0) throw new SAException(ExceptionEnum.ADMIN_EXIST);
+        if (data.size() != 0) throw new SAException(ExceptionEnum.ADMIN_ADD_EXIST);
+        Admin test = data.get(0);
+        // 对查出来的数据进行判断，看同名账户是否存在
+        if (test != null && test.getIsDel() == 0) throw new SAException(ExceptionEnum.ADMIN_ADD_EXIST);
+
 
         Admin admin = new Admin();
+        Date date = new Date();
         admin.setUuid(IDGenerator.generator());
         admin.setAdminId(adminId);
         admin.setAdminName(adminName);
         admin.setPassword(password);
+        admin.setCreateTime(date);
+        admin.setCreateUser(createUser);
+        admin.setIsDel(0);
 
         int n = adminMapper.insert(admin);
         // 添加成功
-        if (n > 0) {
-            return n;
-        }
+        if (n > 0) return n;
         throw new SAException(ExceptionEnum.ADMIN_ADD_FAIL);
     }
 
@@ -60,14 +67,18 @@ public class AdminServiceImpl implements AdminService {
      * @return
      * @throws Exception
      */
-    public int deleteAdmin(String uuid) throws Exception {
-        int n = adminMapper.deleteByPrimaryKey(uuid);
+    public int deleteAdmin(String uuid,String updateUser) throws Exception {
+        // 查找相应管理员，并判断是否存在，如果已不存在则抛出异常
+        Admin admin = adminMapper.selectByPrimaryKey(uuid);
+        if (admin == null || admin.getIsDel() == 1) throw new SAException(ExceptionEnum.ADMIN_DELETE_FAIL);
+        Date date = new Date();
+        admin.setIsDel(1);
+        admin.setUpdateTime(date);
+        admin.setUpdateUser(updateUser);
+        int n = adminMapper.updateByPrimaryKey(admin);
         // 删除成功
-        if (n > 0)
-        {
-            return n;
-        }
-        throw new SAException(ExceptionEnum.ADMIN_NOT_EXIST);
+        if (n > 0) return n;
+        throw new SAException(ExceptionEnum.ADMIN_DELETE_FAIL);
     }
 
     /**
@@ -78,11 +89,17 @@ public class AdminServiceImpl implements AdminService {
      * @return
      * @throws Exception
      */
-    public int updateAdmin(String uuid, String adminId, String adminName, String password) throws Exception {
-        Admin admin = new Admin();
+    public int updateAdmin(String uuid, String adminId, String adminName,
+                           String password,String updateUser) throws Exception {
+        Admin admin = adminMapper.selectByPrimaryKey(uuid);
+        // 根据uuid获取管理员对象，并判断是否存在
+        if (admin == null || admin.getIsDel() == 1)  throw new SAException(ExceptionEnum.ADMIN_UPDATE_NOT_EXIST);
+        Date date = new Date();
         admin.setAdminId(adminId);
         admin.setAdminName(adminName);
         admin.setPassword(password);
+        admin.setUpdateTime(date);
+        admin.setUpdateUser(updateUser);
 
         int n = adminMapper.updateByPrimaryKey(admin);
         // 更新成功
@@ -100,9 +117,9 @@ public class AdminServiceImpl implements AdminService {
      */
     public Admin getAdminByuuid(String uuid) throws Exception {
         Admin admin = adminMapper.selectByPrimaryKey(uuid);
-        // 管理员不存在
-        if (admin == null) {
-            throw new SAException(ExceptionEnum.ADMIN_NOT_EXIST);
+        // 管理员不存在或已删除
+        if (admin == null || admin.getIsDel() == 1) {
+            throw new SAException(ExceptionEnum.ADMIN_SEARCH_NOT_EXIST);
         }
         return admin;
     }
@@ -119,9 +136,12 @@ public class AdminServiceImpl implements AdminService {
         adminExample.createCriteria().andAdminIdEqualTo(adminId);
         List<Admin> data = adminMapper.selectByExample(adminExample);
         // 如果查出来的数据为空，则抛出不存在异常
-        if (data.size() == 0) throw new SAException(ExceptionEnum.ADMIN_NOT_EXIST);
+        if (data.size() == 0) throw new SAException(ExceptionEnum.ADMIN_SEARCH_NOT_EXIST);
+        Admin admin = data.get(0);
+        // 如果第一个用户不存在或已删除则抛出异常
+        if (admin == null || admin.getIsDel() == 1) throw new SAException(ExceptionEnum.ADMIN_SEARCH_NOT_EXIST);
         // 否则 返回第一个数据
-        return data.get(0);
+        return admin;
     }
 
     /**
@@ -136,12 +156,14 @@ public class AdminServiceImpl implements AdminService {
         adminExample.createCriteria().andAdminIdEqualTo(adminId);
         List<Admin> data = adminMapper.selectByExample(adminExample);
         // 如果查出来的数据为空，则抛出不存在异常
-        if (data.size() == 0) throw new SAException(ExceptionEnum.ADMIN_NOT_EXIST);
+        if (data.size() == 0) throw new SAException(ExceptionEnum.ADMIN_LOGIN_NOT_EXIST);
 
         // 将第一个数组取出来作为管理员对象
         Admin admin = data.get(0);
+        // 如果第一个用户不存在或已删除则抛出异常
+        if (admin == null || admin.getIsDel() == 1) throw new SAException(ExceptionEnum.ADMIN_LOGIN_NOT_EXIST);
         // 密码不正确时抛的异常
-        if (!password.equals(admin.getPassword()))  throw new SAException(ExceptionEnum.ADMIN_PSW_ERROR);
+        if (!password.equals(admin.getPassword()))  throw new SAException(ExceptionEnum.ADMIN_LOGIN_PSW_ERROR);
         // 如果正确则顺利返回
     }
 }

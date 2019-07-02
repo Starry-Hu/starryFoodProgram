@@ -2,7 +2,6 @@ package com.practice.starryfood.dao;
 
 import com.practice.starryfood.bean.Food;
 import com.practice.starryfood.bean.FoodExample;
-import com.practice.starryfood.bean.FoodWithBLOBs;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,25 +12,25 @@ public interface FoodMapper {
 
     int deleteByPrimaryKey(String id);
 
-    int insert(FoodWithBLOBs record);
+    int insert(Food record);
 
-    int insertSelective(FoodWithBLOBs record);
+    int insertSelective(Food record);
 
-    List<FoodWithBLOBs> selectByExampleWithBLOBs(FoodExample example);
+    List<Food> selectByExampleWithBLOBs(FoodExample example);
 
     List<Food> selectByExample(FoodExample example);
 
-    FoodWithBLOBs selectByPrimaryKey(String id);
+    Food selectByPrimaryKey(String id);
 
-    int updateByExampleSelective(@Param("record") FoodWithBLOBs record, @Param("example") FoodExample example);
+    int updateByExampleSelective(@Param("record") Food record, @Param("example") FoodExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") FoodWithBLOBs record, @Param("example") FoodExample example);
+    int updateByExampleWithBLOBs(@Param("record") Food record, @Param("example") FoodExample example);
 
     int updateByExample(@Param("record") Food record, @Param("example") FoodExample example);
 
-    int updateByPrimaryKeySelective(FoodWithBLOBs record);
+    int updateByPrimaryKeySelective(Food record);
 
-    int updateByPrimaryKeyWithBLOBs(FoodWithBLOBs record);
+    int updateByPrimaryKeyWithBLOBs(Food record);
 
     int updateByPrimaryKey(Food record);
 }

@@ -9,7 +9,17 @@ public class Order {
 
     private Date succtime;
 
-    private String customer;
+    private Integer isDel;
+
+    private Date createTime;
+
+    private Date updateTime;
+
+    private String createCustomer;
+
+    private String dealAdmin;
+
+    private Integer condition;
 
     public String getId() {
         return id;
@@ -35,11 +45,51 @@ public class Order {
         this.succtime = succtime;
     }
 
-    public String getCustomer() {
-        return customer;
+    public Integer getIsDel() {
+        return isDel;
     }
 
-    public void setCustomer(String customer) {
-        this.customer = customer;
+    public void setIsDel(Integer isDel) {
+        this.isDel = isDel;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getCreateCustomer() {
+        return createCustomer;
+    }
+
+    public void setCreateCustomer(String createCustomer) {
+        this.createCustomer = createCustomer;
+    }
+
+    public String getDealAdmin() {
+        return dealAdmin;
+    }
+
+    public void setDealAdmin(String dealAdmin) {
+        this.dealAdmin = dealAdmin;
+    }
+
+    public Integer getCondition() {
+        return condition;
+    }
+
+    public void setCondition(Integer condition) {
+        this.condition = condition;
     }
 }

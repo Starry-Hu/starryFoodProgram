@@ -12,6 +12,7 @@ import com.practice.starryfood.util.IDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,7 +27,6 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerMapper customerMapper;
 
-
     /**
      * 添加用户
      *
@@ -37,33 +37,45 @@ public class CustomerServiceImpl implements CustomerService {
      * @throws Exception
      */
     public int addCustomer(String id, String name, String password) throws Exception {
+        // 设置查询条件，查找同账户名是否存在
+        CustomerExample customerExample = new CustomerExample();
+        customerExample.createCriteria().andIdEqualTo(id);
+        List<Customer> data = customerMapper.selectByExample(customerExample);
+        // 对查出来的数据进行判断，看同名账户是否存在
+        if (data.size() == 0) throw new SAException(ExceptionEnum.CUSTOMER_ADD_EXIST);
+        Customer test = data.get(0);
+        if (test != null && test.getIsDel() == 0) throw new SAException(ExceptionEnum.CUSTOMER_ADD_EXIST);
         Customer customer = new Customer();
+        Date date = new Date();
         customer.setUuid(IDGenerator.generator());
         customer.setId(id);
         customer.setName(name);
         customer.setPassword(password);
+        customer.setCreateTime(date);
+        customer.setIsDel(0);
 
         int n = customerMapper.insert(customer);
         // 添加成功
-        if (n > 0) {
-            return n;
-        }
+        if (n > 0) return n;
+
         throw new SAException(ExceptionEnum.CUSTOMER_ADD_FAIL);
     }
 
     /**
-     * 删除用户
+     * 删除用户（逻辑删除）
      *
      * @param uuid 用户uuid
      * @return
      * @throws Exception
      */
     public int deleteCustomer(String uuid) throws Exception {
+        Customer test = customerMapper.selectByPrimaryKey(uuid);
+        if (test == null || test.getIsDel() == 1) throw new SAException(ExceptionEnum.ADMIN_DELETE_NOT_EXIST);
+
         int n = customerMapper.deleteByPrimaryKey(uuid);
-        if (n > 0) {
-            return n;
-        }
-        throw new SAException(ExceptionEnum.CUSTOMER_NOT_EXIST);
+        if (n > 0) return n;
+
+        throw new SAException(ExceptionEnum.CUSTOMER_DELETE_FAIL);
     }
 
     /***
@@ -74,16 +86,20 @@ public class CustomerServiceImpl implements CustomerService {
      * @Date: 2019/7/1
      */
     public int updateCustomer(String uuid, String id, String name, String password) throws Exception {
+        Customer test = customerMapper.selectByPrimaryKey(uuid);
+        if (test == null || test.getIsDel()==1) throw new SAException(ExceptionEnum.CUSTOMER_UPDATE_NOT_EXIST);
         Customer customer = new Customer();
+        Date date = new Date();
         customer.setUuid(uuid);
         customer.setId(id);
         customer.setName(name);
         customer.setPassword(password);
+        customer.setUpdateTime(date);
+        customer.setIsDel(0);
 
         int n = customerMapper.updateByPrimaryKey(customer);
-        if (n > 0) {
-            return n;
-        }
+        if (n > 0) return n;
+
         throw new SAException(ExceptionEnum.CUSTOMER_UPDATE_FAIL);
     }
 
@@ -95,8 +111,8 @@ public class CustomerServiceImpl implements CustomerService {
      */
     public Customer getCustomerByuuid(String uuid) throws Exception {
         Customer customer = customerMapper.selectByPrimaryKey(uuid);
-        if (customer == null) {
-            throw new SAException(ExceptionEnum.CUSTOMER_NOT_EXIST);
+        if (customer == null || customer.getIsDel() == 1) {
+            throw new SAException(ExceptionEnum.CUSTOMER_SEARCH_NOT_EXIST);
         }
         return customer;
     }
@@ -111,33 +127,38 @@ public class CustomerServiceImpl implements CustomerService {
         CustomerExample customerExample = new CustomerExample();
         customerExample.createCriteria().andIdEqualTo(id);
 
+        // 判断用户是否存在
         List<Customer> data = customerMapper.selectByExample(customerExample);
         if (data.size() == 0) {
-            throw new SAException(ExceptionEnum.CUSTOMER_NOT_EXIST);
+            throw new SAException(ExceptionEnum.CUSTOMER_SEARCH_NOT_EXIST);
         }
-        return data.get(0);
+        Customer customer = data.get(0);
+        if (customer == null || customer.getIsDel() == 1) throw new SAException(ExceptionEnum.CUSTOMER_SEARCH_NOT_EXIST);
+
+        return customer;
     }
 
+
     /****
-    * @Description: 用户登陆
-    * @Param: [id, password] 用户账号名，密码
-    * @return: void
-    * @Author: StarryHu
-    * @Date: 2019/7/1
-    */
+     * @Description: 用户登陆
+     * @Param: [id, password] 用户账号名，密码
+     * @return: void
+     * @Author: StarryHu
+     * @Date: 2019/7/1
+     */
     public void login(String id, String password) throws Exception {
         // 采用Example查询
         CustomerExample customerExample = new CustomerExample();
         customerExample.createCriteria().andIdEqualTo(id);
         List<Customer> data = customerMapper.selectByExample(customerExample);
         if (data.size() == 0) {
-            throw new SAException(ExceptionEnum.CUSTOMER_NOT_EXIST);
+            throw new SAException(ExceptionEnum.CUSTOMER_LOGIN_NOT_EXIST);
         }
         // 获取到用户对象
         Customer customer = data.get(0);
         // 判断密码是否正确
-        if (!password.equals(customer.getPassword())){
-            throw new SAException(ExceptionEnum.CUSTOMER_PSW_ERROR);
+        if (!password.equals(customer.getPassword())) {
+            throw new SAException(ExceptionEnum.CUSTOMER_LOGIN_PSW_ERROR);
         }
         // 如果正确则正常退出
     }
@@ -155,7 +176,7 @@ public class CustomerServiceImpl implements CustomerService {
         customerExample.createCriteria().andIdEqualTo(id);
         List<Customer> data = customerMapper.selectByExample(customerExample);
         if (data.size() != 0) {
-            throw new SAException(ExceptionEnum.CUSTOMER_EXIST);
+            throw new SAException(ExceptionEnum.CUSTOMER_ADD_EXIST);
         }
         // 进行注册
         Customer customer = new Customer();
