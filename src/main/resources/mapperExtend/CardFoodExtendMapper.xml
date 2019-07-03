@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.practice.starryfood.daoExtend.CartFoodExtendMapper">
+
+    <!-- 获取全部菜品 -->
+    <select id="getFoodsFromCart" parameterType="java.lang.String" resultType="com.practice.starryfood.pojo.CartFoodExtend">
+     SELECT
+        A.uuid
+        A.cartList_id AS cartlistId,
+        A.food_id AS foodId,
+        A.food_num AS foodNum,
+        A.food_oneTotalPrice AS foodOnetotalprice,
+        B.fname,
+        B.price,
+        B.measurement,
+        B.img
+    FROM
+        `cart_food` A
+        INNER JOIN food B ON A.food_id = B.fid
+    WHERE
+        cartList_id = 1
+    </select>
+
+</mapper>

@@ -4,14 +4,14 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderFoodExample {
+public class CartFoodExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public OrderFoodExample() {
+    public CartFoodExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -175,73 +175,73 @@ public class OrderFoodExample {
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdIsNull() {
-            addCriterion("order_id is null");
+        public Criteria andCartlistIdIsNull() {
+            addCriterion("cartList_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdIsNotNull() {
-            addCriterion("order_id is not null");
+        public Criteria andCartlistIdIsNotNull() {
+            addCriterion("cartList_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdEqualTo(String value) {
-            addCriterion("order_id =", value, "orderId");
+        public Criteria andCartlistIdEqualTo(String value) {
+            addCriterion("cartList_id =", value, "cartlistId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdNotEqualTo(String value) {
-            addCriterion("order_id <>", value, "orderId");
+        public Criteria andCartlistIdNotEqualTo(String value) {
+            addCriterion("cartList_id <>", value, "cartlistId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdGreaterThan(String value) {
-            addCriterion("order_id >", value, "orderId");
+        public Criteria andCartlistIdGreaterThan(String value) {
+            addCriterion("cartList_id >", value, "cartlistId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdGreaterThanOrEqualTo(String value) {
-            addCriterion("order_id >=", value, "orderId");
+        public Criteria andCartlistIdGreaterThanOrEqualTo(String value) {
+            addCriterion("cartList_id >=", value, "cartlistId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdLessThan(String value) {
-            addCriterion("order_id <", value, "orderId");
+        public Criteria andCartlistIdLessThan(String value) {
+            addCriterion("cartList_id <", value, "cartlistId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdLessThanOrEqualTo(String value) {
-            addCriterion("order_id <=", value, "orderId");
+        public Criteria andCartlistIdLessThanOrEqualTo(String value) {
+            addCriterion("cartList_id <=", value, "cartlistId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdLike(String value) {
-            addCriterion("order_id like", value, "orderId");
+        public Criteria andCartlistIdLike(String value) {
+            addCriterion("cartList_id like", value, "cartlistId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdNotLike(String value) {
-            addCriterion("order_id not like", value, "orderId");
+        public Criteria andCartlistIdNotLike(String value) {
+            addCriterion("cartList_id not like", value, "cartlistId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdIn(List<String> values) {
-            addCriterion("order_id in", values, "orderId");
+        public Criteria andCartlistIdIn(List<String> values) {
+            addCriterion("cartList_id in", values, "cartlistId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdNotIn(List<String> values) {
-            addCriterion("order_id not in", values, "orderId");
+        public Criteria andCartlistIdNotIn(List<String> values) {
+            addCriterion("cartList_id not in", values, "cartlistId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdBetween(String value1, String value2) {
-            addCriterion("order_id between", value1, value2, "orderId");
+        public Criteria andCartlistIdBetween(String value1, String value2) {
+            addCriterion("cartList_id between", value1, value2, "cartlistId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdNotBetween(String value1, String value2) {
-            addCriterion("order_id not between", value1, value2, "orderId");
+        public Criteria andCartlistIdNotBetween(String value1, String value2) {
+            addCriterion("cartList_id not between", value1, value2, "cartlistId");
             return (Criteria) this;
         }
 

@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class Food {
-    private String id;
+    private String fid;
 
-    private String name;
+    private String fname;
 
     private BigDecimal price;
 
@@ -28,20 +28,20 @@ public class Food {
 
     private String introduce;
 
-    public String getId() {
-        return id;
+    public String getFid() {
+        return fid;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setFid(String fid) {
+        this.fid = fid;
     }
 
-    public String getName() {
-        return name;
+    public String getFname() {
+        return fname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFname(String fname) {
+        this.fname = fname;
     }
 
     public BigDecimal getPrice() {

@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.practice.starryfood.dao.FoodMapper">
   <resultMap id="BaseResultMap" type="com.practice.starryfood.bean.Food">
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
+    <id column="fid" jdbcType="VARCHAR" property="fid" />
+    <result column="fname" jdbcType="VARCHAR" property="fname" />
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="measurement" jdbcType="VARCHAR" property="measurement" />
     <result column="img" jdbcType="VARCHAR" property="img" />
@@ -76,7 +76,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, price, measurement, img, has_sold, create_time, update_time, create_user, 
+    fid, fname, price, measurement, img, has_sold, create_time, update_time, create_user, 
     update_user, is_del
   </sql>
   <sql id="Blob_Column_List">
@@ -120,11 +120,11 @@
     ,
     <include refid="Blob_Column_List" />
     from food
-    where id = #{id,jdbcType=VARCHAR}
+    where fid = #{fid,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from food
-    where id = #{id,jdbcType=VARCHAR}
+    where fid = #{fid,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.practice.starryfood.bean.FoodExample">
     delete from food
@@ -133,12 +133,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.practice.starryfood.bean.Food">
-    insert into food (id, name, price, 
+    insert into food (fid, fname, price, 
       measurement, img, has_sold, 
       create_time, update_time, create_user, 
       update_user, is_del, introduce
       )
-    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
+    values (#{fid,jdbcType=VARCHAR}, #{fname,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
       #{measurement,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR}, #{hasSold,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, 
       #{updateUser,jdbcType=VARCHAR}, #{isDel,jdbcType=INTEGER}, #{introduce,jdbcType=LONGVARCHAR}
@@ -147,11 +147,11 @@
   <insert id="insertSelective" parameterType="com.practice.starryfood.bean.Food">
     insert into food
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
+      <if test="fid != null">
+        fid,
       </if>
-      <if test="name != null">
-        name,
+      <if test="fname != null">
+        fname,
       </if>
       <if test="price != null">
         price,
@@ -185,11 +185,11 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
+      <if test="fid != null">
+        #{fid,jdbcType=VARCHAR},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="fname != null">
+        #{fname,jdbcType=VARCHAR},
       </if>
       <if test="price != null">
         #{price,jdbcType=DECIMAL},
@@ -232,11 +232,11 @@
   <update id="updateByExampleSelective" parameterType="map">
     update food
     <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=VARCHAR},
+      <if test="record.fid != null">
+        fid = #{record.fid,jdbcType=VARCHAR},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="record.fname != null">
+        fname = #{record.fname,jdbcType=VARCHAR},
       </if>
       <if test="record.price != null">
         price = #{record.price,jdbcType=DECIMAL},
@@ -275,8 +275,8 @@
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map">
     update food
-    set id = #{record.id,jdbcType=VARCHAR},
-      name = #{record.name,jdbcType=VARCHAR},
+    set fid = #{record.fid,jdbcType=VARCHAR},
+      fname = #{record.fname,jdbcType=VARCHAR},
       price = #{record.price,jdbcType=DECIMAL},
       measurement = #{record.measurement,jdbcType=VARCHAR},
       img = #{record.img,jdbcType=VARCHAR},
@@ -293,8 +293,8 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update food
-    set id = #{record.id,jdbcType=VARCHAR},
-      name = #{record.name,jdbcType=VARCHAR},
+    set fid = #{record.fid,jdbcType=VARCHAR},
+      fname = #{record.fname,jdbcType=VARCHAR},
       price = #{record.price,jdbcType=DECIMAL},
       measurement = #{record.measurement,jdbcType=VARCHAR},
       img = #{record.img,jdbcType=VARCHAR},
@@ -311,8 +311,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.practice.starryfood.bean.Food">
     update food
     <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+      <if test="fname != null">
+        fname = #{fname,jdbcType=VARCHAR},
       </if>
       <if test="price != null">
         price = #{price,jdbcType=DECIMAL},
@@ -345,11 +345,11 @@
         introduce = #{introduce,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=VARCHAR}
+    where fid = #{fid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.practice.starryfood.bean.Food">
     update food
-    set name = #{name,jdbcType=VARCHAR},
+    set fname = #{fname,jdbcType=VARCHAR},
       price = #{price,jdbcType=DECIMAL},
       measurement = #{measurement,jdbcType=VARCHAR},
       img = #{img,jdbcType=VARCHAR},
@@ -360,11 +360,11 @@
       update_user = #{updateUser,jdbcType=VARCHAR},
       is_del = #{isDel,jdbcType=INTEGER},
       introduce = #{introduce,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
+    where fid = #{fid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.practice.starryfood.bean.Food">
     update food
-    set name = #{name,jdbcType=VARCHAR},
+    set fname = #{fname,jdbcType=VARCHAR},
       price = #{price,jdbcType=DECIMAL},
       measurement = #{measurement,jdbcType=VARCHAR},
       img = #{img,jdbcType=VARCHAR},
@@ -374,6 +374,6 @@
       create_user = #{createUser,jdbcType=VARCHAR},
       update_user = #{updateUser,jdbcType=VARCHAR},
       is_del = #{isDel,jdbcType=INTEGER}
-    where id = #{id,jdbcType=VARCHAR}
+    where fid = #{fid,jdbcType=VARCHAR}
   </update>
 </mapper>

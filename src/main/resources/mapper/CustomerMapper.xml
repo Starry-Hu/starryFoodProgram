@@ -3,8 +3,9 @@
 <mapper namespace="com.practice.starryfood.dao.CustomerMapper">
   <resultMap id="BaseResultMap" type="com.practice.starryfood.bean.Customer">
     <id column="uuid" jdbcType="VARCHAR" property="uuid" />
-    <result column="id" jdbcType="VARCHAR" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="cid" jdbcType="VARCHAR" property="cid" />
+    <result column="cname" jdbcType="VARCHAR" property="cname" />
+    <result column="cartList" jdbcType="VARCHAR" property="cartlist" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    uuid, id, name, password, create_time, update_time, is_del
+    uuid, cid, cname, cartList, password, create_time, update_time, is_del
   </sql>
   <select id="selectByExample" parameterType="com.practice.starryfood.bean.CustomerExample" resultMap="BaseResultMap">
     select
@@ -103,12 +104,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.practice.starryfood.bean.Customer">
-    insert into customer (uuid, id, name, 
-      password, create_time, update_time, 
-      is_del)
-    values (#{uuid,jdbcType=VARCHAR}, #{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{isDel,jdbcType=INTEGER})
+    insert into customer (uuid, cid, cname, 
+      cartList, password, create_time, 
+      update_time, is_del)
+    values (#{uuid,jdbcType=VARCHAR}, #{cid,jdbcType=VARCHAR}, #{cname,jdbcType=VARCHAR}, 
+      #{cartlist,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{isDel,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.practice.starryfood.bean.Customer">
     insert into customer
@@ -116,11 +117,14 @@
       <if test="uuid != null">
         uuid,
       </if>
-      <if test="id != null">
-        id,
+      <if test="cid != null">
+        cid,
       </if>
-      <if test="name != null">
-        name,
+      <if test="cname != null">
+        cname,
+      </if>
+      <if test="cartlist != null">
+        cartList,
       </if>
       <if test="password != null">
         password,
@@ -139,11 +143,14 @@
       <if test="uuid != null">
         #{uuid,jdbcType=VARCHAR},
       </if>
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
+      <if test="cid != null">
+        #{cid,jdbcType=VARCHAR},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="cname != null">
+        #{cname,jdbcType=VARCHAR},
+      </if>
+      <if test="cartlist != null">
+        #{cartlist,jdbcType=VARCHAR},
       </if>
       <if test="password != null">
         #{password,jdbcType=VARCHAR},
@@ -171,11 +178,14 @@
       <if test="record.uuid != null">
         uuid = #{record.uuid,jdbcType=VARCHAR},
       </if>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=VARCHAR},
+      <if test="record.cid != null">
+        cid = #{record.cid,jdbcType=VARCHAR},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="record.cname != null">
+        cname = #{record.cname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cartlist != null">
+        cartList = #{record.cartlist,jdbcType=VARCHAR},
       </if>
       <if test="record.password != null">
         password = #{record.password,jdbcType=VARCHAR},
@@ -197,8 +207,9 @@
   <update id="updateByExample" parameterType="map">
     update customer
     set uuid = #{record.uuid,jdbcType=VARCHAR},
-      id = #{record.id,jdbcType=VARCHAR},
-      name = #{record.name,jdbcType=VARCHAR},
+      cid = #{record.cid,jdbcType=VARCHAR},
+      cname = #{record.cname,jdbcType=VARCHAR},
+      cartList = #{record.cartlist,jdbcType=VARCHAR},
       password = #{record.password,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
@@ -210,11 +221,14 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.practice.starryfood.bean.Customer">
     update customer
     <set>
-      <if test="id != null">
-        id = #{id,jdbcType=VARCHAR},
+      <if test="cid != null">
+        cid = #{cid,jdbcType=VARCHAR},
       </if>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+      <if test="cname != null">
+        cname = #{cname,jdbcType=VARCHAR},
+      </if>
+      <if test="cartlist != null">
+        cartList = #{cartlist,jdbcType=VARCHAR},
       </if>
       <if test="password != null">
         password = #{password,jdbcType=VARCHAR},
@@ -233,8 +247,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.practice.starryfood.bean.Customer">
     update customer
-    set id = #{id,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR},
+    set cid = #{cid,jdbcType=VARCHAR},
+      cname = #{cname,jdbcType=VARCHAR},
+      cartList = #{cartlist,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},

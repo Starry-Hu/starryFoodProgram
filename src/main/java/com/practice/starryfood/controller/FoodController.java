@@ -1,10 +1,12 @@
 package com.practice.starryfood.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.practice.starryfood.daoExtend.FoodExtendMapper;
 import com.practice.starryfood.enums.ResultEnum;
 import com.practice.starryfood.pojo.FoodExtend;
 import com.practice.starryfood.service.FoodService;
 import com.practice.starryfood.util.BaseResponse;
+import com.practice.starryfood.util.DateStamp;
 import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,6 +69,44 @@ public class FoodController extends BaseController {
         return ajaxSucc(null, ResultEnum.FOOD_DELETE_SUCCESS);
     }
 
+    /**
+     * 更新菜品
+     * @param fid
+     * @param name
+     * @param price
+     * @param measurement
+     * @param introduce
+     * @param img
+     * @param createUser
+     * @return
+     * @throws Exception
+     */
+    @PostMapping("/update")
+    public BaseResponse updateFood(String fid,String name, BigDecimal price, String measurement, String introduce,
+                                String img, String createUser) throws Exception {
+        // 判断信息是否填写完全
+        if (fid == null ||name == null || price == null || measurement == null || name.trim().equals("")
+                || fid.trim().equals("") || price.equals(0.0) || measurement.trim().equals(""))
+            return ajaxFail(ResultEnum.FOOD_INFO_NOT_FULL);
+        // 进行菜品添加
+        foodService.updateFood(fid,name, price, measurement, introduce, img, createUser);
+        return ajaxSucc(null, ResultEnum.FOOD_UPDATE_SUCCESS);
+    }
+
+    /**
+     * 根据菜品id获取菜品信息
+     * @param fid
+     * @return
+     * @throws Exception
+     */
+    @GetMapping("/getFoodById")
+    public BaseResponse getFoodById(String fid) throws Exception{
+        // 判断信息是否填写完全
+        if (fid == null || fid.trim().equals(""))
+            return ajaxFail(ResultEnum.FOOD_INFO_NOT_FULL);
+        FoodExtend foodExtend = foodService.getFoodById(fid);
+        return ajaxSucc(foodExtend,ResultEnum.FOOD_SEARCH_SUCCESS);
+    }
     /**
      * 查找全部菜品（带分页）
      * @param pageNum 页码

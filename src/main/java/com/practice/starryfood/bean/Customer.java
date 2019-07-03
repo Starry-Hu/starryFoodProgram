@@ -5,9 +5,11 @@ import java.util.Date;
 public class Customer {
     private String uuid;
 
-    private String id;
+    private String cid;
 
-    private String name;
+    private String cname;
+
+    private String cartlist;
 
     private String password;
 
@@ -25,20 +27,28 @@ public class Customer {
         this.uuid = uuid;
     }
 
-    public String getId() {
-        return id;
+    public String getCid() {
+        return cid;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setCid(String cid) {
+        this.cid = cid;
     }
 
-    public String getName() {
-        return name;
+    public String getCname() {
+        return cname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCname(String cname) {
+        this.cname = cname;
+    }
+
+    public String getCartlist() {
+        return cartlist;
+    }
+
+    public void setCartlist(String cartlist) {
+        this.cartlist = cartlist;
     }
 
     public String getPassword() {

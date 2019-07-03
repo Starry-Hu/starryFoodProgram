@@ -3,6 +3,26 @@
 <mapper namespace="com.practice.starryfood.daoExtend.FoodExtendMapper">
 
     <!-- 获取全部菜品 -->
+    <select id="getFoodById" parameterType="java.lang.String" resultType="com.practice.starryfood.pojo.FoodExtend">
+     SELECT
+        A.fid,
+        A.fname,
+        A.price,
+        A.measurement,
+        A.has_sold,
+        A.introduce,
+        A.img,
+        B.admin_name AS createUser,
+        C.admin_name AS updateUser
+    FROM
+        food A
+        INNER JOIN admin B ON A.create_user = B.uuid
+        LEFT JOIN admin C ON A.update_user = C.uuid
+    WHERE
+        A.is_del = 0
+        AND A.fid = #{fid}
+    </select>
+    <!-- 获取全部菜品 -->
     <select id="getAllFoods" resultType="com.practice.starryfood.pojo.FoodExtend">
      SELECT
         A.id,

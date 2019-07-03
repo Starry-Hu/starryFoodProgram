@@ -2,10 +2,10 @@ package com.practice.starryfood.bean;
 
 import java.math.BigDecimal;
 
-public class OrderFood {
+public class CartFood {
     private String uuid;
 
-    private String orderId;
+    private String cartlistId;
 
     private String foodId;
 
@@ -21,12 +21,12 @@ public class OrderFood {
         this.uuid = uuid;
     }
 
-    public String getOrderId() {
-        return orderId;
+    public String getCartlistId() {
+        return cartlistId;
     }
 
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
+    public void setCartlistId(String cartlistId) {
+        this.cartlistId = cartlistId;
     }
 
     public String getFoodId() {

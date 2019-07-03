@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.practice.starryfood.dao.OrderFoodMapper">
-  <resultMap id="BaseResultMap" type="com.practice.starryfood.bean.OrderFood">
+<mapper namespace="com.practice.starryfood.dao.CartFoodMapper">
+  <resultMap id="BaseResultMap" type="com.practice.starryfood.bean.CartFood">
     <id column="uuid" jdbcType="VARCHAR" property="uuid" />
-    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="cartList_id" jdbcType="VARCHAR" property="cartlistId" />
     <result column="food_id" jdbcType="VARCHAR" property="foodId" />
     <result column="food_num" jdbcType="INTEGER" property="foodNum" />
     <result column="food_oneTotalPrice" jdbcType="DECIMAL" property="foodOnetotalprice" />
@@ -67,16 +67,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    uuid, order_id, food_id, food_num, food_oneTotalPrice
+    uuid, cartList_id, food_id, food_num, food_oneTotalPrice
   </sql>
-  <select id="selectByExample" parameterType="com.practice.starryfood.bean.OrderFoodExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.practice.starryfood.bean.CartFoodExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     'true' as QUERYID,
     <include refid="Base_Column_List" />
-    from order_food
+    from cart_food
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -87,33 +87,33 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from order_food
+    from cart_food
     where uuid = #{uuid,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from order_food
+    delete from cart_food
     where uuid = #{uuid,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.practice.starryfood.bean.OrderFoodExample">
-    delete from order_food
+  <delete id="deleteByExample" parameterType="com.practice.starryfood.bean.CartFoodExample">
+    delete from cart_food
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.practice.starryfood.bean.OrderFood">
-    insert into order_food (uuid, order_id, food_id, 
+  <insert id="insert" parameterType="com.practice.starryfood.bean.CartFood">
+    insert into cart_food (uuid, cartList_id, food_id, 
       food_num, food_oneTotalPrice)
-    values (#{uuid,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{foodId,jdbcType=VARCHAR}, 
+    values (#{uuid,jdbcType=VARCHAR}, #{cartlistId,jdbcType=VARCHAR}, #{foodId,jdbcType=VARCHAR}, 
       #{foodNum,jdbcType=INTEGER}, #{foodOnetotalprice,jdbcType=DECIMAL})
   </insert>
-  <insert id="insertSelective" parameterType="com.practice.starryfood.bean.OrderFood">
-    insert into order_food
+  <insert id="insertSelective" parameterType="com.practice.starryfood.bean.CartFood">
+    insert into cart_food
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="uuid != null">
         uuid,
       </if>
-      <if test="orderId != null">
-        order_id,
+      <if test="cartlistId != null">
+        cartList_id,
       </if>
       <if test="foodId != null">
         food_id,
@@ -129,8 +129,8 @@
       <if test="uuid != null">
         #{uuid,jdbcType=VARCHAR},
       </if>
-      <if test="orderId != null">
-        #{orderId,jdbcType=VARCHAR},
+      <if test="cartlistId != null">
+        #{cartlistId,jdbcType=VARCHAR},
       </if>
       <if test="foodId != null">
         #{foodId,jdbcType=VARCHAR},
@@ -143,20 +143,20 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.practice.starryfood.bean.OrderFoodExample" resultType="java.lang.Long">
-    select count(*) from order_food
+  <select id="countByExample" parameterType="com.practice.starryfood.bean.CartFoodExample" resultType="java.lang.Long">
+    select count(*) from cart_food
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update order_food
+    update cart_food
     <set>
       <if test="record.uuid != null">
         uuid = #{record.uuid,jdbcType=VARCHAR},
       </if>
-      <if test="record.orderId != null">
-        order_id = #{record.orderId,jdbcType=VARCHAR},
+      <if test="record.cartlistId != null">
+        cartList_id = #{record.cartlistId,jdbcType=VARCHAR},
       </if>
       <if test="record.foodId != null">
         food_id = #{record.foodId,jdbcType=VARCHAR},
@@ -173,9 +173,9 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update order_food
+    update cart_food
     set uuid = #{record.uuid,jdbcType=VARCHAR},
-      order_id = #{record.orderId,jdbcType=VARCHAR},
+      cartList_id = #{record.cartlistId,jdbcType=VARCHAR},
       food_id = #{record.foodId,jdbcType=VARCHAR},
       food_num = #{record.foodNum,jdbcType=INTEGER},
       food_oneTotalPrice = #{record.foodOnetotalprice,jdbcType=DECIMAL}
@@ -183,11 +183,11 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.practice.starryfood.bean.OrderFood">
-    update order_food
+  <update id="updateByPrimaryKeySelective" parameterType="com.practice.starryfood.bean.CartFood">
+    update cart_food
     <set>
-      <if test="orderId != null">
-        order_id = #{orderId,jdbcType=VARCHAR},
+      <if test="cartlistId != null">
+        cartList_id = #{cartlistId,jdbcType=VARCHAR},
       </if>
       <if test="foodId != null">
         food_id = #{foodId,jdbcType=VARCHAR},
@@ -201,9 +201,9 @@
     </set>
     where uuid = #{uuid,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.practice.starryfood.bean.OrderFood">
-    update order_food
-    set order_id = #{orderId,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.practice.starryfood.bean.CartFood">
+    update cart_food
+    set cartList_id = #{cartlistId,jdbcType=VARCHAR},
       food_id = #{foodId,jdbcType=VARCHAR},
       food_num = #{foodNum,jdbcType=INTEGER},
       food_oneTotalPrice = #{foodOnetotalprice,jdbcType=DECIMAL}

@@ -2,7 +2,9 @@ package com.practice.starryfood.service.ServiceImpl;
 
 import com.practice.starryfood.bean.Admin;
 import com.practice.starryfood.bean.AdminExample;
+import com.practice.starryfood.bean.Food;
 import com.practice.starryfood.dao.AdminMapper;
+import com.practice.starryfood.dao.FoodMapper;
 import com.practice.starryfood.enums.ExceptionEnum;
 import com.practice.starryfood.exception.SAException;
 import com.practice.starryfood.service.AdminService;
@@ -10,6 +12,7 @@ import com.practice.starryfood.util.IDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +27,8 @@ import java.util.List;
 public class AdminServiceImpl implements AdminService {
     @Autowired
     private AdminMapper adminMapper;
+    @Autowired
+    private FoodMapper foodMapper;
 
     /**
      * 添加管理员 (相当于注册功能)

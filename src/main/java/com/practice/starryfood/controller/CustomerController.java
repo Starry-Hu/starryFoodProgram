@@ -1,8 +1,10 @@
 package com.practice.starryfood.controller;
 
-import com.practice.starryfood.bean.Admin;
+import com.practice.starryfood.bean.CartFood;
 import com.practice.starryfood.bean.Customer;
 import com.practice.starryfood.enums.ResultEnum;
+import com.practice.starryfood.exception.SAException;
+import com.practice.starryfood.pojo.CartFoodExtend;
 import com.practice.starryfood.service.CustomerService;
 import com.practice.starryfood.util.BaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,43 +34,43 @@ public class CustomerController extends BaseController {
 
     /***
      * 注册用户 （用户使用的接口）
-     * @param id 用户账户id
+     * @param cid 用户账户id
      * @param name 用户名
      * @param password 密码
      * @return
      * @throws Exception
      */
     @PostMapping("/register")
-    BaseResponse register(String id,String name,String password) throws Exception{
+    BaseResponse register(String cid,String name,String password) throws Exception{
         // 检查内容是否填写完全
-        if (id == null || name == null ||password == null ||
-                id.trim().equals("") || name.trim().equals("") ||password.trim().equals("")) {
+        if (cid == null || name == null ||password == null ||
+                cid.trim().equals("") || name.trim().equals("") ||password.trim().equals("")) {
             return ajaxFail(ResultEnum.CUSTOMER_INFO_NOT_FULL);
         }
-        customerService.register(id,name,password);
+        customerService.register(cid,name,password);
         return ajaxSucc(null,ResultEnum.CUSTOMER_REGISTER_SUCCESS);
     }
 
     /**
      * 用户登录
-     * @param id 用户账户id
+     * @param cid 用户账户id
      * @param password 密码
      * @return
      * @throws Exception
      */
     @PostMapping("/login")
-    BaseResponse login(String id,String password,HttpSession session) throws Exception{
+    BaseResponse login(String cid,String password,HttpSession session) throws Exception{
         // 检查内容是否填写完全
-        if (id == null || password == null || id.trim().equals("") || password.trim().equals("")) {
+        if (cid == null || password == null || cid.trim().equals("") || password.trim().equals("")) {
             return ajaxFail(ResultEnum.CUSTOMER_INFO_NOT_FULL);
         }
         // 设置session过期时间为永久,并保存相应的顾客用户信息
         session.setMaxInactiveInterval(-1);
 
-        Customer customer = customerService.login(id,password);
+        Customer customer = customerService.login(cid,password);
         session.setAttribute("cuuid", customer.getUuid());
-        session.setAttribute("cid", customer.getId());
-        session.setAttribute("customerName",customer.getName());
+        session.setAttribute("cid", customer.getCid());
+        session.setAttribute("customerName",customer.getCname());
         return ajaxSucc(null,ResultEnum.CUSTOMER_LOGIN_SUCCESS);
     }
 
@@ -82,11 +86,11 @@ public class CustomerController extends BaseController {
 
         String uuid = (String) session.getAttribute("cuuid");
         String name = (String) session.getAttribute("cname");
-        String id = (String) session.getAttribute("cid");
+        String cid = (String) session.getAttribute("cid");
 
         if (name != null) {
-            resultMap.put("cuuid", id);
-            resultMap.put("cid", id);
+            resultMap.put("cuuid", cid);
+            resultMap.put("cid", cid);
             resultMap.put("cname", name);
             return ajaxSucc(resultMap, ResultEnum.SUCCESS);
         }
@@ -130,9 +134,9 @@ public class CustomerController extends BaseController {
     public BaseResponse adminLogout(HttpSession session) throws Exception{
         // 清除session
         //session.invalidate();
-        session.removeAttribute("aid");
-        session.removeAttribute("adminName");
-        session.removeAttribute("adminId");
+        session.removeAttribute("cuuid");
+        session.removeAttribute("cname");
+        session.removeAttribute("cid");
         return ajaxSucc(null, ResultEnum.SUCCESS);
     }
 
@@ -143,7 +147,7 @@ public class CustomerController extends BaseController {
      * @throws Exception
      */
     @GetMapping("/delete")
-    BaseResponse delete(String uuid) throws Exception{
+    public BaseResponse delete(String uuid) throws Exception{
         // 检查内容是否填写完全
         if (uuid == null || uuid.trim().equals("")) {
             return ajaxFail(ResultEnum.CUSTOMER_INFO_NOT_FULL);
@@ -153,18 +157,83 @@ public class CustomerController extends BaseController {
     }
 
     /**
-     * 根据用户账户id查找用户
-     * @param id
+     * 根据用户账户cid查找用户
+     * @param cid
      * @return
      * @throws Exception
      */
     @GetMapping("/getByCId")
-    BaseResponse search(String id) throws Exception{
+    public BaseResponse search(String cid) throws Exception{
         // 检查内容是否填写完全
-        if (id == null || id.trim().equals("")) {
+        if (cid == null || cid.trim().equals("")) {
             return ajaxFail(ResultEnum.CUSTOMER_INFO_NOT_FULL);
         }
-        Customer customer = customerService.getCustomerByCId(id);
+        Customer customer = customerService.getCustomerByCId(cid);
         return ajaxSucc(customer,ResultEnum.CUSTOMER_DELETE_SUCCESS);
+    }
+
+    // ---------------------- 顾客购物车菜品相关 ---------------------
+
+    /***
+     * 添加菜品到顾客的购物车中
+     * @param uuid
+     * @param foodId
+     * @param foodNum
+     * @return
+     * @throws Exception
+     */
+    @PostMapping("/addToCart")
+    public  BaseResponse addFoodToCart(String uuid, String foodId, Integer foodNum) throws Exception{
+        if (uuid == null || foodId == null || foodNum == null || uuid.trim().equals("")
+        || foodId.trim().equals("") || foodNum == 0)
+            return ajaxFail(ResultEnum.CART_INFO_NOT_FULL);
+
+        customerService.addFoodToCart(uuid,foodId,foodNum);
+        return ajaxSucc(null,ResultEnum.CART_ADD_FOOD_SUCCESS);
+    }
+
+    /***
+     * 从购物车中删除菜品
+     * @param uuid
+     * @param foodId
+     * @param foodNum
+     * @return
+     * @throws Exception
+     */
+    @PostMapping("/deleteFromCart")
+    public  BaseResponse deleteFoodFromCart(String uuid, String foodId, Integer foodNum) throws Exception{
+        if (uuid == null || foodId == null || foodNum == null || uuid.trim().equals("")
+                || foodId.trim().equals("") || foodNum == 0)
+            return ajaxFail(ResultEnum.CART_INFO_NOT_FULL);
+        customerService.deleteFoodFromCart(uuid,foodId,foodNum);
+        return ajaxSucc(null,ResultEnum.CART_ADD_FOOD_SUCCESS);
+    }
+
+    /**
+     * 下单
+     * @param uuid
+     * @param foodIdList
+     * @return
+     */
+    @PostMapping("/makeOrder")
+    public BaseResponse makeOrder(String uuid, List<String> foodIdList) throws Exception{
+        if (uuid == null || foodIdList == null || uuid.trim().equals("") || foodIdList.size() == 0)
+            return ajaxFail(ResultEnum.CART_INFO_NOT_FULL);
+        customerService.makeOrder(uuid,foodIdList);
+        return ajaxSucc(null,ResultEnum.CART_MARK_ORDER_SUCCESS);
+    }
+
+    /***
+     * 获取当前登录用户的购物车信息
+     * @return
+     * @throws Exception
+     */
+    @GetMapping("/getCartLogined")
+    public BaseResponse getCartLogined(HttpSession session) throws Exception{
+        String cuuid = (String) session.getAttribute("cuuid");
+        if (cuuid == null) return ajaxFail(ResultEnum.CUSTOMER_NOT_LOGINED);
+
+        List<CartFoodExtend> cartFoods = customerService.getCustomerCart(cuuid);
+        return ajaxSucc(cartFoods,ResultEnum.SUCCESS);
     }
 }

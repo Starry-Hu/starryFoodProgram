@@ -3,8 +3,6 @@
 <mapper namespace="com.practice.starryfood.dao.OrderMapper">
   <resultMap id="BaseResultMap" type="com.practice.starryfood.bean.Order">
     <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="payTime" jdbcType="TIMESTAMP" property="paytime" />
-    <result column="succTime" jdbcType="TIMESTAMP" property="succtime" />
     <result column="is_del" jdbcType="INTEGER" property="isDel" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -71,8 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, payTime, succTime, is_del, create_time, update_time, create_customer, deal_admin, 
-    condition
+    id, is_del, create_time, update_time, create_customer, deal_admin, condition
   </sql>
   <select id="selectByExample" parameterType="com.practice.starryfood.bean.OrderExample" resultMap="BaseResultMap">
     select
@@ -106,26 +103,18 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.practice.starryfood.bean.Order">
-    insert into order (id, payTime, succTime, 
-      is_del, create_time, update_time, 
-      create_customer, deal_admin, condition
-      )
-    values (#{id,jdbcType=VARCHAR}, #{paytime,jdbcType=TIMESTAMP}, #{succtime,jdbcType=TIMESTAMP}, 
-      #{isDel,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{createCustomer,jdbcType=VARCHAR}, #{dealAdmin,jdbcType=VARCHAR}, #{condition,jdbcType=INTEGER}
-      )
+    insert into order (id, is_del, create_time, 
+      update_time, create_customer, deal_admin, 
+      condition)
+    values (#{id,jdbcType=VARCHAR}, #{isDel,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{createCustomer,jdbcType=VARCHAR}, #{dealAdmin,jdbcType=VARCHAR}, 
+      #{condition,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.practice.starryfood.bean.Order">
     insert into order
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
-      </if>
-      <if test="paytime != null">
-        payTime,
-      </if>
-      <if test="succtime != null">
-        succTime,
       </if>
       <if test="isDel != null">
         is_del,
@@ -149,12 +138,6 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="paytime != null">
-        #{paytime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="succtime != null">
-        #{succtime,jdbcType=TIMESTAMP},
       </if>
       <if test="isDel != null">
         #{isDel,jdbcType=INTEGER},
@@ -188,12 +171,6 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=VARCHAR},
       </if>
-      <if test="record.paytime != null">
-        payTime = #{record.paytime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.succtime != null">
-        succTime = #{record.succtime,jdbcType=TIMESTAMP},
-      </if>
       <if test="record.isDel != null">
         is_del = #{record.isDel,jdbcType=INTEGER},
       </if>
@@ -220,8 +197,6 @@
   <update id="updateByExample" parameterType="map">
     update order
     set id = #{record.id,jdbcType=VARCHAR},
-      payTime = #{record.paytime,jdbcType=TIMESTAMP},
-      succTime = #{record.succtime,jdbcType=TIMESTAMP},
       is_del = #{record.isDel,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
@@ -235,12 +210,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.practice.starryfood.bean.Order">
     update order
     <set>
-      <if test="paytime != null">
-        payTime = #{paytime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="succtime != null">
-        succTime = #{succtime,jdbcType=TIMESTAMP},
-      </if>
       <if test="isDel != null">
         is_del = #{isDel,jdbcType=INTEGER},
       </if>
@@ -264,9 +233,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.practice.starryfood.bean.Order">
     update order
-    set payTime = #{paytime,jdbcType=TIMESTAMP},
-      succTime = #{succtime,jdbcType=TIMESTAMP},
-      is_del = #{isDel,jdbcType=INTEGER},
+    set is_del = #{isDel,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       create_customer = #{createCustomer,jdbcType=VARCHAR},

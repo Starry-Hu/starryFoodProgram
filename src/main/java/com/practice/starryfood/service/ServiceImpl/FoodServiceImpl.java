@@ -9,6 +9,7 @@ import com.practice.starryfood.enums.ExceptionEnum;
 import com.practice.starryfood.exception.SAException;
 import com.practice.starryfood.pojo.FoodExtend;
 import com.practice.starryfood.service.FoodService;
+import com.practice.starryfood.util.DateStamp;
 import com.practice.starryfood.util.IDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ public class FoodServiceImpl implements FoodService {
 
     /***
      * 添加菜品
-     * @param name
+     * @param fname
      * @param price
      * @param measurement
      * @param introduce
@@ -41,12 +42,12 @@ public class FoodServiceImpl implements FoodService {
      * @return
      * @throws Exception
      */
-    public int addFood(String name, BigDecimal price, String measurement,
+    public int addFood(String fname, BigDecimal price, String measurement,
                        String introduce, String img, String createUser) throws Exception {
         Food food = new Food();
         Date date = new Date();
-        food.setId(IDGenerator.generator());
-        food.setName(name);
+        food.setFid(IDGenerator.generator());
+        food.setFname(fname);
         food.setPrice(price);
         food.setMeasurement(measurement);
         food.setIntroduce(introduce);
@@ -81,8 +82,8 @@ public class FoodServiceImpl implements FoodService {
 
     /***
      * 更新菜品信息
-     * @param id
-     * @param name
+     * @param fid
+     * @param fname
      * @param price
      * @param measurement
      * @param introduce
@@ -90,11 +91,11 @@ public class FoodServiceImpl implements FoodService {
      * @return
      * @throws Exception
      */
-    public int updateFood(String id, String name, BigDecimal price, String measurement,
+    public int updateFood(String fid, String fname, BigDecimal price, String measurement,
                           String introduce, String img, String updateUser) throws Exception {
-        Food food = foodMapper.selectByPrimaryKey(id);
+        Food food = foodMapper.selectByPrimaryKey(fid);
         if (food == null || food.getIsDel() == 1) throw new SAException(ExceptionEnum.FOOD_UPDATE_NOT_EXIST);
-        food.setName(name);
+        food.setFname(fname);
         food.setPrice(price);
         food.setMeasurement(measurement);
         food.setIntroduce(introduce);
@@ -109,6 +110,21 @@ public class FoodServiceImpl implements FoodService {
         throw new SAException(ExceptionEnum.FOOD_UPDATE_FAIL);
     }
 
+    public FoodExtend getFoodById(String fid) throws Exception{
+        FoodExtend foodExtend = foodExtendMapper.getFoodById(fid);
+        if (foodExtend == null) throw new SAException(ExceptionEnum.FOOD_SEARCH_NULL);
+        // 处理时间戳 需要判空
+        if (null != foodExtend.getCreateTime()) {
+            String createTimeString = DateStamp.stampToDate(foodExtend.getCreateTime());
+            foodExtend.setCreateTimeString(createTimeString);
+        }
+        if (null != foodExtend.getUpdateTime()) {
+            String updateTimeString = DateStamp.stampToDate(foodExtend.getUpdateTime());
+            foodExtend.setUpdateTimeString(updateTimeString);
+        }
+        // 返回对象
+        return foodExtend;
+    }
     /**
      * 分页查询全部菜品
      * @param pageNum 页号

@@ -31,6 +31,8 @@ public enum ResultEnum {
     CUSTOMER_SEARCH_SUCCESS(331,"查找成功"),
     CUSTOMER_LOGIN_SUCCESS(341,"登录成功"),
     CUSTOMER_REGISTER_SUCCESS(351,"注册成功"),
+
+    CUSTOMER_NOT_LOGINED(398,"用户未登录！请先登录！"),
     CUSTOMER_INFO_NOT_FULL(399,"信息填写不完全"),
 
     // 菜品相关
@@ -40,6 +42,12 @@ public enum ResultEnum {
     FOOD_SEARCH_SUCCESS(431,"查找成功"),
     FOOD_LOGIN_SUCCESS(441,"登录成功"),
     FOOD_INFO_NOT_FULL(499,"信息填写不完全"),
+
+    // 购物车-菜品相关
+    CART_ADD_FOOD_SUCCESS(501,"菜品添加到购物车成功"),
+    CART_DELETE_FOOD_SUCCESS(511,"菜品从购物车删除成功"),
+    CART_MARK_ORDER_SUCCESS(521,"下单成功"),
+    CART_INFO_NOT_FULL(599,"信息填写不完全");
     ;
     private Integer code;
     private String msg;

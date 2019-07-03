@@ -5,10 +5,6 @@ import java.util.Date;
 public class Order {
     private String id;
 
-    private Date paytime;
-
-    private Date succtime;
-
     private Integer isDel;
 
     private Date createTime;
@@ -27,22 +23,6 @@ public class Order {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public Date getPaytime() {
-        return paytime;
-    }
-
-    public void setPaytime(Date paytime) {
-        this.paytime = paytime;
-    }
-
-    public Date getSucctime() {
-        return succtime;
-    }
-
-    public void setSucctime(Date succtime) {
-        this.succtime = succtime;
     }
 
     public Integer getIsDel() {
