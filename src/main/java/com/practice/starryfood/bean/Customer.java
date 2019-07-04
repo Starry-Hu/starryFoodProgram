@@ -9,15 +9,15 @@ public class Customer {
 
     private String cname;
 
-    private String cartlist;
+    private String cartid;
 
     private String password;
 
-    private Date createTime;
+    private Date createtime;
 
-    private Date updateTime;
+    private Date updatetime;
 
-    private Integer isDel;
+    private Integer isdel;
 
     public String getUuid() {
         return uuid;
@@ -43,12 +43,12 @@ public class Customer {
         this.cname = cname;
     }
 
-    public String getCartlist() {
-        return cartlist;
+    public String getCartid() {
+        return cartid;
     }
 
-    public void setCartlist(String cartlist) {
-        this.cartlist = cartlist;
+    public void setCartid(String cartid) {
+        this.cartid = cartid;
     }
 
     public String getPassword() {
@@ -59,27 +59,27 @@ public class Customer {
         this.password = password;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public Date getCreatetime() {
+        return createtime;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
+    public Date getUpdatetime() {
+        return updatetime;
     }
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+    public void setUpdatetime(Date updatetime) {
+        this.updatetime = updatetime;
     }
 
-    public Integer getIsDel() {
-        return isDel;
+    public Integer getIsdel() {
+        return isdel;
     }
 
-    public void setIsDel(Integer isDel) {
-        this.isDel = isDel;
+    public void setIsdel(Integer isdel) {
+        this.isdel = isdel;
     }
 }

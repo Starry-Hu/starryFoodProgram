@@ -9,37 +9,37 @@
         A.fname,
         A.price,
         A.measurement,
-        A.has_sold,
+        A.hasSold,
         A.introduce,
         A.img,
-        B.admin_name AS createUser,
-        C.admin_name AS updateUser
+        B.adminName AS createUser,
+        C.adminName AS updateUser
     FROM
         food A
-        INNER JOIN admin B ON A.create_user = B.uuid
-        LEFT JOIN admin C ON A.update_user = C.uuid
+        INNER JOIN admin B ON A.createUser = B.uuid
+        LEFT JOIN admin C ON A.updateuser = C.uuid
     WHERE
-        A.is_del = 0
+        A.isdel = 0
         AND A.fid = #{fid}
     </select>
     <!-- 获取全部菜品 -->
     <select id="getAllFoods" resultType="com.practice.starryfood.pojo.FoodExtend">
      SELECT
-        A.id,
-        A.`name`,
+        A.fid,
+        A.fname,
         A.price,
         A.measurement,
-        A.has_sold,
+        A.hasSold,
         A.introduce,
         A.img,
-        B.admin_name AS create_user,
-        C.admin_name AS update_user
+        B.adminName AS createUser,
+        C.adminName AS updateUser
     FROM
         food A
-        INNER JOIN admin B ON A.create_user = B.uuid
-        LEFT JOIN admin C ON A.update_user = C.uuid
+        INNER JOIN admin B ON A.createUser = B.uuid
+        LEFT JOIN admin C ON A.updateUser = C.uuid
     WHERE
-        A.is_del = 0
+        A.isDel = 0
     </select>
 
 </mapper>

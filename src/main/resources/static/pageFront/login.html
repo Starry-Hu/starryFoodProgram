@@ -32,7 +32,7 @@
                     </ul>
                     <a href="javascript:;" class="button text-center block" id="submit">登 录</a>
                     <a href="javascript:;" class="text-center block font-color">忘记密码？</a>
-                    <p class="text-center" style="color: #fff">没有账号？ <a href="javascript:;" class="font-color">立即注册</a></p>
+                    <p class="text-center" style="color: #fff">没有账号？ <a href="register.html" target="_Blank" class="font-color">立即注册</a></p>
                 </form>
             </div>
         </section>
@@ -70,7 +70,7 @@
         // 点击登录
         $('#submit').click(function() {
             var cid = $('#cid').val();
-            var password = $('#password').val();
+            var password = $('input[name="password"]').val(); //点击眼睛按钮会使id消失
             if (cid == '' || password == '') {
                 //提示层msg
                 layer.open({

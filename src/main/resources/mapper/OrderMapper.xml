@@ -3,11 +3,11 @@
 <mapper namespace="com.practice.starryfood.dao.OrderMapper">
   <resultMap id="BaseResultMap" type="com.practice.starryfood.bean.Order">
     <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="is_del" jdbcType="INTEGER" property="isDel" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="create_customer" jdbcType="VARCHAR" property="createCustomer" />
-    <result column="deal_admin" jdbcType="VARCHAR" property="dealAdmin" />
+    <result column="isDel" jdbcType="INTEGER" property="isdel" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="createCustomer" jdbcType="VARCHAR" property="createcustomer" />
+    <result column="dealAdmin" jdbcType="VARCHAR" property="dealadmin" />
     <result column="condition" jdbcType="INTEGER" property="condition" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -69,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, is_del, create_time, update_time, create_customer, deal_admin, condition
+    id, isDel, createTime, updateTime, createCustomer, dealAdmin, condition
   </sql>
   <select id="selectByExample" parameterType="com.practice.starryfood.bean.OrderExample" resultMap="BaseResultMap">
     select
@@ -103,11 +103,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.practice.starryfood.bean.Order">
-    insert into order (id, is_del, create_time, 
-      update_time, create_customer, deal_admin, 
+    insert into order (id, isDel, createTime, 
+      updateTime, createCustomer, dealAdmin, 
       condition)
-    values (#{id,jdbcType=VARCHAR}, #{isDel,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{createCustomer,jdbcType=VARCHAR}, #{dealAdmin,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{isdel,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{createcustomer,jdbcType=VARCHAR}, #{dealadmin,jdbcType=VARCHAR}, 
       #{condition,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.practice.starryfood.bean.Order">
@@ -116,20 +116,20 @@
       <if test="id != null">
         id,
       </if>
-      <if test="isDel != null">
-        is_del,
+      <if test="isdel != null">
+        isDel,
       </if>
-      <if test="createTime != null">
-        create_time,
+      <if test="createtime != null">
+        createTime,
       </if>
-      <if test="updateTime != null">
-        update_time,
+      <if test="updatetime != null">
+        updateTime,
       </if>
-      <if test="createCustomer != null">
-        create_customer,
+      <if test="createcustomer != null">
+        createCustomer,
       </if>
-      <if test="dealAdmin != null">
-        deal_admin,
+      <if test="dealadmin != null">
+        dealAdmin,
       </if>
       <if test="condition != null">
         condition,
@@ -139,20 +139,20 @@
       <if test="id != null">
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="isDel != null">
-        #{isDel,jdbcType=INTEGER},
+      <if test="isdel != null">
+        #{isdel,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
       </if>
-      <if test="createCustomer != null">
-        #{createCustomer,jdbcType=VARCHAR},
+      <if test="createcustomer != null">
+        #{createcustomer,jdbcType=VARCHAR},
       </if>
-      <if test="dealAdmin != null">
-        #{dealAdmin,jdbcType=VARCHAR},
+      <if test="dealadmin != null">
+        #{dealadmin,jdbcType=VARCHAR},
       </if>
       <if test="condition != null">
         #{condition,jdbcType=INTEGER},
@@ -171,20 +171,20 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=VARCHAR},
       </if>
-      <if test="record.isDel != null">
-        is_del = #{record.isDel,jdbcType=INTEGER},
+      <if test="record.isdel != null">
+        isDel = #{record.isdel,jdbcType=INTEGER},
       </if>
-      <if test="record.createTime != null">
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      <if test="record.createtime != null">
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.updateTime != null">
-        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      <if test="record.updatetime != null">
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.createCustomer != null">
-        create_customer = #{record.createCustomer,jdbcType=VARCHAR},
+      <if test="record.createcustomer != null">
+        createCustomer = #{record.createcustomer,jdbcType=VARCHAR},
       </if>
-      <if test="record.dealAdmin != null">
-        deal_admin = #{record.dealAdmin,jdbcType=VARCHAR},
+      <if test="record.dealadmin != null">
+        dealAdmin = #{record.dealadmin,jdbcType=VARCHAR},
       </if>
       <if test="record.condition != null">
         condition = #{record.condition,jdbcType=INTEGER},
@@ -197,11 +197,11 @@
   <update id="updateByExample" parameterType="map">
     update order
     set id = #{record.id,jdbcType=VARCHAR},
-      is_del = #{record.isDel,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      create_customer = #{record.createCustomer,jdbcType=VARCHAR},
-      deal_admin = #{record.dealAdmin,jdbcType=VARCHAR},
+      isDel = #{record.isdel,jdbcType=INTEGER},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      createCustomer = #{record.createcustomer,jdbcType=VARCHAR},
+      dealAdmin = #{record.dealadmin,jdbcType=VARCHAR},
       condition = #{record.condition,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -210,20 +210,20 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.practice.starryfood.bean.Order">
     update order
     <set>
-      <if test="isDel != null">
-        is_del = #{isDel,jdbcType=INTEGER},
+      <if test="isdel != null">
+        isDel = #{isdel,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
       </if>
-      <if test="createCustomer != null">
-        create_customer = #{createCustomer,jdbcType=VARCHAR},
+      <if test="createcustomer != null">
+        createCustomer = #{createcustomer,jdbcType=VARCHAR},
       </if>
-      <if test="dealAdmin != null">
-        deal_admin = #{dealAdmin,jdbcType=VARCHAR},
+      <if test="dealadmin != null">
+        dealAdmin = #{dealadmin,jdbcType=VARCHAR},
       </if>
       <if test="condition != null">
         condition = #{condition,jdbcType=INTEGER},
@@ -233,11 +233,11 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.practice.starryfood.bean.Order">
     update order
-    set is_del = #{isDel,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      create_customer = #{createCustomer,jdbcType=VARCHAR},
-      deal_admin = #{dealAdmin,jdbcType=VARCHAR},
+    set isDel = #{isdel,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      createCustomer = #{createcustomer,jdbcType=VARCHAR},
+      dealAdmin = #{dealadmin,jdbcType=VARCHAR},
       condition = #{condition,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>

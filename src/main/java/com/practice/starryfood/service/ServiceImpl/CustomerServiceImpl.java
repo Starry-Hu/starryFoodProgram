@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import sun.util.resources.cldr.ts.CurrencyNames_ts;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -54,16 +55,16 @@ public class CustomerServiceImpl implements CustomerService {
         // 对查出来的数据进行判断，看同名账户是否存在
         if (data.size() == 0) throw new SAException(ExceptionEnum.CUSTOMER_ADD_EXIST);
         Customer test = data.get(0);
-        if (test != null && test.getIsDel() == 0) throw new SAException(ExceptionEnum.CUSTOMER_ADD_EXIST);
+        if (test != null && test.getIsdel() == 0) throw new SAException(ExceptionEnum.CUSTOMER_ADD_EXIST);
         Customer customer = new Customer();
         Date date = new Date();
         customer.setUuid(IDGenerator.generator());
         customer.setCid(cid);
         customer.setCname(cname);
-        customer.setCartlist(IDGenerator.generator());
+        customer.setCartid(IDGenerator.generator());
         customer.setPassword(password);
-        customer.setCreateTime(date);
-        customer.setIsDel(0);
+        customer.setCreatetime(date);
+        customer.setIsdel(0);
 
         int n = customerMapper.insert(customer);
         // 添加成功
@@ -81,7 +82,7 @@ public class CustomerServiceImpl implements CustomerService {
      */
     public int deleteCustomer(String uuid) throws Exception {
         Customer test = customerMapper.selectByPrimaryKey(uuid);
-        if (test == null || test.getIsDel() == 1) throw new SAException(ExceptionEnum.ADMIN_DELETE_NOT_EXIST);
+        if (test == null || test.getIsdel() == 1) throw new SAException(ExceptionEnum.ADMIN_DELETE_NOT_EXIST);
         int n = customerMapper.deleteByPrimaryKey(uuid);
         if (n > 0) return n;
         throw new SAException(ExceptionEnum.CUSTOMER_DELETE_FAIL);
@@ -96,15 +97,15 @@ public class CustomerServiceImpl implements CustomerService {
      */
     public int updateCustomer(String uuid, String cid, String cname, String password) throws Exception {
         Customer test = customerMapper.selectByPrimaryKey(uuid);
-        if (test == null || test.getIsDel() == 1) throw new SAException(ExceptionEnum.CUSTOMER_UPDATE_NOT_EXIST);
+        if (test == null || test.getIsdel() == 1) throw new SAException(ExceptionEnum.CUSTOMER_UPDATE_NOT_EXIST);
         Customer customer = new Customer();
         Date date = new Date();
         customer.setUuid(uuid);
         customer.setCid(cid);
         customer.setCname(cname);
         customer.setPassword(password);
-        customer.setUpdateTime(date);
-        customer.setIsDel(0);
+        customer.setUpdatetime(date);
+        customer.setIsdel(0);
 
         int n = customerMapper.updateByPrimaryKey(customer);
         if (n > 0) return n;
@@ -120,7 +121,7 @@ public class CustomerServiceImpl implements CustomerService {
      */
     public Customer getCustomerByuuid(String uuid) throws Exception {
         Customer customer = customerMapper.selectByPrimaryKey(uuid);
-        if (customer == null || customer.getIsDel() == 1) {
+        if (customer == null || customer.getIsdel() == 1) {
             throw new SAException(ExceptionEnum.CUSTOMER_SEARCH_NOT_EXIST);
         }
         return customer;
@@ -142,7 +143,7 @@ public class CustomerServiceImpl implements CustomerService {
             throw new SAException(ExceptionEnum.CUSTOMER_SEARCH_NOT_EXIST);
         }
         Customer customer = data.get(0);
-        if (customer == null || customer.getIsDel() == 1)
+        if (customer == null || customer.getIsdel() == 1)
             throw new SAException(ExceptionEnum.CUSTOMER_SEARCH_NOT_EXIST);
 
         return customer;
@@ -195,7 +196,7 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setCid(cid);
         customer.setCname(cname);
         customer.setPassword(password);
-        customer.setCartlist(IDGenerator.generator());
+        customer.setCartid(IDGenerator.generator());
 
         int n = customerMapper.insert(customer);
         // 添加成功
@@ -213,7 +214,7 @@ public class CustomerServiceImpl implements CustomerService {
     public int editPersonPsw(String uuid, String oldPassword, String newPassword1) {
         // 查找对象看是否存在
         Customer customer = customerMapper.selectByPrimaryKey(uuid);
-        if (customer == null || customer.getIsDel() == 1)
+        if (customer == null || customer.getIsdel() == 1)
             throw new SAException(ExceptionEnum.CUSTOMER_EDITPSW_NOT_EXIST);
         // 判断原密码是否输入正确
         if (!oldPassword.equals(customer.getPassword()))
@@ -242,22 +243,38 @@ public class CustomerServiceImpl implements CustomerService {
     public int addFoodToCart(String uuid, String foodId, int foodNum) throws Exception {
         // 查询顾客对象
         Customer customer = customerMapper.selectByPrimaryKey(uuid);
-        String cartId = customer.getCartlist();
-        // 根据顾客的购物车号查询购物车-菜品表
-        CartFood cartFood = cartFoodMapper.selectByPrimaryKey(cartId);
-        if (cartFood == null) { // 如果购物车里面没有信息，则创建一个购物车用于记录信息
+        String cartId = customer.getCartid();
+        // 根据顾客的购物车号(非主键uuid)查询购物车-菜品表，得到对应用户购物车的对应菜品那一条信息
+        CartFoodExample cartFoodExample = new CartFoodExample();
+        cartFoodExample.createCriteria().andCartidEqualTo(cartId).andFoodidEqualTo(foodId);
+        List<CartFood> cartFoodList = cartFoodMapper.selectByExample(cartFoodExample);
+        // 如果该用户购物车里面没有该商品信息，则创建一个购物车用于记录该商品信息
+        CartFood cartFood;
+        if (cartFoodList == null || cartFoodList.size() == 0) {
             cartFood = new CartFood();
+            cartFood.setUuid(IDGenerator.generator());
+            cartFood.setCartid(cartId);
+        }else{
+            cartFood = cartFoodList.get(0);
         }
         Food food = foodMapper.selectByPrimaryKey(foodId);
-        cartFood.setFoodId(foodId);
-        cartFood.setFoodNum(foodNum);
+        cartFood.setFoodid(foodId);
+        cartFood.setFoodnum(foodNum);
         // 计算该类商品的总价
-        cartFood.setFoodOnetotalprice(food.getPrice().multiply(new BigDecimal(foodNum)));
-        // 插入到购物车-菜品表
-        int n = cartFoodMapper.insert(cartFood);
-        if (n > 0) return n;
-        // 如果插入失败则返回添加菜品到购物车失败
-        throw new SAException(ExceptionEnum.CART_ADD_FOOD_FAIL);
+        cartFood.setFoodonetotalprice(food.getPrice().multiply(new BigDecimal(foodNum)));
+
+        // 如果原来没有该信息，则插入到购物车-菜品表
+        if (cartFoodList == null || cartFoodList.size() == 0) {
+            int n = cartFoodMapper.insert(cartFood);
+            if (n > 0) return n;
+            // 如果插入失败则返回添加菜品到购物车失败
+            throw new SAException(ExceptionEnum.CART_ADD_FOOD_FAIL);
+        }else{
+            int n = cartFoodMapper.updateByPrimaryKey(cartFood);
+            if (n > 0) return n;
+            // 如果插入失败则返回添加菜品到购物车失败
+            throw new SAException(ExceptionEnum.CART_ADD_FOOD_FAIL);
+        }
     }
 
     /***
@@ -271,10 +288,10 @@ public class CustomerServiceImpl implements CustomerService {
     public int deleteFoodFromCart(String uuid, String foodId, int foodNum) throws Exception {
         // 查询顾客对象
         Customer customer = customerMapper.selectByPrimaryKey(uuid);
-        String cartId = customer.getCartlist();
+        String cartId = customer.getCartid();
         // 根据顾客的购物车号和菜品号查询购物车-菜品表
         CartFoodExample cartFoodExample = new CartFoodExample();
-        cartFoodExample.createCriteria().andCartlistIdEqualTo(cartId).andFoodIdEqualTo(foodId);
+        cartFoodExample.createCriteria().andCartidEqualTo(cartId).andFoodidEqualTo(foodId);
         List<CartFood> list = cartFoodMapper.selectByExample(cartFoodExample);
         // 如果对应信息为空，则抛出异常
         if (list.size() == 0) {
@@ -282,15 +299,44 @@ public class CustomerServiceImpl implements CustomerService {
         }
         CartFood cartFood = list.get(0);
         // 判断此时菜品数量是否为0，如果是0则删除记录
-        if (foodNum == 0) cartFoodMapper.deleteByExample(cartFoodExample);
+        if (foodNum == 0) {
+            int n1= cartFoodMapper.deleteByExample(cartFoodExample);
+            if (n1 > 0) return n1;
+            throw new SAException(ExceptionEnum.CART_DELETE_FOOD_FAIL);
+        }
+
         // 如果不为0，则进行数量--
         Food food = foodMapper.selectByPrimaryKey(foodId);
-        cartFood.setFoodNum(foodNum);
-        cartFood.setFoodOnetotalprice(food.getPrice().multiply(new BigDecimal(foodNum)));
+        cartFood.setFoodnum(foodNum);
+        cartFood.setFoodonetotalprice(food.getPrice().multiply(new BigDecimal(foodNum)));
         // 进行数据更新
-        int n = cartFoodMapper.updateByPrimaryKey(cartFood);
-        if (n > 0) return n;
+        int n2 = cartFoodMapper.updateByPrimaryKey(cartFood);
+        if (n2 > 0) return n2;
         throw new SAException(ExceptionEnum.CART_DELETE_FOOD_FAIL);
+    }
+
+    /***
+     * 从购物车里面查找菜品数组的信息
+     * @param uuid 用户uuid
+     * @param foodIdList
+     * @return
+     * @throws Exception
+     */
+    public List<CartFoodExtend> getInfoFromCart(String uuid, List<String> foodIdList) throws Exception{
+        // 查询顾客对象
+        Customer customer = customerMapper.selectByPrimaryKey(uuid);
+        String cartId = customer.getCartid();
+
+        List<CartFoodExtend> list = new ArrayList<>();
+        // 循环遍历每种foodId,，得到他们在购物车中的信息
+        for(String foodId: foodIdList){
+            CartFoodExtend cartFoodExtend = cartFoodExtendMapper.getFoodFromCartByFid(cartId,foodId);
+            // 如果查出来的不为空，则添加到数组中
+            if (cartFoodExtend != null){
+                list.add(cartFoodExtend);
+            }
+        }
+        return list;
     }
 
     /***
@@ -303,7 +349,7 @@ public class CustomerServiceImpl implements CustomerService {
     public BigDecimal makeOrder(String uuid, List<String> foodIdList) throws Exception {
         // 查询顾客对象
         Customer customer = customerMapper.selectByPrimaryKey(uuid);
-        String cartId = customer.getCartlist();
+        String cartId = customer.getCartid();
         BigDecimal sum = new BigDecimal(0.0);
         // 创建订单对象
         Date date = new Date();
@@ -311,23 +357,23 @@ public class CustomerServiceImpl implements CustomerService {
         order.setId(IDGenerator.generator());
         // 订单的0状态为等待接单状态
         order.setCondition(0);
-        order.setCreateTime(date);
+        order.setCreatetime(date);
         // 根据顾客的购物车号和菜品号遍历购物车-菜品表
         for(String foodId :foodIdList){
             // 查询到购物车中的菜品记录
             CartFoodExample cartFoodExample = new CartFoodExample();
-            cartFoodExample.createCriteria().andCartlistIdEqualTo(cartId).andFoodIdEqualTo(foodId);
+            cartFoodExample.createCriteria().andCartidEqualTo(cartId).andFoodidEqualTo(foodId);
             List<CartFood> list = cartFoodMapper.selectByExample(cartFoodExample);
             CartFood cartFood = list.get(0);
             // 添加到总价中
-            sum.add(cartFood.getFoodOnetotalprice());
+            sum.add(cartFood.getFoodonetotalprice());
             // 添加到订单中(菜品 - 订单关系)
             OrderFood orderFood = new OrderFood();
             orderFood.setUuid(IDGenerator.generator());
-            orderFood.setOrderId(order.getId());
-            orderFood.setFoodId(cartFood.getFoodId());
-            orderFood.setFoodNum(cartFood.getFoodNum());
-            orderFood.setFoodOnetotalprice(cartFood.getFoodOnetotalprice());
+            orderFood.setOrderid(order.getId());
+            orderFood.setFoodid(cartFood.getFoodid());
+            orderFood.setFoodnum(cartFood.getFoodnum());
+            orderFood.setFoodonetotalprice(cartFood.getFoodonetotalprice());
 
             // 删除信息
             int n = cartFoodMapper.deleteByExample(cartFoodExample);
@@ -339,10 +385,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     public List<CartFoodExtend> getCustomerCart(String cuuid) throws Exception{
         Customer customer = customerMapper.selectByPrimaryKey(cuuid);
-        String cartList = customer.getCartlist();
+        String cartList = customer.getCartid();
         // 如果客户的购物车不存在，则建立一个
         if (cartList== null){
-            customer.setCartlist(IDGenerator.generator());
+            customer.setCartid(IDGenerator.generator());
         }
         // 从购物车-菜品中根据购物车id得到相应信息
         List<CartFoodExtend> list = cartFoodExtendMapper.getFoodsFromCart(cartList);

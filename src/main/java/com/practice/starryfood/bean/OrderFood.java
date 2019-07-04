@@ -5,13 +5,13 @@ import java.math.BigDecimal;
 public class OrderFood {
     private String uuid;
 
-    private String orderId;
+    private String orderid;
 
-    private String foodId;
+    private String foodid;
 
-    private Integer foodNum;
+    private Integer foodnum;
 
-    private BigDecimal foodOnetotalprice;
+    private BigDecimal foodonetotalprice;
 
     public String getUuid() {
         return uuid;
@@ -21,35 +21,35 @@ public class OrderFood {
         this.uuid = uuid;
     }
 
-    public String getOrderId() {
-        return orderId;
+    public String getOrderid() {
+        return orderid;
     }
 
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
+    public void setOrderid(String orderid) {
+        this.orderid = orderid;
     }
 
-    public String getFoodId() {
-        return foodId;
+    public String getFoodid() {
+        return foodid;
     }
 
-    public void setFoodId(String foodId) {
-        this.foodId = foodId;
+    public void setFoodid(String foodid) {
+        this.foodid = foodid;
     }
 
-    public Integer getFoodNum() {
-        return foodNum;
+    public Integer getFoodnum() {
+        return foodnum;
     }
 
-    public void setFoodNum(Integer foodNum) {
-        this.foodNum = foodNum;
+    public void setFoodnum(Integer foodnum) {
+        this.foodnum = foodnum;
     }
 
-    public BigDecimal getFoodOnetotalprice() {
-        return foodOnetotalprice;
+    public BigDecimal getFoodonetotalprice() {
+        return foodonetotalprice;
     }
 
-    public void setFoodOnetotalprice(BigDecimal foodOnetotalprice) {
-        this.foodOnetotalprice = foodOnetotalprice;
+    public void setFoodonetotalprice(BigDecimal foodonetotalprice) {
+        this.foodonetotalprice = foodonetotalprice;
     }
 }

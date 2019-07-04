@@ -5,21 +5,21 @@ import java.util.Date;
 public class Admin {
     private String uuid;
 
-    private String adminId;
+    private String adminid;
 
-    private String adminName;
+    private String adminname;
 
     private String password;
 
-    private Date createTime;
+    private Date createtime;
 
-    private Date updateTime;
+    private Date updatetime;
 
-    private String createUser;
+    private String createuser;
 
-    private String updateUser;
+    private String updateuser;
 
-    private Integer isDel;
+    private Integer isdel;
 
     public String getUuid() {
         return uuid;
@@ -29,20 +29,20 @@ public class Admin {
         this.uuid = uuid;
     }
 
-    public String getAdminId() {
-        return adminId;
+    public String getAdminid() {
+        return adminid;
     }
 
-    public void setAdminId(String adminId) {
-        this.adminId = adminId;
+    public void setAdminid(String adminid) {
+        this.adminid = adminid;
     }
 
-    public String getAdminName() {
-        return adminName;
+    public String getAdminname() {
+        return adminname;
     }
 
-    public void setAdminName(String adminName) {
-        this.adminName = adminName;
+    public void setAdminname(String adminname) {
+        this.adminname = adminname;
     }
 
     public String getPassword() {
@@ -53,43 +53,43 @@ public class Admin {
         this.password = password;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public Date getCreatetime() {
+        return createtime;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
+    public Date getUpdatetime() {
+        return updatetime;
     }
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+    public void setUpdatetime(Date updatetime) {
+        this.updatetime = updatetime;
     }
 
-    public String getCreateUser() {
-        return createUser;
+    public String getCreateuser() {
+        return createuser;
     }
 
-    public void setCreateUser(String createUser) {
-        this.createUser = createUser;
+    public void setCreateuser(String createuser) {
+        this.createuser = createuser;
     }
 
-    public String getUpdateUser() {
-        return updateUser;
+    public String getUpdateuser() {
+        return updateuser;
     }
 
-    public void setUpdateUser(String updateUser) {
-        this.updateUser = updateUser;
+    public void setUpdateuser(String updateuser) {
+        this.updateuser = updateuser;
     }
 
-    public Integer getIsDel() {
-        return isDel;
+    public Integer getIsdel() {
+        return isdel;
     }
 
-    public void setIsDel(Integer isDel) {
-        this.isDel = isDel;
+    public void setIsdel(Integer isdel) {
+        this.isdel = isdel;
     }
 }

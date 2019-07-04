@@ -1,7 +1,5 @@
 package com.practice.starryfood.service;
 
-import com.practice.starryfood.bean.CartFood;
-import com.practice.starryfood.bean.CartFoodExample;
 import com.practice.starryfood.bean.Customer;
 import com.practice.starryfood.pojo.CartFoodExtend;
 
@@ -37,6 +35,9 @@ public interface CustomerService {
 
     // 从购物车中删除菜品
     int deleteFoodFromCart(String uuid, String foodId, int foodNum) throws Exception;
+
+    // 从购物车里面查找菜品数组的信息
+    List<CartFoodExtend> getInfoFromCart(String uuid, List<String> foodIdList) throws Exception;
 
     // 下单
     BigDecimal makeOrder(String uuid, List<String> foodIdList) throws Exception;

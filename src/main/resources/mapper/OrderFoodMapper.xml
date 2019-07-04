@@ -3,10 +3,10 @@
 <mapper namespace="com.practice.starryfood.dao.OrderFoodMapper">
   <resultMap id="BaseResultMap" type="com.practice.starryfood.bean.OrderFood">
     <id column="uuid" jdbcType="VARCHAR" property="uuid" />
-    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
-    <result column="food_id" jdbcType="VARCHAR" property="foodId" />
-    <result column="food_num" jdbcType="INTEGER" property="foodNum" />
-    <result column="food_oneTotalPrice" jdbcType="DECIMAL" property="foodOnetotalprice" />
+    <result column="orderId" jdbcType="VARCHAR" property="orderid" />
+    <result column="foodId" jdbcType="VARCHAR" property="foodid" />
+    <result column="foodNum" jdbcType="INTEGER" property="foodnum" />
+    <result column="foodOneTotalPrice" jdbcType="DECIMAL" property="foodonetotalprice" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    uuid, order_id, food_id, food_num, food_oneTotalPrice
+    uuid, orderId, foodId, foodNum, foodOneTotalPrice
   </sql>
   <select id="selectByExample" parameterType="com.practice.starryfood.bean.OrderFoodExample" resultMap="BaseResultMap">
     select
@@ -101,10 +101,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.practice.starryfood.bean.OrderFood">
-    insert into order_food (uuid, order_id, food_id, 
-      food_num, food_oneTotalPrice)
-    values (#{uuid,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{foodId,jdbcType=VARCHAR}, 
-      #{foodNum,jdbcType=INTEGER}, #{foodOnetotalprice,jdbcType=DECIMAL})
+    insert into order_food (uuid, orderId, foodId, 
+      foodNum, foodOneTotalPrice)
+    values (#{uuid,jdbcType=VARCHAR}, #{orderid,jdbcType=VARCHAR}, #{foodid,jdbcType=VARCHAR}, 
+      #{foodnum,jdbcType=INTEGER}, #{foodonetotalprice,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="com.practice.starryfood.bean.OrderFood">
     insert into order_food
@@ -112,34 +112,34 @@
       <if test="uuid != null">
         uuid,
       </if>
-      <if test="orderId != null">
-        order_id,
+      <if test="orderid != null">
+        orderId,
       </if>
-      <if test="foodId != null">
-        food_id,
+      <if test="foodid != null">
+        foodId,
       </if>
-      <if test="foodNum != null">
-        food_num,
+      <if test="foodnum != null">
+        foodNum,
       </if>
-      <if test="foodOnetotalprice != null">
-        food_oneTotalPrice,
+      <if test="foodonetotalprice != null">
+        foodOneTotalPrice,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="uuid != null">
         #{uuid,jdbcType=VARCHAR},
       </if>
-      <if test="orderId != null">
-        #{orderId,jdbcType=VARCHAR},
+      <if test="orderid != null">
+        #{orderid,jdbcType=VARCHAR},
       </if>
-      <if test="foodId != null">
-        #{foodId,jdbcType=VARCHAR},
+      <if test="foodid != null">
+        #{foodid,jdbcType=VARCHAR},
       </if>
-      <if test="foodNum != null">
-        #{foodNum,jdbcType=INTEGER},
+      <if test="foodnum != null">
+        #{foodnum,jdbcType=INTEGER},
       </if>
-      <if test="foodOnetotalprice != null">
-        #{foodOnetotalprice,jdbcType=DECIMAL},
+      <if test="foodonetotalprice != null">
+        #{foodonetotalprice,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -155,17 +155,17 @@
       <if test="record.uuid != null">
         uuid = #{record.uuid,jdbcType=VARCHAR},
       </if>
-      <if test="record.orderId != null">
-        order_id = #{record.orderId,jdbcType=VARCHAR},
+      <if test="record.orderid != null">
+        orderId = #{record.orderid,jdbcType=VARCHAR},
       </if>
-      <if test="record.foodId != null">
-        food_id = #{record.foodId,jdbcType=VARCHAR},
+      <if test="record.foodid != null">
+        foodId = #{record.foodid,jdbcType=VARCHAR},
       </if>
-      <if test="record.foodNum != null">
-        food_num = #{record.foodNum,jdbcType=INTEGER},
+      <if test="record.foodnum != null">
+        foodNum = #{record.foodnum,jdbcType=INTEGER},
       </if>
-      <if test="record.foodOnetotalprice != null">
-        food_oneTotalPrice = #{record.foodOnetotalprice,jdbcType=DECIMAL},
+      <if test="record.foodonetotalprice != null">
+        foodOneTotalPrice = #{record.foodonetotalprice,jdbcType=DECIMAL},
       </if>
     </set>
     <if test="_parameter != null">
@@ -175,10 +175,10 @@
   <update id="updateByExample" parameterType="map">
     update order_food
     set uuid = #{record.uuid,jdbcType=VARCHAR},
-      order_id = #{record.orderId,jdbcType=VARCHAR},
-      food_id = #{record.foodId,jdbcType=VARCHAR},
-      food_num = #{record.foodNum,jdbcType=INTEGER},
-      food_oneTotalPrice = #{record.foodOnetotalprice,jdbcType=DECIMAL}
+      orderId = #{record.orderid,jdbcType=VARCHAR},
+      foodId = #{record.foodid,jdbcType=VARCHAR},
+      foodNum = #{record.foodnum,jdbcType=INTEGER},
+      foodOneTotalPrice = #{record.foodonetotalprice,jdbcType=DECIMAL}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -186,27 +186,27 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.practice.starryfood.bean.OrderFood">
     update order_food
     <set>
-      <if test="orderId != null">
-        order_id = #{orderId,jdbcType=VARCHAR},
+      <if test="orderid != null">
+        orderId = #{orderid,jdbcType=VARCHAR},
       </if>
-      <if test="foodId != null">
-        food_id = #{foodId,jdbcType=VARCHAR},
+      <if test="foodid != null">
+        foodId = #{foodid,jdbcType=VARCHAR},
       </if>
-      <if test="foodNum != null">
-        food_num = #{foodNum,jdbcType=INTEGER},
+      <if test="foodnum != null">
+        foodNum = #{foodnum,jdbcType=INTEGER},
       </if>
-      <if test="foodOnetotalprice != null">
-        food_oneTotalPrice = #{foodOnetotalprice,jdbcType=DECIMAL},
+      <if test="foodonetotalprice != null">
+        foodOneTotalPrice = #{foodonetotalprice,jdbcType=DECIMAL},
       </if>
     </set>
     where uuid = #{uuid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.practice.starryfood.bean.OrderFood">
     update order_food
-    set order_id = #{orderId,jdbcType=VARCHAR},
-      food_id = #{foodId,jdbcType=VARCHAR},
-      food_num = #{foodNum,jdbcType=INTEGER},
-      food_oneTotalPrice = #{foodOnetotalprice,jdbcType=DECIMAL}
+    set orderId = #{orderid,jdbcType=VARCHAR},
+      foodId = #{foodid,jdbcType=VARCHAR},
+      foodNum = #{foodnum,jdbcType=INTEGER},
+      foodOneTotalPrice = #{foodonetotalprice,jdbcType=DECIMAL}
     where uuid = #{uuid,jdbcType=VARCHAR}
   </update>
 </mapper>

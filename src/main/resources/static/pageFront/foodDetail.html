@@ -12,106 +12,202 @@
     <link href="../font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="../css/menu.css">
     <link rel="stylesheet" href="../css/new.css">
+    <style>
+        .content-box.box-4 .post img{
+            height: 300px!important;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="wrap-body">
-        <header class="zerogrid">
-            <div class="logo">
-                <hr class="line-1">
-                <a href="#">StarryFood</a>
-                <span>食 - 人生之大事</span>
-                <hr class="line-1">
-            </div>
-            <div id='cssmenu' class="align-center">
-                <ul>
-                    <li><a href='index.html'><span>Home</span></a></li>
-                    <li class="active"><a href='menu.html'><span>Menu</span></a></li>
-                    <li class='last'><a href='myOrder.html'><span>My</span></a></li>
-                </ul>
-            </div>
-        </header>
-        <section id="container">
-            <div class="wrap-container">
-                <!-----------------具体信息-------------------->
-                <section class="content-box boxstyle-2 box-4">
-                    <div class="zerogrid">
-                        <div class="row wrap-box">
-                            <div class="post">
-                                <div class="col-1-2">
-                                    <img id="foodImg" src="../images/1.png" />
-                                </div>
-                                <div class="col-1-2">
-                                    <div class="wrapper">
-                                        <h3 class="header" id="foodName">标题 - 45RMB</h3>
-                                        <h5 id="hasSold">已售：2</h5>
-                                        <p id="foodIntroduce">这是一段简介这是一段简介这是一段简介这是一段简介这是一段简介这是一段简介这是一段简介</p>
-                                        <div>
-                                            <a class="button" id="tianjia1">加入购物车</a>
-                                            <p style="display: none" id="tianjia2">
-                                                <a id="jia" class="button">+</a>
-                                                <a id="shu" class="button">1</a>
-                                                <a id="jian" class="button">-</a>
-                                            </p>
-                                        </div>
+<div class="wrap-body">
+    <header class="zerogrid">
+        <div class="logo">
+            <hr class="line-1">
+            <a href="#">StarryFood</a>
+            <span>食 - 人生之大事</span>
+            <hr class="line-1">
+        </div>
+        <div id='cssmenu' class="align-center">
+            <ul>
+                <li><a href='index.html'><span>Home</span></a></li>
+                <li class="active"><a href='menu.html'><span>Menu</span></a></li>
+                <li class='last'><a href='myOrder.html'><span>My</span></a></li>
+            </ul>
+        </div>
+    </header>
+    <section id="container">
+        <div class="wrap-container">
+            <!-----------------具体信息-------------------->
+            <section class="content-box boxstyle-2 box-4">
+                <div class="zerogrid">
+                    <div class="row wrap-box">
+                        <div class="post">
+                            <div class="col-1-2">
+                                <img id="foodImg" src="../images/1.png" />
+                            </div>
+                            <div class="col-1-2">
+                                <div class="wrapper">
+                                    <h3 class="header" id="foodName">标题 - 45RMB</h3>
+                                    <h5 id="hasSold">已售：2</h5>
+                                    <p id="foodIntroduce">这是一段简介这是一段简介这是一段简介这是一段简介这是一段简介这是一段简介这是一段简介</p>
+                                    <div>
+                                        <a class="button" id="tianjia1">加入购物车</a>
+                                        <p style="display: none" id="tianjia2">
+                                            <a id="jia" class="button">+</a>
+                                            <a id="shu" class="button">1</a>
+                                            <a id="jian" class="button">-</a>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </section>
-            </div>
-        </section>
-
-        <div id="shoppingCart">
-            <img src="../images/shoppingCart.png" alt="">
+                </div>
+            </section>
         </div>
-        <hr class="line">
-        <!--////////////////////////////////////Footer-->
-        <footer>
-            <div class="wrap-footer">
-                <div class="zerogrid">
-                    <div class="wrap-col">
-                        <p>Copyright - StarryHu</p>
-                    </div>
+    </section>
+
+    <div id="shoppingCart">
+        <a href="cartList.html" target="_Blank"><img src="../images/shoppingCart.png" alt=" "></a>
+    </div>
+    <hr class="line">
+    <!--////////////////////////////////////Footer-->
+    <footer>
+        <div class="wrap-footer">
+            <div class="zerogrid">
+                <div class="wrap-col">
+                    <p>Copyright - StarryHu</p>
                 </div>
             </div>
-        </footer>
-    </div>
-    <script src="../js/jquery-3.3.1.js" type="text/javascript"></script>
+        </div>
+    </footer>
+</div>
+<script src="../js/jquery-3.3.1.js" type="text/javascript"></script>
 
-    <script>
-        var path = location.protocol + "//" + window.location.host + "/starryfood";
+<script>
+    const path = location.protocol + "//" + window.location.host + "/starryfood";
 
-        var str = window.location.href;
-        var fid = str.substr(str.indexOf('=') + 1);
+    const str = window.location.href;
+    const fid = str.substr(str.indexOf('=') + 1);
 
-        // 查找菜品信息显示
-        $.ajax({
-            type: "get",
-            url: path + "/food/getFoodById?fid=" + fid,
-            dataType: "json",
-            success: function(response) {
-                // if(response.code == 200){
-
-                // }
+    // 查找菜品信息显示
+    $.ajax({
+        type: "get",
+        url: path + "/food/getFoodById?fid=" + fid,
+        dataType: "json",
+        success: function (response) {
+            // 获取成功
+            if (response.code == 431) {
                 $('#foodImg').attr("src", response.data.img);
-                $('#foodName').text(response.data.fname + response.data.price + response.data.measurement);
-                $('#hasSold').text("已售： " + response.data.hasSold);
+                $('#foodName').text(response.data.fname + " - " + response.data.price + " 元 " + response
+                    .data.measurement);
+                $('#hasSold').text("已售： " + response.data.hassold);
                 $('#foodIntroduce').text(response.data.introduce);
             }
-        });
+        }
+    });
 
-        // 查看购物车中是否有该菜品
+    // 查看购物车中是否有该菜品，并显示相应数量
+    $.ajax({
+        type: "get",
+        url: path + "/customer/getCartLogined",
+        dataType: "json",
+        success: function (response) {
+            for (let i = 0; i < response.data.length; i++) {
+                const element = response.data[i];
+                // 找到相同的菜品
+                if (element.foodid == fid) {
+                    // 隐藏添加到购物车按钮
+                    $('#tianjia1').css("display", "none");
+                    // 显示当前菜品在购物车个数
+                    $('#tianjia2').css("display", "block");
+                    $('#shu').text(element.foodnum);
+                    break;
+                }
+            }
+        }
+    });
+
+    // 添加到购物车事件
+    $('#tianjia1').click(function () {
+        // 获取当前数量
+        let newShu = 1;
         $.ajax({
-            type: "get",
-            url: path + "/customer/getCartLogined",
+            type: "post",
+            url: path + "/customer/addToCart",
+            data: {
+                "foodId": fid,
+                "foodNum": newShu
+            },
             dataType: "json",
-            success: function(response) {
-
+            success: function (response) {
+                // 添加成功
+                if (response.code == 501) {
+                    // 隐藏添加到购物车按钮
+                    $('#tianjia1').css("display", "none");
+                    // 显示当前菜品在购物车个数
+                    $('#tianjia2').css("display", "block");
+                    $('#shu').text(1);
+                }
             }
         });
-    </script>
+    })
+
+    // 绑定+ - 事件
+    $('#jia').click(function () {
+        // 获取当前数量
+        let newShu = parseInt($('#shu').text()) + 1;
+        $.ajax({
+            type: "post",
+            url: path + "/customer/addToCart",
+            data: {
+                "foodId": fid,
+                "foodNum": newShu
+            },
+            dataType: "json",
+            success: function (response) {
+                // 添加成功
+                if (response.code == 501) {
+                    if (newShu == 1) {
+                        // 隐藏添加到购物车按钮
+                        $('#tianjia1').css("display", "none");
+                        // 显示当前菜品在购物车个数
+                        $('#tianjia2').css("display", "block");
+                    } else {
+                        $('#shu').text(newShu);
+                    }
+                }
+            }
+        });
+    })
+    $('#jian').click(function () {
+        // 获取当前数量
+        let newShu = $('#shu').text() - 1;
+        $.ajax({
+            type: "post",
+            url: path + "/customer/deleteFromCart",
+            data: {
+                "foodId": fid,
+                "foodNum": newShu
+            },
+            dataType: "json",
+            success: function (response) {
+                // 删除成功
+                if (response.code == 511) {
+                    if (newShu == 0) {
+                        // 显示添加到购物车按钮
+                        $('#tianjia1').css("display", " inline-block");
+                        // 隐藏当前菜品在购物车个数
+                        $('#tianjia2').css("display", "none");
+                    } else {
+                        $('#shu').text(newShu);
+                    }
+                }
+            }
+        });
+    })
+</script>
 </body>
 
 </html>

@@ -5,15 +5,15 @@ import java.util.Date;
 public class Order {
     private String id;
 
-    private Integer isDel;
+    private Integer isdel;
 
-    private Date createTime;
+    private Date createtime;
 
-    private Date updateTime;
+    private Date updatetime;
 
-    private String createCustomer;
+    private String createcustomer;
 
-    private String dealAdmin;
+    private String dealadmin;
 
     private Integer condition;
 
@@ -25,44 +25,44 @@ public class Order {
         this.id = id;
     }
 
-    public Integer getIsDel() {
-        return isDel;
+    public Integer getIsdel() {
+        return isdel;
     }
 
-    public void setIsDel(Integer isDel) {
-        this.isDel = isDel;
+    public void setIsdel(Integer isdel) {
+        this.isdel = isdel;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public Date getCreatetime() {
+        return createtime;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
+    public Date getUpdatetime() {
+        return updatetime;
     }
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+    public void setUpdatetime(Date updatetime) {
+        this.updatetime = updatetime;
     }
 
-    public String getCreateCustomer() {
-        return createCustomer;
+    public String getCreatecustomer() {
+        return createcustomer;
     }
 
-    public void setCreateCustomer(String createCustomer) {
-        this.createCustomer = createCustomer;
+    public void setCreatecustomer(String createcustomer) {
+        this.createcustomer = createcustomer;
     }
 
-    public String getDealAdmin() {
-        return dealAdmin;
+    public String getDealadmin() {
+        return dealadmin;
     }
 
-    public void setDealAdmin(String dealAdmin) {
-        this.dealAdmin = dealAdmin;
+    public void setDealadmin(String dealadmin) {
+        this.dealadmin = dealadmin;
     }
 
     public Integer getCondition() {

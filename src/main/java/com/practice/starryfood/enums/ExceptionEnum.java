@@ -48,6 +48,8 @@ public enum ExceptionEnum {
     CART_DELETE_FOOD_EMPTY(512,"购物车中删除菜品失败！该菜品在购物车中已空！"),
     CART_DELETE_FOOD_FAIL(513,"购物车中删除菜品失败"),
     CART_PAY_FOOD_FAIL(523,"下单失败"),
+    //CART_EMPTY(532,"购物车为空！"),
+
     ;
     private Integer code;
 

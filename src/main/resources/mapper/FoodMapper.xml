@@ -7,12 +7,12 @@
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="measurement" jdbcType="VARCHAR" property="measurement" />
     <result column="img" jdbcType="VARCHAR" property="img" />
-    <result column="has_sold" jdbcType="INTEGER" property="hasSold" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
-    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
-    <result column="is_del" jdbcType="INTEGER" property="isDel" />
+    <result column="hasSold" jdbcType="INTEGER" property="hassold" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="createUser" jdbcType="VARCHAR" property="createuser" />
+    <result column="updateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="isDel" jdbcType="INTEGER" property="isdel" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.practice.starryfood.bean.Food">
     <result column="introduce" jdbcType="LONGVARCHAR" property="introduce" />
@@ -76,8 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    fid, fname, price, measurement, img, has_sold, create_time, update_time, create_user, 
-    update_user, is_del
+    fid, fname, price, measurement, img, hasSold, createTime, updateTime, createUser, 
+    updateUser, isDel
   </sql>
   <sql id="Blob_Column_List">
     introduce
@@ -134,14 +134,14 @@
   </delete>
   <insert id="insert" parameterType="com.practice.starryfood.bean.Food">
     insert into food (fid, fname, price, 
-      measurement, img, has_sold, 
-      create_time, update_time, create_user, 
-      update_user, is_del, introduce
+      measurement, img, hasSold, 
+      createTime, updateTime, createUser, 
+      updateUser, isDel, introduce
       )
     values (#{fid,jdbcType=VARCHAR}, #{fname,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
-      #{measurement,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR}, #{hasSold,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, 
-      #{updateUser,jdbcType=VARCHAR}, #{isDel,jdbcType=INTEGER}, #{introduce,jdbcType=LONGVARCHAR}
+      #{measurement,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR}, #{hassold,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, #{createuser,jdbcType=VARCHAR}, 
+      #{updateuser,jdbcType=VARCHAR}, #{isdel,jdbcType=INTEGER}, #{introduce,jdbcType=LONGVARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.practice.starryfood.bean.Food">
@@ -162,23 +162,23 @@
       <if test="img != null">
         img,
       </if>
-      <if test="hasSold != null">
-        has_sold,
+      <if test="hassold != null">
+        hasSold,
       </if>
-      <if test="createTime != null">
-        create_time,
+      <if test="createtime != null">
+        createTime,
       </if>
-      <if test="updateTime != null">
-        update_time,
+      <if test="updatetime != null">
+        updateTime,
       </if>
-      <if test="createUser != null">
-        create_user,
+      <if test="createuser != null">
+        createUser,
       </if>
-      <if test="updateUser != null">
-        update_user,
+      <if test="updateuser != null">
+        updateUser,
       </if>
-      <if test="isDel != null">
-        is_del,
+      <if test="isdel != null">
+        isDel,
       </if>
       <if test="introduce != null">
         introduce,
@@ -200,23 +200,23 @@
       <if test="img != null">
         #{img,jdbcType=VARCHAR},
       </if>
-      <if test="hasSold != null">
-        #{hasSold,jdbcType=INTEGER},
+      <if test="hassold != null">
+        #{hassold,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
       </if>
-      <if test="createUser != null">
-        #{createUser,jdbcType=VARCHAR},
+      <if test="createuser != null">
+        #{createuser,jdbcType=VARCHAR},
       </if>
-      <if test="updateUser != null">
-        #{updateUser,jdbcType=VARCHAR},
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
       </if>
-      <if test="isDel != null">
-        #{isDel,jdbcType=INTEGER},
+      <if test="isdel != null">
+        #{isdel,jdbcType=INTEGER},
       </if>
       <if test="introduce != null">
         #{introduce,jdbcType=LONGVARCHAR},
@@ -247,23 +247,23 @@
       <if test="record.img != null">
         img = #{record.img,jdbcType=VARCHAR},
       </if>
-      <if test="record.hasSold != null">
-        has_sold = #{record.hasSold,jdbcType=INTEGER},
+      <if test="record.hassold != null">
+        hasSold = #{record.hassold,jdbcType=INTEGER},
       </if>
-      <if test="record.createTime != null">
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      <if test="record.createtime != null">
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.updateTime != null">
-        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      <if test="record.updatetime != null">
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.createUser != null">
-        create_user = #{record.createUser,jdbcType=VARCHAR},
+      <if test="record.createuser != null">
+        createUser = #{record.createuser,jdbcType=VARCHAR},
       </if>
-      <if test="record.updateUser != null">
-        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      <if test="record.updateuser != null">
+        updateUser = #{record.updateuser,jdbcType=VARCHAR},
       </if>
-      <if test="record.isDel != null">
-        is_del = #{record.isDel,jdbcType=INTEGER},
+      <if test="record.isdel != null">
+        isDel = #{record.isdel,jdbcType=INTEGER},
       </if>
       <if test="record.introduce != null">
         introduce = #{record.introduce,jdbcType=LONGVARCHAR},
@@ -280,12 +280,12 @@
       price = #{record.price,jdbcType=DECIMAL},
       measurement = #{record.measurement,jdbcType=VARCHAR},
       img = #{record.img,jdbcType=VARCHAR},
-      has_sold = #{record.hasSold,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      create_user = #{record.createUser,jdbcType=VARCHAR},
-      update_user = #{record.updateUser,jdbcType=VARCHAR},
-      is_del = #{record.isDel,jdbcType=INTEGER},
+      hasSold = #{record.hassold,jdbcType=INTEGER},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      createUser = #{record.createuser,jdbcType=VARCHAR},
+      updateUser = #{record.updateuser,jdbcType=VARCHAR},
+      isDel = #{record.isdel,jdbcType=INTEGER},
       introduce = #{record.introduce,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -298,12 +298,12 @@
       price = #{record.price,jdbcType=DECIMAL},
       measurement = #{record.measurement,jdbcType=VARCHAR},
       img = #{record.img,jdbcType=VARCHAR},
-      has_sold = #{record.hasSold,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      create_user = #{record.createUser,jdbcType=VARCHAR},
-      update_user = #{record.updateUser,jdbcType=VARCHAR},
-      is_del = #{record.isDel,jdbcType=INTEGER}
+      hasSold = #{record.hassold,jdbcType=INTEGER},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      createUser = #{record.createuser,jdbcType=VARCHAR},
+      updateUser = #{record.updateuser,jdbcType=VARCHAR},
+      isDel = #{record.isdel,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -323,23 +323,23 @@
       <if test="img != null">
         img = #{img,jdbcType=VARCHAR},
       </if>
-      <if test="hasSold != null">
-        has_sold = #{hasSold,jdbcType=INTEGER},
+      <if test="hassold != null">
+        hasSold = #{hassold,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
       </if>
-      <if test="createUser != null">
-        create_user = #{createUser,jdbcType=VARCHAR},
+      <if test="createuser != null">
+        createUser = #{createuser,jdbcType=VARCHAR},
       </if>
-      <if test="updateUser != null">
-        update_user = #{updateUser,jdbcType=VARCHAR},
+      <if test="updateuser != null">
+        updateUser = #{updateuser,jdbcType=VARCHAR},
       </if>
-      <if test="isDel != null">
-        is_del = #{isDel,jdbcType=INTEGER},
+      <if test="isdel != null">
+        isDel = #{isdel,jdbcType=INTEGER},
       </if>
       <if test="introduce != null">
         introduce = #{introduce,jdbcType=LONGVARCHAR},
@@ -353,12 +353,12 @@
       price = #{price,jdbcType=DECIMAL},
       measurement = #{measurement,jdbcType=VARCHAR},
       img = #{img,jdbcType=VARCHAR},
-      has_sold = #{hasSold,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      create_user = #{createUser,jdbcType=VARCHAR},
-      update_user = #{updateUser,jdbcType=VARCHAR},
-      is_del = #{isDel,jdbcType=INTEGER},
+      hasSold = #{hassold,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      createUser = #{createuser,jdbcType=VARCHAR},
+      updateUser = #{updateuser,jdbcType=VARCHAR},
+      isDel = #{isdel,jdbcType=INTEGER},
       introduce = #{introduce,jdbcType=LONGVARCHAR}
     where fid = #{fid,jdbcType=VARCHAR}
   </update>
@@ -368,12 +368,12 @@
       price = #{price,jdbcType=DECIMAL},
       measurement = #{measurement,jdbcType=VARCHAR},
       img = #{img,jdbcType=VARCHAR},
-      has_sold = #{hasSold,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      create_user = #{createUser,jdbcType=VARCHAR},
-      update_user = #{updateUser,jdbcType=VARCHAR},
-      is_del = #{isDel,jdbcType=INTEGER}
+      hasSold = #{hassold,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      createUser = #{createuser,jdbcType=VARCHAR},
+      updateUser = #{updateuser,jdbcType=VARCHAR},
+      isDel = #{isdel,jdbcType=INTEGER}
     where fid = #{fid,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -14,17 +14,17 @@ public class Food {
 
     private String img;
 
-    private Integer hasSold;
+    private Integer hassold;
 
-    private Date createTime;
+    private Date createtime;
 
-    private Date updateTime;
+    private Date updatetime;
 
-    private String createUser;
+    private String createuser;
 
-    private String updateUser;
+    private String updateuser;
 
-    private Integer isDel;
+    private Integer isdel;
 
     private String introduce;
 
@@ -68,52 +68,52 @@ public class Food {
         this.img = img;
     }
 
-    public Integer getHasSold() {
-        return hasSold;
+    public Integer getHassold() {
+        return hassold;
     }
 
-    public void setHasSold(Integer hasSold) {
-        this.hasSold = hasSold;
+    public void setHassold(Integer hassold) {
+        this.hassold = hassold;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public Date getCreatetime() {
+        return createtime;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
+    public Date getUpdatetime() {
+        return updatetime;
     }
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+    public void setUpdatetime(Date updatetime) {
+        this.updatetime = updatetime;
     }
 
-    public String getCreateUser() {
-        return createUser;
+    public String getCreateuser() {
+        return createuser;
     }
 
-    public void setCreateUser(String createUser) {
-        this.createUser = createUser;
+    public void setCreateuser(String createuser) {
+        this.createuser = createuser;
     }
 
-    public String getUpdateUser() {
-        return updateUser;
+    public String getUpdateuser() {
+        return updateuser;
     }
 
-    public void setUpdateUser(String updateUser) {
-        this.updateUser = updateUser;
+    public void setUpdateuser(String updateuser) {
+        this.updateuser = updateuser;
     }
 
-    public Integer getIsDel() {
-        return isDel;
+    public Integer getIsdel() {
+        return isdel;
     }
 
-    public void setIsDel(Integer isDel) {
-        this.isDel = isDel;
+    public void setIsdel(Integer isdel) {
+        this.isdel = isdel;
     }
 
     public String getIntroduce() {

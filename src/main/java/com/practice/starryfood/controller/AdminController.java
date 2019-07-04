@@ -45,8 +45,8 @@ public class AdminController extends BaseController{
         session.setMaxInactiveInterval(-1);
         Admin admin = adminService.login(adminId,password);
         session.setAttribute("aid", admin.getUuid());
-        session.setAttribute("adminId", admin.getAdminId());
-        session.setAttribute("adminName",admin.getAdminName());
+        session.setAttribute("adminId", admin.getAdminid());
+        session.setAttribute("adminName",admin.getAdminname());
         return ajaxSucc(null,ResultEnum.ADMIN_LOGIN_SUCCESS);
     }
 
