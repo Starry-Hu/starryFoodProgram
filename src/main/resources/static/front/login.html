@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>StarryFood</title>
+    <meta name="description" content="Free Responsive Html5 Css3 Templates ">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+
+<body>
+<div class="wrap-body">
+    <header class="zerogrid">
+        <div class="logo">
+            <hr class="line-1">
+            <a href="#">Login</a>
+            <hr class="line-1">
+        </div>
+    </header>
+    <section id="container">
+        <div class="wrap-container">
+            <form name="forms" class="login-cont">
+                <ul>
+                    <li><input type="text" placeholder="请输入您的账号" id="cid"></li>
+                    <li>
+                            <span id="box"><input type="password" value="" name="password" id="password"
+                                                  placeholder="请输入您的密码"></span>
+                        <span id="click"><a href="javascript:ps()" class="iconfont icon-biyan"></a></span></li>
+                </ul>
+                <a href="javascript:;" class="button text-center block" id="submit">登 录</a>
+                <a href="javascript:;" class="text-center block font-color">忘记密码？</a>
+                <p class="text-center" style="color: #fff">没有账号？ <a href="register.html" target="_Blank"
+                                                                    class="font-color">立即注册</a></p>
+            </form>
+        </div>
+    </section>
+
+    <hr class="line">
+    <!--////////////////////////////////////Footer-->
+    <footer>
+        <div class="wrap-footer">
+            <div class="zerogrid">
+                <div class="wrap-col">
+                    <p>Copyright - StarryHu</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="js/layer_mobile/layer.js"></script>
+<script type="text/javascript">
+    function ps() {
+        if (this.forms.password.type = "password")
+            box.innerHTML = "<input type=\"html\" name=\"password\" size=\"20\" value=" + this.forms.password
+                .value + ">";
+        click.innerHTML = "<a href=\"javascript:txt()\" class=\"iconfont icon-open-eye\"></a>"
+    }
+
+    function txt() {
+        if (this.forms.password.type = "text")
+            box.innerHTML = "<input type=\"password\" name=\"password\" size=\"20\" value=" + this.forms
+                .password.value + ">";
+        click.innerHTML = "<a href=\"javascript:ps()\" class=\"iconfont icon-biyan\"></a>"
+    }
+
+    // 点击登录
+    $('#submit').click(function () {
+        var cid = $('#cid').val();
+        var password = $('input[name="password"]').val(); //点击眼睛按钮会使id消失
+        if (cid == '' || password == '') {
+            //提示层msg
+            layer.open({
+                content: '请将信息填写完全',
+                skin: 'msg',
+                time: 2 //2秒后自动关闭
+            });
+        } else {
+            var path = location.protocol + "//" + window.location.host + "/starryfood/customer/login";
+            $.ajax({
+                type: "post",
+                url: path,
+                data: {
+                    "cid": cid,
+                    "password": password
+                },
+                dataType: "json",
+                success: function (response) {
+                    // 显示信息
+                    layer.open({
+                        content: response.msg,
+                        skin: 'msg',
+                        time: 2 //1秒后自动关闭
+                    });
+                    if (response.code == 341) {
+                        location.href = 'index.html'
+                    }
+                }
+            })
+        };
+    })
+</script>
+</body>
+
+</html>
