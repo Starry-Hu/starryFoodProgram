@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="lib/layui/css/layui.css">
+    <title>Document</title>
+    <style>
+        .layui-layout-admin .layui-body {
+            overflow: hidden;
+        }
+
+        /* 防止主页被关闭 */
+
+        .layui-tab-title li:first-child .layui-tab-close {
+            display: none;
+        }
+
+        .layui-footer {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">StarryFood后台管理系统</div>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="images/user-default.png" class="layui-nav-img"> <span id="adminName">贤心</span>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">基本资料</a></dd>
+                    <dd><a href="">安全设置</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="#" onclick="logout()">退出</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item layui-this"><a href="#" data-url="welcome" data-title="主页" data-id="00"
+                                                         class="site-demo-active" data-type="tabAdd">主页</a></li>
+                <!--<li class="layui-nav-item"><a href="#" data-url="allStuList" data-title="学生总况" data-id="11"-->
+                                              <!--class="site-demo-active" data-type="tabAdd">学生总况</a></li>-->
+                <!--<li class="layui-nav-item"><a href="#" data-url="allStuInClass" data-title="班级查询" data-id="22"-->
+                                              <!--class="site-demo-active" data-type="tabAdd">班级查询</a></li>-->
+                <!--<li class="layui-nav-item"><a href="#" data-url="allStuInMajor" data-title="专业查询" data-id="33"-->
+                                              <!--class="site-demo-active" data-type="tabAdd">专业查询</a></li>-->
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">菜品相关</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="#" data-url="addFood" data-title="添加菜品" data-id="11"
+                               class="site-demo-active" data-type="addFood">添加菜品</a></dd>
+                        <dd><a href="#" data-url="allFoodList" data-title="查看所有菜品" data-id="22"
+                               class="site-demo-active" data-type="tabAdd">查看所有菜品</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">顾客相关</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="#" data-url="addFood" data-title="查看所有顾客" data-id="11"
+                               class="site-demo-active" data-type="addFood">查看所有顾客</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">订单相关</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="#" data-url="addFood" data-title="查看所有订单" data-id="11"
+                               class="site-demo-active" data-type="addFood">查看所有订单</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">管理员相关</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="#" data-url="addFood" data-title="查看所有管理员" data-id="11"
+                               class="site-demo-active" data-type="addFood">查看所有管理员</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+
+        <div class="layui-tab" lay-filter="demo" lay-allowclose="true">
+            <ul class="layui-tab-title">
+                <li lay-id="00" class="layui-this">主页</li>
+            </ul>
+            <ul class="rightmenu" style="display: none;position: absolute;">
+                <li data-type="closethis">关闭当前</li>
+                <li data-type="closeall">关闭所有</li>
+            </ul>
+            <div class="layui-tab-content">
+
+                <div class="layui-tab-item layui-show">
+                    <iframe data-title="主页" data-frameid="00" scrolling="auto" frameborder="0" src="welcome.html"
+                            style="width:100%;height:99%;"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        Copyright © Starry-Hu
+    </div>
+</div>
+
+<script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+<script src="lib/layui/layui.js" charset="utf-8"></script>
+<script src="js/index.js" charset="utf-8"></script>
+<script>
+
+</script>
+</body>
+
+</html>
