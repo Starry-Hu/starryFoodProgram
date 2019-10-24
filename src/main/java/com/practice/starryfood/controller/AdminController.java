@@ -27,6 +27,7 @@ public class AdminController extends BaseController{
     @Autowired
     private AdminService adminService;
 
+
     /***
      * 登录
      * @param adminId 管理员账号
@@ -36,11 +37,18 @@ public class AdminController extends BaseController{
      * @throws Exception
      */
     @PostMapping("/login")
-    BaseResponse login(String adminId, String password, HttpSession session) throws Exception{
+    BaseResponse login(String adminId, String password,String verifyCode, HttpSession session) throws Exception{
         // 检查内容是否填写完全
-        if (adminId == null || password == null || adminId.trim().equals("") || password.trim().equals("")) {
+        if (adminId == null || password == null || verifyCode == null ||
+                adminId.trim().equals("") || password.trim().equals("") || verifyCode.equals("")) {
             return ajaxFail(ResultEnum.ADMIN_INFO_NOT_FULL);
         }
+        // 检查验证码是否正确
+        System.out.println(session.getAttribute("verify-code") + "取");
+        if(!verifyCode.equals(session.getAttribute("verify-code"))){
+            return ajaxFail(ResultEnum.ADMIN_VERIFY_FAIL);
+        }
+
         // 设置session过期时间为永久,并保存相应的管理员用户信息
         session.setMaxInactiveInterval(-1);
         Admin admin = adminService.login(adminId,password);

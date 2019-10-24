@@ -383,6 +383,13 @@ public class CustomerServiceImpl implements CustomerService {
         return sum;
     }
 
+    /**** 
+    * @Description: 获取用户购物车信息 
+    * @Param: [cuuid] 
+    * @return: java.util.List<com.practice.starryfood.pojo.CartFoodExtend> 
+    * @Author: StarryHu
+    * @Date: 2019/7/9 
+    */ 
     public List<CartFoodExtend> getCustomerCart(String cuuid) throws Exception{
         Customer customer = customerMapper.selectByPrimaryKey(cuuid);
         String cartList = customer.getCartid();

@@ -63,18 +63,8 @@
 <script type="text/javascript" src="js/layuiRowSpan.js"></script>
 
 <script>
-    // 自定义模块
-    layui.config({
-        base: 'module/'
-    }).extend({
-        tableMerge: 'tableMerge'
-    });
-
-    layui.use(['table', 'tableMerge'], function () {
-        var table = layui.table,
-            tableMerge = layui.tableMerge;
-        // 统计通过与未通过人数
-        var doneStu = 0, undoStu = 0;
+    layui.use(['table'], function () {
+        var table = layui.table;
 
         //展示已知数据
         table.render({

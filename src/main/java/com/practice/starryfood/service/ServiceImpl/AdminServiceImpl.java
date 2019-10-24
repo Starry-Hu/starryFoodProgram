@@ -156,6 +156,8 @@ public class AdminServiceImpl implements AdminService {
      * @throws Exception
      */
     public Admin login(String adminId, String password) throws Exception {
+        // 检验验证码
+
         // 设置查询条件
         AdminExample adminExample = new AdminExample();
         adminExample.createCriteria().andAdminidEqualTo(adminId);
