@@ -2,6 +2,7 @@ package com.practice.starryfood.service;
 
 import com.github.pagehelper.PageInfo;
 import com.practice.starryfood.bean.Customer;
+import com.practice.starryfood.enums.ExceptionEnum;
 import com.practice.starryfood.pojo.CartFoodExtend;
 import com.practice.starryfood.pojo.CustomerExtend;
 
@@ -23,8 +24,14 @@ public interface CustomerService {
 
     Customer getCustomerByCustomerId(String customerId) throws Exception;
 
-    // 查找所有顾客
-    PageInfo<CustomerExtend> getAllCustomer(Integer pageSize, Integer pageNum) throws Exception;
+    // 查找所有顾客（带分页）
+    PageInfo<CustomerExtend> getAllCustomer(Integer pageNum, Integer pageSize) throws Exception;
+
+    // 查找所有已删除的顾客（带分页）
+    PageInfo<CustomerExtend> getAllDeleteCustomer(Integer pageSize, Integer pageNum) throws Exception;
+
+    // 将某个已删除的用户恢复
+    int restoreDeleteCustomer(String customerUuid) throws Exception;
 
     // --------------------------- 顾客对自己账户的相关操作 ---------------------
     // 登录

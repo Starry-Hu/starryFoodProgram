@@ -170,13 +170,12 @@ public class CustomerServiceImpl implements CustomerService {
         return customer;
     }
 
-
     /**
-    * @Description: 查找全部顾客信息
-    * @Param:
-    * @return:
+    * @Description: 查询全部顾客信息（带分页）
+    * @Param: [pageNum, pageSize]
+    * @return: com.github.pagehelper.PageInfo<com.practice.starryfood.pojo.CustomerExtend>
     * @Author: StarryHu
-    * @Date: 2019/11/21
+    * @Date: 2019/11/22
     */
     public PageInfo<CustomerExtend>  getAllCustomer(Integer pageNum,Integer pageSize) throws Exception {
         // 开启分页查询，写在查询语句之前
@@ -201,6 +200,55 @@ public class CustomerServiceImpl implements CustomerService {
         // 封装成分页对象
         PageInfo<CustomerExtend> pageInfo = new PageInfo<>(customerExtendList);
         return pageInfo;
+    }
+
+    /**
+    * @Description: 获取全部已删除的用户（带分页）
+    * @Param: [pageSize, pageNum]
+    * @return: com.github.pagehelper.PageInfo<com.practice.starryfood.pojo.CustomerExtend>
+    * @Author: StarryHu
+    * @Date: 2019/11/22
+    */
+    public PageInfo<CustomerExtend> getAllDeleteCustomer(Integer pageNum, Integer pageSize) throws Exception{
+        // 开启分页查询，写在查询语句之前
+        PageHelper.startPage(pageNum, pageSize);
+        // 获取查询到的对象
+        List<CustomerExtend> customerExtendList = customerExtendMapper.getAllDeleteCustomer();
+        //如果查到的数据为空，则抛出异常
+        if (customerExtendList.size() == 0) throw new SAException(ExceptionEnum.CUSTOMER_SEARCH_NOT_EXIST);
+
+        // 逐个处理时间戳 需要判空
+        for (CustomerExtend customerExtend: customerExtendList){
+            if (customerExtend.getCreateTime() != null) {
+                String createTimeString = DateStamp.stampToDate(customerExtend.getCreateTime());
+                customerExtend.setCreateTimeString(createTimeString);
+            }
+            if (customerExtend.getUpdateTime() != null) {
+                String updateTimeString = DateStamp.stampToDate(customerExtend.getUpdateTime());
+                customerExtend.setUpdateTimeString(updateTimeString);
+            }
+        }
+
+        // 封装成分页对象
+        PageInfo<CustomerExtend> pageInfo = new PageInfo<>(customerExtendList);
+        return pageInfo;
+    }
+
+    public int restoreDeleteCustomer(String customerUuid) throws Exception{
+        // 查询该删除用户是否存在,若用户不存在或者已恢复删除，则弹出提示
+        Customer customer = customerMapper.selectByPrimaryKey(customerUuid);
+        if (customer == null){
+            throw new SAException(ExceptionEnum.CUSTOMER_SEARCH_NOT_EXIST);
+        }else if (customer.getIsDel() == 0){// 已经恢复
+            throw new SAException(ExceptionEnum.CUSTOMER_IS_RESTORE_NOW);
+        }
+        // 恢复删除，并记录时间
+        customer.setIsDel(0);
+        Date date = new Date();
+        customer.setUpdateTime(date);
+        int n = customerMapper.updateByPrimaryKeySelective(customer);
+        if (n > 0) return n;
+        throw new SAException(ExceptionEnum.CUSTOMER_RESTORE_FAIL);
     }
 
     /****
@@ -252,6 +300,7 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setCustomerPassword(customerPassword);
         customer.setCustomerCartId(IDGenerator.generator());
         customer.setCreateTime(date);
+        customer.setIsDel(0);
 
         int n = customerMapper.insert(customer);
         // 添加成功

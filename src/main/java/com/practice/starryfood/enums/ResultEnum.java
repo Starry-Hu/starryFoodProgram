@@ -34,6 +34,7 @@ public enum ResultEnum {
     CUSTOMER_SEARCH_SUCCESS(331,"查找顾客成功"),
     CUSTOMER_LOGIN_SUCCESS(341,"登录成功"),
     CUSTOMER_REGISTER_SUCCESS(351,"注册成功"),
+    CUSTOMER_RESTORE_SUCCESS(361,"还原成功"),
 
     CUSTOMER_NOT_LOGINED(397,"顾客未登录！请先登录！"),
     CUSTOMER_NOT_SAME_PSWTWO(398,"两次输入密码不一致！"),

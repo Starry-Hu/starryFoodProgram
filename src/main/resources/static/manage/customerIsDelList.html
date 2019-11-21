@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/font.css">
     <link rel="stylesheet" href="lib/layui/css/layui.css">
-    <title>所有顾客</title>
+    <title>已删除顾客回收站</title>
     <style>
         .layui-form-label {
             width: 60px;
@@ -40,18 +40,14 @@
         </form>
     </div>
 
-    <button class="layui-btn layui-btn-sm" id="add">添加顾客</button>
-    <button class="layui-btn layui-btn-sm" onclick="javascript:location.reload();">
-        <i class="layui-icon layui-icon-refresh-3"></i>
-    </button>
-    <table id="allCustomer" lay-filter="allCustomer"></table>
+    <table id="deleteCustomer" lay-filter="deleteCustomer"></table>
 </div>
 
 
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-sm" lay-event="update">修改</a>
-    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delete">删除</a>
+    <a class="layui-btn layui-btn-sm layui-btn-warm" lay-event="restore">还原</a>
 </script>
+
 <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="lib/layui/layui.js"></script>
 
@@ -62,10 +58,10 @@
             layer = layui.layer;
         //展示已知数据
         table.render({
-            elem: '#allCustomer',
+            elem: '#deleteCustomer',
             toolbar: 'default',
             loading: true, //翻页加loading
-            url: path + '/customer/getAllCustomer', //数据接口(不需要带项目名)
+            url: path + '/customer/getAllDeleteCustomer', //数据接口(不需要带项目名)
             parseData: function (res) { //res 即为原始返回的数据
                 return {
                     "code": res.code, //解析接口状态
@@ -124,62 +120,20 @@
             id: "dataTable"
         });
 
-        // 数据重载（查询）
-        const active = {
-            reload: function () {
-                //执行重载
-                table.reload('dataTable', {
-                    url: path + '/customer/getByCustomerId',
-                    parseData: function (res) { //res 即为原始返回的数据
-                        return {
-                            "code": res.code, //解析接口状态
-                            "msg": res.msg, //解析提示文本
-                            "count":1 , //解析数据总个数
-                            "data": [res.data], //解析数据列表
-                        };
-                    },
-                    response: {
-                        statusCode: 331 //规定成功的状态码，默认：0
-                    },
-                    page: {
-                        curr: 1 //重新从第 1 页开始
-                    },
-                    where: { //类似于 data
-                        customerId: $('#customerId').val()
-                    }
-                });
-            }
-        };
-        // 数据重载之后的刷新重载表格
-        $('#search').on('click', function () {
-            const type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
-        });
-
         //监听行工具事件
-        table.on('tool(allCustomer)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+        table.on('tool(deleteCustomer)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             const data = obj.data //获得当前行数据
                 , layEvent = obj.event; //获得 lay-event 对应的值
-            if (layEvent == 'update') {
-                const content = `customerUpdate.html?customerUuid=${data.customerUuid}&customerId=${data.customerId}&customerName=${data.customerName}`;
-                layer.open({
-                    type: 2,
-                    content: [content],
-                    area: ['500px', '350px'],
-                    move: false,
-                    shade: 0.5,
-                    shadeClose: true,//点击遮罩关闭
-                });
-            }else if(layEvent == 'delete'){
+            if(layEvent == 'restore'){
                 $.ajax({
                     type: "get",
-                    url: path + "/customer/delete?customerUuid=" + data.customerUuid,
+                    url: path + "/customer/restoreDeleteCustomer?customerUuid=" + data.customerUuid,
                     dataType: "json",
                     success: function (response) {
                         layer.msg(`${response.msg}`, {
                             time: 1500,
                             end: function(){
-                                if (response.code == 311)
+                                if (response.code == 361)
                                     obj.del(); //删除对应行（tr）的DOM结构
                             }
                         })

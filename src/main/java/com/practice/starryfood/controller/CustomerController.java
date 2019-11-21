@@ -150,13 +150,19 @@ public class CustomerController extends BaseController {
     * @Date: 2019/11/21 
     */ 
     @PostMapping("/add")
-    BaseResponse add(String customerId, String customerName, String customerPassword) throws Exception {
+    BaseResponse add(String customerId, String customerName, String customerPassword1, String customerPassword2) throws Exception {
         // 检查内容是否填写完全
-        if (customerId == null || customerName == null || customerPassword == null ||
-                customerId.trim().equals("") || customerName.trim().equals("") || customerPassword.trim().equals("")) {
+        if (customerId == null || customerName == null || customerPassword1 == null || customerPassword2 == null ||
+                customerId.trim().equals("") || customerName.trim().equals("")
+                || customerPassword1.trim().equals("") || customerPassword2.trim().equals("")) {
             return ajaxFail(ResultEnum.CUSTOMER_INFO_NOT_FULL);
         }
-        customerService.register(customerId, customerName, customerPassword);
+
+        // 检查两次密码是否正确
+        if (!customerPassword1.equals(customerPassword2))
+            return ajaxFail(ResultEnum.CUSTOMER_NOT_SAME_PSWTWO);
+
+        customerService.register(customerId, customerName, customerPassword1);
         return ajaxSucc(null, ResultEnum.CUSTOMER_REGISTER_SUCCESS);
     }
 
@@ -211,6 +217,13 @@ public class CustomerController extends BaseController {
         return ajaxSucc(customer, ResultEnum.CUSTOMER_SEARCH_SUCCESS);
     }
 
+    /**
+    * @Description: 获取全部顾客（带分页）
+    * @Param: [pageNum, pageSize]
+    * @return: com.practice.starryfood.util.BaseResponse
+    * @Author: StarryHu
+    * @Date: 2019/11/22
+    */
     @GetMapping("/getAllCustomer")
     public BaseResponse getAllCustomer(Integer pageNum,Integer pageSize) throws Exception {
         // 判断信息是否填写完全，如果分页条件未填写则给默认值
@@ -221,6 +234,40 @@ public class CustomerController extends BaseController {
         // 进行查找
         PageInfo<CustomerExtend> pageInfo =  customerService.getAllCustomer(pageNum,pageSize);
         return ajaxSucc(pageInfo,ResultEnum.CUSTOMER_SEARCH_SUCCESS);
+    }
+
+    /**
+    * @Description: 获取全部已删除的用户列表（带分页）
+    * @Param: [pageNum, pageSize]
+    * @return: com.practice.starryfood.util.BaseResponse
+    * @Author: StarryHu
+    * @Date: 2019/11/22
+    */
+    @GetMapping("/getAllDeleteCustomer")
+    public BaseResponse getAllDeleteCustomer(Integer pageNum,Integer pageSize) throws Exception {
+        // 判断信息是否填写完全，如果分页条件未填写则给默认值
+        if (pageNum == null || pageSize == null) {
+            pageNum = 1;
+            pageSize = 10;
+        }
+        // 进行查找
+        PageInfo<CustomerExtend> pageInfo =  customerService.getAllDeleteCustomer(pageNum,pageSize);
+        return ajaxSucc(pageInfo,ResultEnum.CUSTOMER_SEARCH_SUCCESS);
+    }
+
+    /**
+    * @Description: 将已删除的顾客还原
+    * @Param: [customerUuid]
+    * @return: com.practice.starryfood.util.BaseResponse
+    * @Author: StarryHu
+    * @Date: 2019/11/22
+    */
+    @GetMapping("/restoreDeleteCustomer")
+    public BaseResponse restoreDeleteCustomer(String customerUuid) throws Exception {
+        if (customerUuid == null || customerUuid.trim().equals(""))
+            return ajaxFail(ResultEnum.CUSTOMER_INFO_NOT_FULL);
+        customerService.restoreDeleteCustomer(customerUuid);
+        return ajaxSucc(null,ResultEnum.CUSTOMER_RESTORE_SUCCESS);
     }
     // ---------------------- 顾客购物车菜品相关（都是指当前顾客而言的） ---------------------
     /***

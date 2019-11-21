@@ -32,6 +32,8 @@ public enum ExceptionEnum {
     CUSTOMER_EDITPSW_OLDPSW_ERROR(363, "原密码错误！"),
     CUSTOMER_EDITPSW_SAME_WITH_OLD(364,"新旧密码一致！无变化！"),
     CUSTOMER_EDITPSW_FAIL(365,"修改密码失败！"),
+    CUSTOMER_IS_RESTORE_NOW(365,"该顾客已还原！"),
+    CUSTOMER_RESTORE_FAIL(365,"该顾客还原失败！"),
 
 
     // 菜品相关

@@ -20,6 +20,10 @@
         .layui-footer {
             text-align: center;
         }
+
+        dd a{
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -47,8 +51,15 @@
                                               class="site-demo-active" data-type="tabAdd">菜品相关</a></li>
                 <li class="layui-nav-item"><a href="#" data-url="orderList" data-title="订单相关" data-id="22"
                                               class="site-demo-active" data-type="tabAdd">订单相关</a></li>
-                <li class="layui-nav-item"><a href="#" data-url="customerList" data-title="顾客相关" data-id="33"
-                                              class="site-demo-active" data-type="tabAdd">顾客相关</a></li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">顾客相关</a>
+                    <dl class="layui-nav-child"> <!-- 二级菜单 -->
+                        <dd><a data-url="customerList" data-title="顾客列表" data-id="331"
+                               class="site-demo-active" data-type="tabAdd">顾客列表</a></dd>
+                        <dd><a data-url="customerIsDelList" data-title="已删除用户回收站" data-id="332"
+                               class="site-demo-active" data-type="tabAdd">已删除用户回收站</a></dd>
+                    </dl>
+
                 <li class="layui-nav-item"><a href="#" data-url="adminList" data-title="管理员相关" data-id="44"
                                               class="site-demo-active" data-type="tabAdd">管理员相关</a></li>
             </ul>

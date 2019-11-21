@@ -25,10 +25,10 @@
 <div>
     <form id="editForm" class="layui-form">
         <div class="layui-form-item">
-            <label class="layui-form-label " for="customerId">顾客账号</label>
+            <label class="layui-form-label" for="customerId">顾客账号</label>
             <div class="layui-input-inline">
-                <input type="text" id="customerId" placeholder="请输入顾客账号" disabled
-                       class="layui-input" style="background: #999999;opacity: 0.7">
+                <input type="text" id="customerId" required placeholder="请输入顾客账号"
+                       class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -39,16 +39,16 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label" for="newPassword1">新密码</label>
+            <label class="layui-form-label" for="password1">密码</label>
             <div class="layui-input-inline">
-                <input type="password" id="newPassword1" required placeholder="请输入新密码"
+                <input type="password" id="password1" required placeholder="请输入密码"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label" for="newPassword2">重复新密码</label>
+            <label class="layui-form-label" for="password2">重复密码</label>
             <div class="layui-input-inline">
-                <input type="password" id="newPassword2" required placeholder="请再次输入新密码"
+                <input type="password" id="password2" required placeholder="请再次输入密码"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -67,35 +67,31 @@
     layui.use(['layer'], function () {
         const path = location.protocol + "//" + window.location.host + "/starryfood";
 
-        // 从地址栏获取参数
-        const customerUuid = getUrlParam('customerUuid');
-        const customerId = getUrlParam('customerId');
-        const customerName = getUrlParam('customerName');
-        // 回显用户信息
-        $('#customerId').val(customerId);
-        $('#customerName').val(customerName);
-
         // 提交修改信息
         $('#submit').click(function () {
             const customerName = $('#customerName').val();
-            const oldPassword = $('#oldPassword').val();
-            const newPassword1 = $('#newPassword1').val();
-            const newPassword2 = $('#newPassword2').val();
+            const customerId = $('#customerId').val();
+            const password1 = $('#password1').val();
+            const password2 = $('#password2').val();
 
-            if (customerName == '' || oldPassword == '' || newPassword1 == '' || newPassword2 == '') {
+            if (customerId == '' || customerName == '' || password1 == '' || password2 == '') {
                 layer.msg('请将信息填写完全', {
+                    time: 1500,
+                })
+            }else if(password1 != password2){
+                layer.msg('两次密码填写不正确', {
                     time: 1500,
                 })
             } else {
                 // 提交信息到后台
                 $.ajax({
                     type: "post",
-                    url: path + "/customer/update",
+                    url: path + "/customer/add",
                     data: {
-                        customerUuid: customerUuid,
+                        customerId: customerId,
                         customerName: customerName,
-                        newPassword1: newPassword1,
-                        newPassword2: newPassword2,
+                        customerPassword1: password1,
+                        customerPassword2: password2,
                     },
                     dataType: "json",
                     success: function (response) {
@@ -106,19 +102,6 @@
                 });
             }
         })
-
-        function getUrlParam(name) {
-            //构造一个含有目标参数的正则表达式对象
-            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-            //匹配目标参数
-            var r = window.location.search.substr(1).match(reg);
-            //返回参数
-            if (r != null) {
-                return unescape(r[2]);
-            } else {
-                return null;
-            }
-        }
 
     })
 </script>
