@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface FoodExtendMapper {
     // 根据菜品id获取菜品信息
-    FoodExtend getFoodById(String fid);
+    FoodExtend getFoodById(String foodId);
     // 获取全部菜品
     List<FoodExtend> getAllFoods();
 }

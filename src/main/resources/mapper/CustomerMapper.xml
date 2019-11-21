@@ -2,14 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.practice.starryfood.dao.CustomerMapper">
   <resultMap id="BaseResultMap" type="com.practice.starryfood.bean.Customer">
-    <id column="uuid" jdbcType="VARCHAR" property="uuid" />
-    <result column="cid" jdbcType="VARCHAR" property="cid" />
-    <result column="cname" jdbcType="VARCHAR" property="cname" />
-    <result column="cartId" jdbcType="VARCHAR" property="cartid" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
+    <id column="customer_uuid" jdbcType="VARCHAR" property="customerUuid" />
+    <result column="customer_id" jdbcType="VARCHAR" property="customerId" />
+    <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
+    <result column="customer_cart_id" jdbcType="VARCHAR" property="customerCartId" />
+    <result column="customer_password" jdbcType="VARCHAR" property="customerPassword" />
     <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
-    <result column="isDel" jdbcType="INTEGER" property="isdel" />
+    <result column="is_del" jdbcType="INTEGER" property="isDel" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,7 +70,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    uuid, cid, cname, cartId, password, createTime, updateTime, isDel
+    customer_uuid, customer_id, customer_name, customer_cart_id, customer_password, createTime, 
+    updateTime, is_del
   </sql>
   <select id="selectByExample" parameterType="com.practice.starryfood.bean.CustomerExample" resultMap="BaseResultMap">
     select
@@ -91,11 +92,11 @@
     select 
     <include refid="Base_Column_List" />
     from customer
-    where uuid = #{uuid,jdbcType=VARCHAR}
+    where customer_uuid = #{customerUuid,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from customer
-    where uuid = #{uuid,jdbcType=VARCHAR}
+    where customer_uuid = #{customerUuid,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.practice.starryfood.bean.CustomerExample">
     delete from customer
@@ -104,30 +105,30 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.practice.starryfood.bean.Customer">
-    insert into customer (uuid, cid, cname, 
-      cartId, password, createTime, 
-      updateTime, isDel)
-    values (#{uuid,jdbcType=VARCHAR}, #{cid,jdbcType=VARCHAR}, #{cname,jdbcType=VARCHAR}, 
-      #{cartid,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{updatetime,jdbcType=TIMESTAMP}, #{isdel,jdbcType=INTEGER})
+    insert into customer (customer_uuid, customer_id, customer_name, 
+      customer_cart_id, customer_password, createTime, 
+      updateTime, is_del)
+    values (#{customerUuid,jdbcType=VARCHAR}, #{customerId,jdbcType=VARCHAR}, #{customerName,jdbcType=VARCHAR}, 
+      #{customerCartId,jdbcType=VARCHAR}, #{customerPassword,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{isDel,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.practice.starryfood.bean.Customer">
     insert into customer
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="uuid != null">
-        uuid,
+      <if test="customerUuid != null">
+        customer_uuid,
       </if>
-      <if test="cid != null">
-        cid,
+      <if test="customerId != null">
+        customer_id,
       </if>
-      <if test="cname != null">
-        cname,
+      <if test="customerName != null">
+        customer_name,
       </if>
-      <if test="cartid != null">
-        cartId,
+      <if test="customerCartId != null">
+        customer_cart_id,
       </if>
-      <if test="password != null">
-        password,
+      <if test="customerPassword != null">
+        customer_password,
       </if>
       <if test="createtime != null">
         createTime,
@@ -135,25 +136,25 @@
       <if test="updatetime != null">
         updateTime,
       </if>
-      <if test="isdel != null">
-        isDel,
+      <if test="isDel != null">
+        is_del,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="uuid != null">
-        #{uuid,jdbcType=VARCHAR},
+      <if test="customerUuid != null">
+        #{customerUuid,jdbcType=VARCHAR},
       </if>
-      <if test="cid != null">
-        #{cid,jdbcType=VARCHAR},
+      <if test="customerId != null">
+        #{customerId,jdbcType=VARCHAR},
       </if>
-      <if test="cname != null">
-        #{cname,jdbcType=VARCHAR},
+      <if test="customerName != null">
+        #{customerName,jdbcType=VARCHAR},
       </if>
-      <if test="cartid != null">
-        #{cartid,jdbcType=VARCHAR},
+      <if test="customerCartId != null">
+        #{customerCartId,jdbcType=VARCHAR},
       </if>
-      <if test="password != null">
-        #{password,jdbcType=VARCHAR},
+      <if test="customerPassword != null">
+        #{customerPassword,jdbcType=VARCHAR},
       </if>
       <if test="createtime != null">
         #{createtime,jdbcType=TIMESTAMP},
@@ -161,8 +162,8 @@
       <if test="updatetime != null">
         #{updatetime,jdbcType=TIMESTAMP},
       </if>
-      <if test="isdel != null">
-        #{isdel,jdbcType=INTEGER},
+      <if test="isDel != null">
+        #{isDel,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -175,20 +176,20 @@
   <update id="updateByExampleSelective" parameterType="map">
     update customer
     <set>
-      <if test="record.uuid != null">
-        uuid = #{record.uuid,jdbcType=VARCHAR},
+      <if test="record.customerUuid != null">
+        customer_uuid = #{record.customerUuid,jdbcType=VARCHAR},
       </if>
-      <if test="record.cid != null">
-        cid = #{record.cid,jdbcType=VARCHAR},
+      <if test="record.customerId != null">
+        customer_id = #{record.customerId,jdbcType=VARCHAR},
       </if>
-      <if test="record.cname != null">
-        cname = #{record.cname,jdbcType=VARCHAR},
+      <if test="record.customerName != null">
+        customer_name = #{record.customerName,jdbcType=VARCHAR},
       </if>
-      <if test="record.cartid != null">
-        cartId = #{record.cartid,jdbcType=VARCHAR},
+      <if test="record.customerCartId != null">
+        customer_cart_id = #{record.customerCartId,jdbcType=VARCHAR},
       </if>
-      <if test="record.password != null">
-        password = #{record.password,jdbcType=VARCHAR},
+      <if test="record.customerPassword != null">
+        customer_password = #{record.customerPassword,jdbcType=VARCHAR},
       </if>
       <if test="record.createtime != null">
         createTime = #{record.createtime,jdbcType=TIMESTAMP},
@@ -196,8 +197,8 @@
       <if test="record.updatetime != null">
         updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.isdel != null">
-        isDel = #{record.isdel,jdbcType=INTEGER},
+      <if test="record.isDel != null">
+        is_del = #{record.isDel,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -206,14 +207,14 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update customer
-    set uuid = #{record.uuid,jdbcType=VARCHAR},
-      cid = #{record.cid,jdbcType=VARCHAR},
-      cname = #{record.cname,jdbcType=VARCHAR},
-      cartId = #{record.cartid,jdbcType=VARCHAR},
-      password = #{record.password,jdbcType=VARCHAR},
+    set customer_uuid = #{record.customerUuid,jdbcType=VARCHAR},
+      customer_id = #{record.customerId,jdbcType=VARCHAR},
+      customer_name = #{record.customerName,jdbcType=VARCHAR},
+      customer_cart_id = #{record.customerCartId,jdbcType=VARCHAR},
+      customer_password = #{record.customerPassword,jdbcType=VARCHAR},
       createTime = #{record.createtime,jdbcType=TIMESTAMP},
       updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
-      isDel = #{record.isdel,jdbcType=INTEGER}
+      is_del = #{record.isDel,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -221,17 +222,17 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.practice.starryfood.bean.Customer">
     update customer
     <set>
-      <if test="cid != null">
-        cid = #{cid,jdbcType=VARCHAR},
+      <if test="customerId != null">
+        customer_id = #{customerId,jdbcType=VARCHAR},
       </if>
-      <if test="cname != null">
-        cname = #{cname,jdbcType=VARCHAR},
+      <if test="customerName != null">
+        customer_name = #{customerName,jdbcType=VARCHAR},
       </if>
-      <if test="cartid != null">
-        cartId = #{cartid,jdbcType=VARCHAR},
+      <if test="customerCartId != null">
+        customer_cart_id = #{customerCartId,jdbcType=VARCHAR},
       </if>
-      <if test="password != null">
-        password = #{password,jdbcType=VARCHAR},
+      <if test="customerPassword != null">
+        customer_password = #{customerPassword,jdbcType=VARCHAR},
       </if>
       <if test="createtime != null">
         createTime = #{createtime,jdbcType=TIMESTAMP},
@@ -239,21 +240,21 @@
       <if test="updatetime != null">
         updateTime = #{updatetime,jdbcType=TIMESTAMP},
       </if>
-      <if test="isdel != null">
-        isDel = #{isdel,jdbcType=INTEGER},
+      <if test="isDel != null">
+        is_del = #{isDel,jdbcType=INTEGER},
       </if>
     </set>
-    where uuid = #{uuid,jdbcType=VARCHAR}
+    where customer_uuid = #{customerUuid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.practice.starryfood.bean.Customer">
     update customer
-    set cid = #{cid,jdbcType=VARCHAR},
-      cname = #{cname,jdbcType=VARCHAR},
-      cartId = #{cartid,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
+    set customer_id = #{customerId,jdbcType=VARCHAR},
+      customer_name = #{customerName,jdbcType=VARCHAR},
+      customer_cart_id = #{customerCartId,jdbcType=VARCHAR},
+      customer_password = #{customerPassword,jdbcType=VARCHAR},
       createTime = #{createtime,jdbcType=TIMESTAMP},
       updateTime = #{updatetime,jdbcType=TIMESTAMP},
-      isDel = #{isdel,jdbcType=INTEGER}
-    where uuid = #{uuid,jdbcType=VARCHAR}
+      is_del = #{isDel,jdbcType=INTEGER}
+    where customer_uuid = #{customerUuid,jdbcType=VARCHAR}
   </update>
 </mapper>

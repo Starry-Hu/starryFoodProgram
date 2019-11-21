@@ -25,7 +25,7 @@
         <input name="verifyCode" id="verifyCode" lay-verify="required" placeholder="验证码" type="text" class="layui-input">
         <a href="javascript:changeVerify()"><img id="verifyImg" src="#"></a>
         <hr class="hr15">
-        <p style="color:#B22222;">注意：验证码区分大小写！</p>
+        <p style="color:#B22222;">注意：验证码不区分大小写！</p>
         <hr class="hr15">
         <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit" id="submit">
         <hr class="hr20">
@@ -80,7 +80,6 @@
 
     function getVerifyCode() {
         var path = location.protocol + "//" + window.location.host + "/starryfood/verifyCode/get";
-        console.log(path);
         $("#verifyImg").attr('src',path);
     }
 </script>

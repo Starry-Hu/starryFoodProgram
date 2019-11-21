@@ -30,81 +30,72 @@ public class FoodController extends BaseController {
     private FoodService foodService;
 
     /**
-     * 添加菜品信息
-     *
-     * @param name        菜品名称
-     * @param price       单价
-     * @param measurement 计量单位
-     * @param introduce   简介
-     * @param img         图片
-     * @param createUser  创建者
-     * @return
-     * @throws Exception
-     */
+    * @Description: 添加菜品信息
+    * @Param: [foodName, foodPrice, foodMeasurement, foodIntroduce, foodImg, createUser]
+    * @return: com.practice.starryfood.util.BaseResponse
+    * @Author: StarryHu
+    * @Date: 2019/11/21
+    */
     @PostMapping("/add")
-    public BaseResponse addFood(String name, BigDecimal price, String measurement, String introduce,
-                                String img, String createUser) throws Exception {
+    public BaseResponse addFood(String foodName, BigDecimal foodPrice, String foodMeasurement, String foodIntroduce,
+                                String foodImg, String createUser) throws Exception {
         // 判断信息是否填写完全
-        if (name == null || price == null || measurement == null || name.trim().equals("")
-                || price.equals(0.0) || measurement.trim().equals(""))
+        if (foodName == null || foodPrice == null || foodMeasurement == null || foodName.trim().equals("")
+                || foodPrice.equals(0.0) || foodMeasurement.trim().equals(""))
             return ajaxFail(ResultEnum.FOOD_INFO_NOT_FULL);
         // 进行菜品添加
-        foodService.addFood(name, price, measurement, introduce, img, createUser);
+        foodService.addFood(foodName, foodPrice, foodMeasurement, foodIntroduce, foodImg, createUser);
         return ajaxSucc(null, ResultEnum.FOOD_ADD_SUCCESS);
     }
 
     /***
      * 删除菜品
-     * @param id 菜品id
+     * @param foodId 菜品id
      * @param updateUser 更新者
      * @return
      * @throws Exception
      */
     @GetMapping("/delete")
-    public BaseResponse deleteFood(String id, String updateUser) throws Exception {
+    public BaseResponse deleteFood(String foodId, String updateUser) throws Exception {
         // 判断信息是否填写完全
-        if (id == null || id.trim().equals("")) return ajaxFail(ResultEnum.FOOD_INFO_NOT_FULL);
+        if (foodId == null || foodId.trim().equals("")) return ajaxFail(ResultEnum.FOOD_INFO_NOT_FULL);
         // 进行删除
-        foodService.deleteFood(id, updateUser);
+        foodService.deleteFood(foodId, updateUser);
         return ajaxSucc(null, ResultEnum.FOOD_DELETE_SUCCESS);
     }
 
+
     /**
-     * 更新菜品
-     * @param fid
-     * @param name
-     * @param price
-     * @param measurement
-     * @param introduce
-     * @param img
-     * @param createUser
-     * @return
-     * @throws Exception
-     */
+    * @Description: 更新菜品信息（根据foodId获取到）
+    * @Param: [foodName, foodPrice, foodMeasurement, foodIntroduce, foodImg, updateUser]
+    * @return: com.practice.starryfood.util.BaseResponse
+    * @Author: StarryHu
+    * @Date: 2019/11/21
+    */
     @PostMapping("/update")
-    public BaseResponse updateFood(String fid,String name, BigDecimal price, String measurement, String introduce,
-                                String img, String createUser) throws Exception {
+    public BaseResponse updateFood(String foodId, String foodName, BigDecimal foodPrice, String foodMeasurement, String foodIntroduce,
+                                   String foodImg, String updateUser) throws Exception {
         // 判断信息是否填写完全
-        if (fid == null ||name == null || price == null || measurement == null || name.trim().equals("")
-                || fid.trim().equals("") || price.equals(0.0) || measurement.trim().equals(""))
+        if (foodId == null ||foodName == null || foodPrice == null || foodMeasurement == null || foodName.trim().equals("")
+                || foodId.trim().equals("") || foodPrice.equals(0.0) || foodMeasurement.trim().equals(""))
             return ajaxFail(ResultEnum.FOOD_INFO_NOT_FULL);
-        // 进行菜品添加
-        foodService.updateFood(fid,name, price, measurement, introduce, img, createUser);
+        // 进行菜品更新
+        foodService.updateFood(foodId,foodName, foodPrice, foodMeasurement, foodIntroduce, foodImg, updateUser);
         return ajaxSucc(null, ResultEnum.FOOD_UPDATE_SUCCESS);
     }
 
     /**
      * 根据菜品id获取菜品信息
-     * @param fid
+     * @param foodId
      * @return
      * @throws Exception
      */
     @GetMapping("/getFoodById")
-    public BaseResponse getFoodById(String fid) throws Exception{
+    public BaseResponse getFoodById(String foodId) throws Exception{
         // 判断信息是否填写完全
-        if (fid == null || fid.trim().equals(""))
+        if (foodId == null || foodId.trim().equals(""))
             return ajaxFail(ResultEnum.FOOD_INFO_NOT_FULL);
-        FoodExtend foodExtend = foodService.getFoodById(fid);
+        FoodExtend foodExtend = foodService.getFoodById(foodId);
         return ajaxSucc(foodExtend,ResultEnum.FOOD_SEARCH_SUCCESS);
     }
     /**

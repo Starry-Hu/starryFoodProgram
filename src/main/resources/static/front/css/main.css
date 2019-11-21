@@ -4,6 +4,7 @@
     display: inline-block;
     margin-left: 10px;
     float: right!important;
+    cursor: pointer;
 }
 
 /*购物车样式*/

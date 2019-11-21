@@ -105,333 +105,333 @@ public class OrderFoodExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andUuidIsNull() {
-            addCriterion("uuid is null");
+        public Criteria andOrderFoodUuidIsNull() {
+            addCriterion("order_food_uuid is null");
             return (Criteria) this;
         }
 
-        public Criteria andUuidIsNotNull() {
-            addCriterion("uuid is not null");
+        public Criteria andOrderFoodUuidIsNotNull() {
+            addCriterion("order_food_uuid is not null");
             return (Criteria) this;
         }
 
-        public Criteria andUuidEqualTo(String value) {
-            addCriterion("uuid =", value, "uuid");
+        public Criteria andOrderFoodUuidEqualTo(String value) {
+            addCriterion("order_food_uuid =", value, "orderFoodUuid");
             return (Criteria) this;
         }
 
-        public Criteria andUuidNotEqualTo(String value) {
-            addCriterion("uuid <>", value, "uuid");
+        public Criteria andOrderFoodUuidNotEqualTo(String value) {
+            addCriterion("order_food_uuid <>", value, "orderFoodUuid");
             return (Criteria) this;
         }
 
-        public Criteria andUuidGreaterThan(String value) {
-            addCriterion("uuid >", value, "uuid");
+        public Criteria andOrderFoodUuidGreaterThan(String value) {
+            addCriterion("order_food_uuid >", value, "orderFoodUuid");
             return (Criteria) this;
         }
 
-        public Criteria andUuidGreaterThanOrEqualTo(String value) {
-            addCriterion("uuid >=", value, "uuid");
+        public Criteria andOrderFoodUuidGreaterThanOrEqualTo(String value) {
+            addCriterion("order_food_uuid >=", value, "orderFoodUuid");
             return (Criteria) this;
         }
 
-        public Criteria andUuidLessThan(String value) {
-            addCriterion("uuid <", value, "uuid");
+        public Criteria andOrderFoodUuidLessThan(String value) {
+            addCriterion("order_food_uuid <", value, "orderFoodUuid");
             return (Criteria) this;
         }
 
-        public Criteria andUuidLessThanOrEqualTo(String value) {
-            addCriterion("uuid <=", value, "uuid");
+        public Criteria andOrderFoodUuidLessThanOrEqualTo(String value) {
+            addCriterion("order_food_uuid <=", value, "orderFoodUuid");
             return (Criteria) this;
         }
 
-        public Criteria andUuidLike(String value) {
-            addCriterion("uuid like", value, "uuid");
+        public Criteria andOrderFoodUuidLike(String value) {
+            addCriterion("order_food_uuid like", value, "orderFoodUuid");
             return (Criteria) this;
         }
 
-        public Criteria andUuidNotLike(String value) {
-            addCriterion("uuid not like", value, "uuid");
+        public Criteria andOrderFoodUuidNotLike(String value) {
+            addCriterion("order_food_uuid not like", value, "orderFoodUuid");
             return (Criteria) this;
         }
 
-        public Criteria andUuidIn(List<String> values) {
-            addCriterion("uuid in", values, "uuid");
+        public Criteria andOrderFoodUuidIn(List<String> values) {
+            addCriterion("order_food_uuid in", values, "orderFoodUuid");
             return (Criteria) this;
         }
 
-        public Criteria andUuidNotIn(List<String> values) {
-            addCriterion("uuid not in", values, "uuid");
+        public Criteria andOrderFoodUuidNotIn(List<String> values) {
+            addCriterion("order_food_uuid not in", values, "orderFoodUuid");
             return (Criteria) this;
         }
 
-        public Criteria andUuidBetween(String value1, String value2) {
-            addCriterion("uuid between", value1, value2, "uuid");
+        public Criteria andOrderFoodUuidBetween(String value1, String value2) {
+            addCriterion("order_food_uuid between", value1, value2, "orderFoodUuid");
             return (Criteria) this;
         }
 
-        public Criteria andUuidNotBetween(String value1, String value2) {
-            addCriterion("uuid not between", value1, value2, "uuid");
+        public Criteria andOrderFoodUuidNotBetween(String value1, String value2) {
+            addCriterion("order_food_uuid not between", value1, value2, "orderFoodUuid");
             return (Criteria) this;
         }
 
-        public Criteria andOrderidIsNull() {
-            addCriterion("orderId is null");
+        public Criteria andOrderIdIsNull() {
+            addCriterion("order_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andOrderidIsNotNull() {
-            addCriterion("orderId is not null");
+        public Criteria andOrderIdIsNotNull() {
+            addCriterion("order_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andOrderidEqualTo(String value) {
-            addCriterion("orderId =", value, "orderid");
+        public Criteria andOrderIdEqualTo(String value) {
+            addCriterion("order_id =", value, "orderId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderidNotEqualTo(String value) {
-            addCriterion("orderId <>", value, "orderid");
+        public Criteria andOrderIdNotEqualTo(String value) {
+            addCriterion("order_id <>", value, "orderId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderidGreaterThan(String value) {
-            addCriterion("orderId >", value, "orderid");
+        public Criteria andOrderIdGreaterThan(String value) {
+            addCriterion("order_id >", value, "orderId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderidGreaterThanOrEqualTo(String value) {
-            addCriterion("orderId >=", value, "orderid");
+        public Criteria andOrderIdGreaterThanOrEqualTo(String value) {
+            addCriterion("order_id >=", value, "orderId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderidLessThan(String value) {
-            addCriterion("orderId <", value, "orderid");
+        public Criteria andOrderIdLessThan(String value) {
+            addCriterion("order_id <", value, "orderId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderidLessThanOrEqualTo(String value) {
-            addCriterion("orderId <=", value, "orderid");
+        public Criteria andOrderIdLessThanOrEqualTo(String value) {
+            addCriterion("order_id <=", value, "orderId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderidLike(String value) {
-            addCriterion("orderId like", value, "orderid");
+        public Criteria andOrderIdLike(String value) {
+            addCriterion("order_id like", value, "orderId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderidNotLike(String value) {
-            addCriterion("orderId not like", value, "orderid");
+        public Criteria andOrderIdNotLike(String value) {
+            addCriterion("order_id not like", value, "orderId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderidIn(List<String> values) {
-            addCriterion("orderId in", values, "orderid");
+        public Criteria andOrderIdIn(List<String> values) {
+            addCriterion("order_id in", values, "orderId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderidNotIn(List<String> values) {
-            addCriterion("orderId not in", values, "orderid");
+        public Criteria andOrderIdNotIn(List<String> values) {
+            addCriterion("order_id not in", values, "orderId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderidBetween(String value1, String value2) {
-            addCriterion("orderId between", value1, value2, "orderid");
+        public Criteria andOrderIdBetween(String value1, String value2) {
+            addCriterion("order_id between", value1, value2, "orderId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderidNotBetween(String value1, String value2) {
-            addCriterion("orderId not between", value1, value2, "orderid");
+        public Criteria andOrderIdNotBetween(String value1, String value2) {
+            addCriterion("order_id not between", value1, value2, "orderId");
             return (Criteria) this;
         }
 
-        public Criteria andFoodidIsNull() {
-            addCriterion("foodId is null");
+        public Criteria andFoodIdIsNull() {
+            addCriterion("food_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andFoodidIsNotNull() {
-            addCriterion("foodId is not null");
+        public Criteria andFoodIdIsNotNull() {
+            addCriterion("food_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andFoodidEqualTo(String value) {
-            addCriterion("foodId =", value, "foodid");
+        public Criteria andFoodIdEqualTo(String value) {
+            addCriterion("food_id =", value, "foodId");
             return (Criteria) this;
         }
 
-        public Criteria andFoodidNotEqualTo(String value) {
-            addCriterion("foodId <>", value, "foodid");
+        public Criteria andFoodIdNotEqualTo(String value) {
+            addCriterion("food_id <>", value, "foodId");
             return (Criteria) this;
         }
 
-        public Criteria andFoodidGreaterThan(String value) {
-            addCriterion("foodId >", value, "foodid");
+        public Criteria andFoodIdGreaterThan(String value) {
+            addCriterion("food_id >", value, "foodId");
             return (Criteria) this;
         }
 
-        public Criteria andFoodidGreaterThanOrEqualTo(String value) {
-            addCriterion("foodId >=", value, "foodid");
+        public Criteria andFoodIdGreaterThanOrEqualTo(String value) {
+            addCriterion("food_id >=", value, "foodId");
             return (Criteria) this;
         }
 
-        public Criteria andFoodidLessThan(String value) {
-            addCriterion("foodId <", value, "foodid");
+        public Criteria andFoodIdLessThan(String value) {
+            addCriterion("food_id <", value, "foodId");
             return (Criteria) this;
         }
 
-        public Criteria andFoodidLessThanOrEqualTo(String value) {
-            addCriterion("foodId <=", value, "foodid");
+        public Criteria andFoodIdLessThanOrEqualTo(String value) {
+            addCriterion("food_id <=", value, "foodId");
             return (Criteria) this;
         }
 
-        public Criteria andFoodidLike(String value) {
-            addCriterion("foodId like", value, "foodid");
+        public Criteria andFoodIdLike(String value) {
+            addCriterion("food_id like", value, "foodId");
             return (Criteria) this;
         }
 
-        public Criteria andFoodidNotLike(String value) {
-            addCriterion("foodId not like", value, "foodid");
+        public Criteria andFoodIdNotLike(String value) {
+            addCriterion("food_id not like", value, "foodId");
             return (Criteria) this;
         }
 
-        public Criteria andFoodidIn(List<String> values) {
-            addCriterion("foodId in", values, "foodid");
+        public Criteria andFoodIdIn(List<String> values) {
+            addCriterion("food_id in", values, "foodId");
             return (Criteria) this;
         }
 
-        public Criteria andFoodidNotIn(List<String> values) {
-            addCriterion("foodId not in", values, "foodid");
+        public Criteria andFoodIdNotIn(List<String> values) {
+            addCriterion("food_id not in", values, "foodId");
             return (Criteria) this;
         }
 
-        public Criteria andFoodidBetween(String value1, String value2) {
-            addCriterion("foodId between", value1, value2, "foodid");
+        public Criteria andFoodIdBetween(String value1, String value2) {
+            addCriterion("food_id between", value1, value2, "foodId");
             return (Criteria) this;
         }
 
-        public Criteria andFoodidNotBetween(String value1, String value2) {
-            addCriterion("foodId not between", value1, value2, "foodid");
+        public Criteria andFoodIdNotBetween(String value1, String value2) {
+            addCriterion("food_id not between", value1, value2, "foodId");
             return (Criteria) this;
         }
 
-        public Criteria andFoodnumIsNull() {
-            addCriterion("foodNum is null");
+        public Criteria andFoodNumIsNull() {
+            addCriterion("food_num is null");
             return (Criteria) this;
         }
 
-        public Criteria andFoodnumIsNotNull() {
-            addCriterion("foodNum is not null");
+        public Criteria andFoodNumIsNotNull() {
+            addCriterion("food_num is not null");
             return (Criteria) this;
         }
 
-        public Criteria andFoodnumEqualTo(Integer value) {
-            addCriterion("foodNum =", value, "foodnum");
+        public Criteria andFoodNumEqualTo(Integer value) {
+            addCriterion("food_num =", value, "foodNum");
             return (Criteria) this;
         }
 
-        public Criteria andFoodnumNotEqualTo(Integer value) {
-            addCriterion("foodNum <>", value, "foodnum");
+        public Criteria andFoodNumNotEqualTo(Integer value) {
+            addCriterion("food_num <>", value, "foodNum");
             return (Criteria) this;
         }
 
-        public Criteria andFoodnumGreaterThan(Integer value) {
-            addCriterion("foodNum >", value, "foodnum");
+        public Criteria andFoodNumGreaterThan(Integer value) {
+            addCriterion("food_num >", value, "foodNum");
             return (Criteria) this;
         }
 
-        public Criteria andFoodnumGreaterThanOrEqualTo(Integer value) {
-            addCriterion("foodNum >=", value, "foodnum");
+        public Criteria andFoodNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("food_num >=", value, "foodNum");
             return (Criteria) this;
         }
 
-        public Criteria andFoodnumLessThan(Integer value) {
-            addCriterion("foodNum <", value, "foodnum");
+        public Criteria andFoodNumLessThan(Integer value) {
+            addCriterion("food_num <", value, "foodNum");
             return (Criteria) this;
         }
 
-        public Criteria andFoodnumLessThanOrEqualTo(Integer value) {
-            addCriterion("foodNum <=", value, "foodnum");
+        public Criteria andFoodNumLessThanOrEqualTo(Integer value) {
+            addCriterion("food_num <=", value, "foodNum");
             return (Criteria) this;
         }
 
-        public Criteria andFoodnumIn(List<Integer> values) {
-            addCriterion("foodNum in", values, "foodnum");
+        public Criteria andFoodNumIn(List<Integer> values) {
+            addCriterion("food_num in", values, "foodNum");
             return (Criteria) this;
         }
 
-        public Criteria andFoodnumNotIn(List<Integer> values) {
-            addCriterion("foodNum not in", values, "foodnum");
+        public Criteria andFoodNumNotIn(List<Integer> values) {
+            addCriterion("food_num not in", values, "foodNum");
             return (Criteria) this;
         }
 
-        public Criteria andFoodnumBetween(Integer value1, Integer value2) {
-            addCriterion("foodNum between", value1, value2, "foodnum");
+        public Criteria andFoodNumBetween(Integer value1, Integer value2) {
+            addCriterion("food_num between", value1, value2, "foodNum");
             return (Criteria) this;
         }
 
-        public Criteria andFoodnumNotBetween(Integer value1, Integer value2) {
-            addCriterion("foodNum not between", value1, value2, "foodnum");
+        public Criteria andFoodNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("food_num not between", value1, value2, "foodNum");
             return (Criteria) this;
         }
 
-        public Criteria andFoodonetotalpriceIsNull() {
-            addCriterion("foodOneTotalPrice is null");
+        public Criteria andFoodOneTotalPriceIsNull() {
+            addCriterion("food_one_total_price is null");
             return (Criteria) this;
         }
 
-        public Criteria andFoodonetotalpriceIsNotNull() {
-            addCriterion("foodOneTotalPrice is not null");
+        public Criteria andFoodOneTotalPriceIsNotNull() {
+            addCriterion("food_one_total_price is not null");
             return (Criteria) this;
         }
 
-        public Criteria andFoodonetotalpriceEqualTo(BigDecimal value) {
-            addCriterion("foodOneTotalPrice =", value, "foodonetotalprice");
+        public Criteria andFoodOneTotalPriceEqualTo(BigDecimal value) {
+            addCriterion("food_one_total_price =", value, "foodOneTotalPrice");
             return (Criteria) this;
         }
 
-        public Criteria andFoodonetotalpriceNotEqualTo(BigDecimal value) {
-            addCriterion("foodOneTotalPrice <>", value, "foodonetotalprice");
+        public Criteria andFoodOneTotalPriceNotEqualTo(BigDecimal value) {
+            addCriterion("food_one_total_price <>", value, "foodOneTotalPrice");
             return (Criteria) this;
         }
 
-        public Criteria andFoodonetotalpriceGreaterThan(BigDecimal value) {
-            addCriterion("foodOneTotalPrice >", value, "foodonetotalprice");
+        public Criteria andFoodOneTotalPriceGreaterThan(BigDecimal value) {
+            addCriterion("food_one_total_price >", value, "foodOneTotalPrice");
             return (Criteria) this;
         }
 
-        public Criteria andFoodonetotalpriceGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("foodOneTotalPrice >=", value, "foodonetotalprice");
+        public Criteria andFoodOneTotalPriceGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("food_one_total_price >=", value, "foodOneTotalPrice");
             return (Criteria) this;
         }
 
-        public Criteria andFoodonetotalpriceLessThan(BigDecimal value) {
-            addCriterion("foodOneTotalPrice <", value, "foodonetotalprice");
+        public Criteria andFoodOneTotalPriceLessThan(BigDecimal value) {
+            addCriterion("food_one_total_price <", value, "foodOneTotalPrice");
             return (Criteria) this;
         }
 
-        public Criteria andFoodonetotalpriceLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("foodOneTotalPrice <=", value, "foodonetotalprice");
+        public Criteria andFoodOneTotalPriceLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("food_one_total_price <=", value, "foodOneTotalPrice");
             return (Criteria) this;
         }
 
-        public Criteria andFoodonetotalpriceIn(List<BigDecimal> values) {
-            addCriterion("foodOneTotalPrice in", values, "foodonetotalprice");
+        public Criteria andFoodOneTotalPriceIn(List<BigDecimal> values) {
+            addCriterion("food_one_total_price in", values, "foodOneTotalPrice");
             return (Criteria) this;
         }
 
-        public Criteria andFoodonetotalpriceNotIn(List<BigDecimal> values) {
-            addCriterion("foodOneTotalPrice not in", values, "foodonetotalprice");
+        public Criteria andFoodOneTotalPriceNotIn(List<BigDecimal> values) {
+            addCriterion("food_one_total_price not in", values, "foodOneTotalPrice");
             return (Criteria) this;
         }
 
-        public Criteria andFoodonetotalpriceBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("foodOneTotalPrice between", value1, value2, "foodonetotalprice");
+        public Criteria andFoodOneTotalPriceBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("food_one_total_price between", value1, value2, "foodOneTotalPrice");
             return (Criteria) this;
         }
 
-        public Criteria andFoodonetotalpriceNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("foodOneTotalPrice not between", value1, value2, "foodonetotalprice");
+        public Criteria andFoodOneTotalPriceNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("food_one_total_price not between", value1, value2, "foodOneTotalPrice");
             return (Criteria) this;
         }
     }

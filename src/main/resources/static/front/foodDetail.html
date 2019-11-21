@@ -4,14 +4,13 @@
 <head>
     <meta charset="utf-8">
     <title>StarryFood</title>
-    <meta name="description" content="Free Responsive Html5 Css3 Templates ">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="css/zerogrid.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/lightbox.css">
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="css/menu.css">
-    <link rel="stylesheet" href="css/new.css">
+    <link rel="stylesheet" href="css/main.css">
     <style>
         .content-box.box-4 .post img {
             height: 300px !important;
@@ -89,21 +88,21 @@
     const path = location.protocol + "//" + window.location.host + "/starryfood";
 
     const str = window.location.href;
-    const fid = str.substr(str.indexOf('=') + 1);
+    const foodId = str.substr(str.indexOf('=') + 1);
 
     // 查找菜品信息显示
     $.ajax({
         type: "get",
-        url: path + "/food/getFoodById?fid=" + fid,
+        url: path + "/food/getFoodById?fid=" + foodId,
         dataType: "json",
         success: function (response) {
             // 获取成功
             if (response.code == 431) {
-                $('#foodImg').attr("src", response.data.img);
-                $('#foodName').text(response.data.fname + " - " + response.data.price + " 元 " + response
+                $('#foodImg').attr("src", response.data.foodImg);
+                $('#foodName').text(response.data.foodName + " - " + response.data.foodPrice + " 元 " + response
                     .data.measurement);
-                $('#hasSold').text("已售： " + response.data.hassold);
-                $('#foodIntroduce').text(response.data.introduce);
+                $('#hasSold').text("已售： " + response.data.foodHasSold);
+                $('#foodIntroduce').text(response.data.foodIntroduce);
             }
         }
     });
@@ -117,12 +116,12 @@
             for (let i = 0; i < response.data.length; i++) {
                 const element = response.data[i];
                 // 找到相同的菜品
-                if (element.foodid == fid) {
+                if (element.foodId == foodId) {
                     // 隐藏添加到购物车按钮
                     $('#tianjia1').css("display", "none");
                     // 显示当前菜品在购物车个数
                     $('#tianjia2').css("display", "block");
-                    $('#shu').text(element.foodnum);
+                    $('#shu').text(element.foodNum);
                     break;
                 }
             }
@@ -137,7 +136,7 @@
             type: "post",
             url: path + "/customer/addToCart",
             data: {
-                "foodId": fid,
+                "foodId": foodId,
                 "foodNum": newShu
             },
             dataType: "json",
@@ -160,9 +159,9 @@
         let newShu = parseInt($('#shu').text()) + 1;
         $.ajax({
             type: "post",
-            url: path + "/customer/addToCart",
+            url: path + "/customer/logined/addToCart",
             data: {
-                "foodId": fid,
+                "foodId": foodId,
                 "foodNum": newShu
             },
             dataType: "json",
@@ -188,7 +187,7 @@
             type: "post",
             url: path + "/customer/deleteFromCart",
             data: {
-                "foodId": fid,
+                "foodId": foodId,
                 "foodNum": newShu
             },
             dataType: "json",

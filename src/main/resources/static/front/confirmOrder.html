@@ -4,13 +4,12 @@
 <head>
     <meta charset="utf-8">
     <title>StarryFood - MyCartList</title>
-    <meta name="description" content="Free Responsive Html5 Css3 Templates ">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="css/zerogrid.css">
     <link rel="stylesheet" href="css/style.css">
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="css/menu.css">
-    <link rel="stylesheet" href="css/new.css">
+    <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/checkbox.min.css">
     <style>
         .content-box.box-4 .post .wrapper {
@@ -100,25 +99,25 @@
             for (let i = 0; i < response.data.length; i++) {
                 const element = response.data[i];
                 const contentBox = `<section class="content-box boxstyle-2 box-4">
-                <div class="zerogrid" id="content_${element.foodid}">
+                <div class="zerogrid" id="content_${element.foodId}">
                     <div class="row wrap-box">
                         <div class="post">
                             <div class="wrap-new">
                                 <div class="col-1-2">
-                                    <img src="${element.img}" />
+                                    <img src="${element.foodImg}" />
                                 </div>
                                 <div class="col-1-2">
                                     <div class="wrapper">
-                                        <h3 class="header">${element.fname}</h3>
-                                        <h3 class="header">单价 ： ${element.price} RMB
-                                            ${element.measurement}</h3>
+                                        <h3 class="header">${element.foodName}</h3>
+                                        <h3 class="header">单价 ： ${element.foodPrice} RMB
+                                            ${element.foodMeasurement}</h3>
                                         <div>
                                             <p class="tianjia2 header">
-                                                <a class="shu button">数量： ${element.foodnum}</a>
+                                                <a class="shu button">数量： ${element.foodNum}</a>
                                             </p>
                                         </div>
-                                        <h3 class="header" class="foodOneTotalPrice" id="onetotalprice_${element.foodid}" price="${element.price}">
-                                            该菜品总价： ${element.foodonetotalprice} RMB</h3>
+                                        <h3 class="header" class="foodOneTotalPrice" id="onetotalprice_${element.foodId}" price="${element.foodPrice}">
+                                            该菜品总价： ${element.foodOneTotalPrice} RMB</h3>
                                     </div>
                                 </div>
                             </div>
@@ -127,7 +126,7 @@
                 </div>
             </section>`;
                 wrapContent.append(contentBox);
-                sum += element.foodonetotalprice;
+                sum += element.foodOneTotalPrice;
             }
             $('#totalPrice').text("总价：" + sum + " RMB");
         }
@@ -137,17 +136,16 @@
     $('#makeOrder').click(function () {
         $.ajax({
             type: "post",
-            url: path + "/customer/makeOrder",
+            url: path + "/customer/logined/makeOrder",
             data: {
                 "foodIdList": foodIdList,
             },
             dataType: "json",
             success: function (response) {
-                // 显示信息
                 layer.open({
                     content: response.msg,
                     skin: 'msg',
-                    time: 2 //1秒后自动关闭
+                    time: 1.5
                 });
             }
         })

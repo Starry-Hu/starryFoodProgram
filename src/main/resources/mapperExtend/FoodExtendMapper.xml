@@ -5,41 +5,41 @@
     <!-- 获取全部菜品 -->
     <select id="getFoodById" parameterType="java.lang.String" resultType="com.practice.starryfood.pojo.FoodExtend">
      SELECT
-        A.fid,
-        A.fname,
-        A.price,
-        A.measurement,
-        A.hasSold,
-        A.introduce,
-        A.img,
+        A.food_id,
+        A.food_name,
+        A.food_price,
+        A.food_measurement,
+        A.food_has_sold,
+        A.food_introduce,
+        A.food_img,
         B.adminName AS createUser,
         C.adminName AS updateUser
     FROM
         food A
-        INNER JOIN admin B ON A.createUser = B.uuid
-        LEFT JOIN admin C ON A.updateuser = C.uuid
+        INNER JOIN admin B ON A.create_user = B.admin_uuid
+        LEFT JOIN admin C ON A.update_user = C.admin_uuid
     WHERE
-        A.isdel = 0
-        AND A.fid = #{fid}
+        A.is_del = 0
+        AND A.food_id = #{foodId}
     </select>
     <!-- 获取全部菜品 -->
     <select id="getAllFoods" resultType="com.practice.starryfood.pojo.FoodExtend">
      SELECT
-        A.fid,
-        A.fname,
-        A.price,
-        A.measurement,
-        A.hasSold,
-        A.introduce,
-        A.img,
-        B.adminName AS createUser,
-        C.adminName AS updateUser
+        A.food_id,
+        A.food_name,
+        A.food_price,
+        A.food_measurement,
+        A.food_has_sold,
+        A.food_introduce,
+        A.food_img,
+        B.admin_name AS create_user,
+        C.admin_name AS update_user
     FROM
         food A
-        INNER JOIN admin B ON A.createUser = B.uuid
-        LEFT JOIN admin C ON A.updateUser = C.uuid
+        INNER JOIN admin B ON A.create_user = B.admin_uuid
+        LEFT JOIN admin C ON A.update_user = C.admin_uuid
     WHERE
-        A.isDel = 0
+        A.is_del = 0
     </select>
 
 </mapper>

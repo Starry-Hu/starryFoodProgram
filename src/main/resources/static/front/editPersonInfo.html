@@ -3,119 +3,127 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="lib/layui/css/layui.css">
     <style>
-        .must::after {
-            content: "*";
-            color: red;
-            font-size: 14px;
+        form {
+            width: 400px;
+            margin: 30px auto;
         }
-
-        form .input-error {
-            border-color: #ec6e6e;
-            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
-            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
+        .layui-form-label {
+            width: 100px;
         }
-
-        /*未输入的提示信息*/
-        form span {
-            color: red;
-            font-size: 14px;
+        /* 重新设置表单的宽度 */
+        .layui-form-item .layui-input-inline {
+            width: 250px;
         }
     </style>
     <title>用户修改个人信息</title>
 </head>
 
 <body>
-<div id="main">
-    <div id="innerTop">
-        <button class="btn" onclick=javascript:history.back(-1);>返回</button>
-        <div>
-            <h3>修改个人信息</h3>
+<div>
+    <form id="editForm" class="layui-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label " for="customerId">用户账号</label>
+            <div class="layui-input-inline">
+                <input type="text" id="customerId" placeholder="请输入用户账号" disabled
+                       class="layui-input" style="background: #999999;opacity: 0.7">
+            </div>
         </div>
-    </div>
-    <form>
-        <div class="form-row">
-            <div class="form-group col-6" style="display: none">
-                <label for="cuuid" class="must">用户账号（<作为登录凭证>不可改</作为登录凭证>）</label>
-                <input type="text" class="form-control" id="cuuid">
-                <span style="display: none;">用户名不能为空</span>
+        <div class="layui-form-item">
+            <label class="layui-form-label " for="customerName">用户名</label>
+            <div class="layui-input-inline">
+                <input type="text" id="customerName" required placeholder="请输入用户名"
+                       autocomplete="off" class="layui-input">
             </div>
-            <div class="form-group col-6">
-                <label for="cname" class="must">用户名</label>
-                <input type="text" class="form-control" id="cname" placeholder="请输入账户昵称">
-                <span style="display: none;">用户名不能为空</span>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="oldPassword">原密码</label>
+            <div class="layui-input-inline">
+                <input type="text" id="oldPassword" required placeholder="请输入原密码"
+                       autocomplete="off" class="layui-input">
             </div>
-            <div class="form-group col-6">
-                <label for="oldPassword" class="must">原密码</label>
-                <input type="password" class="form-control" id="oldPassword" placeholder="请输入原密码">
-                <span style="display: none;">原密码不能为空！</span>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="newPassword1">新密码</label>
+            <div class="layui-input-inline">
+                <input type="password" id="newPassword1" required placeholder="请输入新密码"
+                       autocomplete="off" class="layui-input">
             </div>
-            <div class="form-group col-6">
-                <label for="password" class="must">新密码</label>
-                <input type="password" class="form-control" id="password" placeholder="请输入密码">
-                <span style="display: none;">新密码不能为空！</span>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="newPassword2">重复新密码</label>
+            <div class="layui-input-inline">
+                <input type="password" id="newPassword2" required placeholder="请再次输入新密码"
+                       autocomplete="off" class="layui-input">
             </div>
-            <div class="form-group col-6">
-                <label for="password2" class="must">再次输入新密码</label>
-                <input type="password" class="form-control" id="password2" placeholder="请再次输入密码">
-                <span style="display: none;">二次新密码不能为空！</span>
-            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"></label>
+            <button type="button" class="layui-btn" id="submit">立即提交</button>
         </div>
     </form>
-    <button class="btn btn-primary" id="submit">上传</button>
 </div>
 
 
 
-<script src="js/jquery-3.3.1.js"></script>
-
+<script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="lib/layui/layui.js"></script>
 <script type="text/javascript">
-    const path = location.protocol + "//" + window.location.host + "/starryfood";
-    // 获取当前登录用户原信息
-    $.ajax({
-        type: "get",
-        url: path + "/customer/getLoginedAdmin",
-        dataType: "json",
-        success: function (response) {
-            if (response.code == 0) {
-                $('#cuuid').val(response.data.cid);
-                $('#cname').val(response.data.cname);
-            }
-        }
-    }
+    layui.use(['layer'], function () {
+        const path = location.protocol + "//" + window.location.host + "/starryfood";
 
-    // 鼠标划开时检查必选项
-    $('#cname').blur(checkCname);
-    $('#oldPassword').blur(checkOldPsw);
-    $('#password').blur(checkPsw);
-    $('#password2').blur(checkPsw);
+        // 要修改信息用户uuid
+        let customerUuid;
 
-    $('input').on('focus', function () {
-        $(this).removeClass('input-error');
-    });
-
-    // 提交添加的新闻信息
-    $('#submit').click(function () {
-        if (checkCname() && checkOldPsw() && checkPsw()) {
-            $.ajax({
-                type: "post",
-                url: path + "/customer/editMyPassword",
-                data: {
-                    uuid: $('#cuuid').val(), // uuid 即上述id
-                    cname: $('#cname').val(),
-                    oldPassword: $('#oldPassword').val(),
-                    newPassword1: $('#password').val(),
-                    newPassword2: $('#password2').val(),
-                },
-                dataType: "json",
-                success: function (response) {
-                    alert(response.msg);
+        // 获取当前登录用户信息并填充
+        $.ajax({
+            type: "get",
+            url: path + "/customer/getLoginedCustomer",
+            dataType: "json",
+            success: function (response) {
+                // 成功则显示信息
+                if (response.code == '0') {
+                    customerUuid = response.data.customerUuid;
+                    $('#customerId').val(response.data.customerId);
+                    $('#customerName').val(response.data.customerName);
                 }
-            });
-        }
+            }
+        });
+
+        // 提交修改信息
+        $('#submit').click(function () {
+            const customerName = $('#customerName').val();
+            const oldPassword = $('#oldPassword').val();
+            const newPassword1 = $('#newPassword1').val();
+            const newPassword2 = $('#newPassword2').val();
+
+            if (customerName == '' || oldPassword == '' || newPassword1 == '' || newPassword2 == '') {
+                layer.msg('请将信息填写完全', {
+                    time: 1500,
+                })
+            } else {
+                // 提交信息到后台
+                $.ajax({
+                    type: "post",
+                    url: path + "/customer/editMyInfo",
+                    data: {
+                        customerUuid: customerUuid,
+                        customerName: customerName,
+                        oldPassword: oldPassword,
+                        newPassword1: newPassword1,
+                        newPassword2: newPassword2,
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        layer.msg(`${response.msg}`, {
+                            time: 1500,
+                        })
+                    }
+                });
+            }
+        })
     })
 </script>
 </body>

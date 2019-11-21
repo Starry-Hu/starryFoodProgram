@@ -3,53 +3,53 @@ package com.practice.starryfood.bean;
 import java.math.BigDecimal;
 
 public class OrderFood {
-    private String uuid;
+    private String orderFoodUuid;
 
-    private String orderid;
+    private String orderId;
 
-    private String foodid;
+    private String foodId;
 
-    private Integer foodnum;
+    private Integer foodNum;
 
-    private BigDecimal foodonetotalprice;
+    private BigDecimal foodOneTotalPrice;
 
-    public String getUuid() {
-        return uuid;
+    public String getOrderFoodUuid() {
+        return orderFoodUuid;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    public void setOrderFoodUuid(String orderFoodUuid) {
+        this.orderFoodUuid = orderFoodUuid;
     }
 
-    public String getOrderid() {
-        return orderid;
+    public String getOrderId() {
+        return orderId;
     }
 
-    public void setOrderid(String orderid) {
-        this.orderid = orderid;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
-    public String getFoodid() {
-        return foodid;
+    public String getFoodId() {
+        return foodId;
     }
 
-    public void setFoodid(String foodid) {
-        this.foodid = foodid;
+    public void setFoodId(String foodId) {
+        this.foodId = foodId;
     }
 
-    public Integer getFoodnum() {
-        return foodnum;
+    public Integer getFoodNum() {
+        return foodNum;
     }
 
-    public void setFoodnum(Integer foodnum) {
-        this.foodnum = foodnum;
+    public void setFoodNum(Integer foodNum) {
+        this.foodNum = foodNum;
     }
 
-    public BigDecimal getFoodonetotalprice() {
-        return foodonetotalprice;
+    public BigDecimal getFoodOneTotalPrice() {
+        return foodOneTotalPrice;
     }
 
-    public void setFoodonetotalprice(BigDecimal foodonetotalprice) {
-        this.foodonetotalprice = foodonetotalprice;
+    public void setFoodOneTotalPrice(BigDecimal foodOneTotalPrice) {
+        this.foodOneTotalPrice = foodOneTotalPrice;
     }
 }

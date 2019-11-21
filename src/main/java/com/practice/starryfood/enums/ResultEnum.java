@@ -31,11 +31,12 @@ public enum ResultEnum {
     CUSTOMER_ADD_SUCCESS(301,"添加用户成功"),
     CUSTOMER_DELETE_SUCCESS(311,"删除用户成功"),
     CUSTOMER_UPDATE_SUCCESS(321,"更新用户信息成功"),
-    CUSTOMER_SEARCH_SUCCESS(331,"查找成功"),
+    CUSTOMER_SEARCH_SUCCESS(331,"查找用户成功"),
     CUSTOMER_LOGIN_SUCCESS(341,"登录成功"),
     CUSTOMER_REGISTER_SUCCESS(351,"注册成功"),
 
-    CUSTOMER_NOT_LOGINED(398,"用户未登录！请先登录！"),
+    CUSTOMER_NOT_LOGINED(397,"用户未登录！请先登录！"),
+    CUSTOMER_NOT_SAME_PSWTWO(398,"两次输入密码不一致！"),
     CUSTOMER_INFO_NOT_FULL(399,"信息填写不完全"),
 
     // 菜品相关

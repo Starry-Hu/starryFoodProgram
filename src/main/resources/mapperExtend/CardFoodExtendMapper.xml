@@ -5,40 +5,40 @@
     <!-- 获取某购物车全部菜品 -->
     <select id="getFoodsFromCart" parameterType="java.lang.String" resultType="com.practice.starryfood.pojo.CartFoodExtend">
      SELECT
-        A.uuid,
-        A.cartId,
-        A.foodId,
-        A.foodNum,
-        A.foodOneTotalPrice,
-        B.fname,
-        B.price,
-        B.measurement,
-        B.img
+        A.cart_food_uuid,
+        A.cart_id,
+        A.food_id,
+        A.food_num,
+        A.food_one_total_price,
+        B.food_name,
+        B.food_price,
+        B.food_measurement,
+        B.food_img
     FROM
         `cart_food` A
-        INNER JOIN food B ON A.foodId = B.fid
+        INNER JOIN food B ON A.food_id = B.food_id
     WHERE
-        A.cartId = #{cartId}
+        A.cart_id = #{cartId}
     </select>
 
     <!-- 获取某购物车中某类菜品信息 -->
     <select id="getFoodFromCartByFid" resultType="com.practice.starryfood.pojo.CartFoodExtend">
      SELECT
-        A.uuid,
-        A.cartId,
-        A.foodId,
-        A.foodNum,
-        A.foodOneTotalPrice,
-        B.fname,
-        B.price,
-        B.measurement,
-        B.img
+        A.cart_food_uuid,
+        A.cart_id,
+        A.food_id,
+        A.food_num,
+        A.food_one_total_price,
+        B.food_name,
+        B.food_price,
+        B.food_measurement,
+        B.food_img
     FROM
         `cart_food` A
-        INNER JOIN food B ON A.foodId = B.fid
+        INNER JOIN food B ON A.food_id = B.food_id
     WHERE
-        A.cartId = #{cartId}
-        AND A.foodId = #{foodId}
+        A.cart_id = #{cartId}
+        AND A.food_id = #{foodId}
     </select>
 
 </mapper>

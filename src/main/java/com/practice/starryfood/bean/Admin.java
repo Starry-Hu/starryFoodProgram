@@ -3,93 +3,93 @@ package com.practice.starryfood.bean;
 import java.util.Date;
 
 public class Admin {
-    private String uuid;
+    private String adminUuid;
 
-    private String adminid;
+    private String adminId;
 
-    private String adminname;
+    private String adminName;
 
-    private String password;
+    private String adminPassword;
 
-    private Date createtime;
+    private Date createTime;
 
-    private Date updatetime;
+    private Date updateTime;
 
-    private String createuser;
+    private String createUser;
 
-    private String updateuser;
+    private String updateUser;
 
-    private Integer isdel;
+    private Integer isDel;
 
-    public String getUuid() {
-        return uuid;
+    public String getAdminUuid() {
+        return adminUuid;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    public void setAdminUuid(String adminUuid) {
+        this.adminUuid = adminUuid;
     }
 
-    public String getAdminid() {
-        return adminid;
+    public String getAdminId() {
+        return adminId;
     }
 
-    public void setAdminid(String adminid) {
-        this.adminid = adminid;
+    public void setAdminId(String adminId) {
+        this.adminId = adminId;
     }
 
-    public String getAdminname() {
-        return adminname;
+    public String getAdminName() {
+        return adminName;
     }
 
-    public void setAdminname(String adminname) {
-        this.adminname = adminname;
+    public void setAdminName(String adminName) {
+        this.adminName = adminName;
     }
 
-    public String getPassword() {
-        return password;
+    public String getAdminPassword() {
+        return adminPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setAdminPassword(String adminPassword) {
+        this.adminPassword = adminPassword;
     }
 
-    public Date getCreatetime() {
-        return createtime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
-    public Date getUpdatetime() {
-        return updatetime;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    public void setUpdatetime(Date updatetime) {
-        this.updatetime = updatetime;
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
-    public String getCreateuser() {
-        return createuser;
+    public String getCreateUser() {
+        return createUser;
     }
 
-    public void setCreateuser(String createuser) {
-        this.createuser = createuser;
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
     }
 
-    public String getUpdateuser() {
-        return updateuser;
+    public String getUpdateUser() {
+        return updateUser;
     }
 
-    public void setUpdateuser(String updateuser) {
-        this.updateuser = updateuser;
+    public void setUpdateUser(String updateUser) {
+        this.updateUser = updateUser;
     }
 
-    public Integer getIsdel() {
-        return isdel;
+    public Integer getIsDel() {
+        return isDel;
     }
 
-    public void setIsdel(Integer isdel) {
-        this.isdel = isdel;
+    public void setIsDel(Integer isDel) {
+        this.isDel = isDel;
     }
 }

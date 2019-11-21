@@ -9,13 +9,16 @@
     <link href="lib/layui/css/layui.css" rel="stylesheet" type="text/css"/>
 
     <style>
-        .layui-form-label {
-            width: 100px;
-        }
-
         form {
             width: 400px;
             margin: 30px auto;
+        }
+        .layui-form-label {
+            width: 100px;
+        }
+        /* 重新设置表单的宽度 */
+        .layui-form-item .layui-input-inline {
+            width: 250px;
         }
 
         .must:after {
@@ -23,6 +26,7 @@
             color: red;
             margin-left: 3px;
         }
+
     </style>
 </head>
 
@@ -32,29 +36,28 @@
         <div class="layui-form-item">
             <label class="layui-form-label must" for="fname">商品名称</label>
             <div class="layui-input-inline">
-                <input type="text" name="fname" id="fname" required placeholder="请输入商品名称"
+                <input type="text" id="fname" required placeholder="请输入商品名称"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label must" for="price">商品单价</label>
             <div class="layui-input-inline">
-                <input type="text" name="fname" id="price" required placeholder="请输入商品单价"
+                <input type="text" id="price" required placeholder="请输入商品单价"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label must" for="measurement">计量单位（如：/份）</label>
             <div class="layui-input-inline">
-                <input type="text" name="fname" id="measurement" required placeholder="请输入商品计量单位"
+                <input type="text" id="measurement" required placeholder="请输入商品计量单位"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label must" for="introduce">商品简介</label>
             <div class="layui-input-inline">
-                <input type="text" name="fname" id="introduce" required placeholder="请输入商品简介"
-                       autocomplete="off" class="layui-input">
+                <textarea id="introduce" placeholder="请输入商品简介" class="layui-textarea"></textarea>
             </div>
         </div>
         <div class="layui-form-item">
@@ -84,8 +87,7 @@
         const path = location.protocol + "//" + window.location.host + "/starryfood";
 
         const str = window.location.href;
-        const fid = str.substr(str.indexOf('=') + 1)
-        ;
+        const fid = str.substr(str.indexOf('=') + 1);
         // 获取原来的菜品信息进行回显
         $.ajax({
             type: "get",

@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.practice.starryfood.dao.OrderFoodMapper">
   <resultMap id="BaseResultMap" type="com.practice.starryfood.bean.OrderFood">
-    <id column="uuid" jdbcType="VARCHAR" property="uuid" />
-    <result column="orderId" jdbcType="VARCHAR" property="orderid" />
-    <result column="foodId" jdbcType="VARCHAR" property="foodid" />
-    <result column="foodNum" jdbcType="INTEGER" property="foodnum" />
-    <result column="foodOneTotalPrice" jdbcType="DECIMAL" property="foodonetotalprice" />
+    <id column="order_food_uuid" jdbcType="VARCHAR" property="orderFoodUuid" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="food_id" jdbcType="VARCHAR" property="foodId" />
+    <result column="food_num" jdbcType="INTEGER" property="foodNum" />
+    <result column="food_one_total_price" jdbcType="DECIMAL" property="foodOneTotalPrice" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    uuid, orderId, foodId, foodNum, foodOneTotalPrice
+    order_food_uuid, order_id, food_id, food_num, food_one_total_price
   </sql>
   <select id="selectByExample" parameterType="com.practice.starryfood.bean.OrderFoodExample" resultMap="BaseResultMap">
     select
@@ -88,11 +88,11 @@
     select 
     <include refid="Base_Column_List" />
     from order_food
-    where uuid = #{uuid,jdbcType=VARCHAR}
+    where order_food_uuid = #{orderFoodUuid,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from order_food
-    where uuid = #{uuid,jdbcType=VARCHAR}
+    where order_food_uuid = #{orderFoodUuid,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.practice.starryfood.bean.OrderFoodExample">
     delete from order_food
@@ -101,45 +101,45 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.practice.starryfood.bean.OrderFood">
-    insert into order_food (uuid, orderId, foodId, 
-      foodNum, foodOneTotalPrice)
-    values (#{uuid,jdbcType=VARCHAR}, #{orderid,jdbcType=VARCHAR}, #{foodid,jdbcType=VARCHAR}, 
-      #{foodnum,jdbcType=INTEGER}, #{foodonetotalprice,jdbcType=DECIMAL})
+    insert into order_food (order_food_uuid, order_id, food_id, 
+      food_num, food_one_total_price)
+    values (#{orderFoodUuid,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{foodId,jdbcType=VARCHAR}, 
+      #{foodNum,jdbcType=INTEGER}, #{foodOneTotalPrice,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="com.practice.starryfood.bean.OrderFood">
     insert into order_food
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="uuid != null">
-        uuid,
+      <if test="orderFoodUuid != null">
+        order_food_uuid,
       </if>
-      <if test="orderid != null">
-        orderId,
+      <if test="orderId != null">
+        order_id,
       </if>
-      <if test="foodid != null">
-        foodId,
+      <if test="foodId != null">
+        food_id,
       </if>
-      <if test="foodnum != null">
-        foodNum,
+      <if test="foodNum != null">
+        food_num,
       </if>
-      <if test="foodonetotalprice != null">
-        foodOneTotalPrice,
+      <if test="foodOneTotalPrice != null">
+        food_one_total_price,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="uuid != null">
-        #{uuid,jdbcType=VARCHAR},
+      <if test="orderFoodUuid != null">
+        #{orderFoodUuid,jdbcType=VARCHAR},
       </if>
-      <if test="orderid != null">
-        #{orderid,jdbcType=VARCHAR},
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
       </if>
-      <if test="foodid != null">
-        #{foodid,jdbcType=VARCHAR},
+      <if test="foodId != null">
+        #{foodId,jdbcType=VARCHAR},
       </if>
-      <if test="foodnum != null">
-        #{foodnum,jdbcType=INTEGER},
+      <if test="foodNum != null">
+        #{foodNum,jdbcType=INTEGER},
       </if>
-      <if test="foodonetotalprice != null">
-        #{foodonetotalprice,jdbcType=DECIMAL},
+      <if test="foodOneTotalPrice != null">
+        #{foodOneTotalPrice,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -152,20 +152,20 @@
   <update id="updateByExampleSelective" parameterType="map">
     update order_food
     <set>
-      <if test="record.uuid != null">
-        uuid = #{record.uuid,jdbcType=VARCHAR},
+      <if test="record.orderFoodUuid != null">
+        order_food_uuid = #{record.orderFoodUuid,jdbcType=VARCHAR},
       </if>
-      <if test="record.orderid != null">
-        orderId = #{record.orderid,jdbcType=VARCHAR},
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=VARCHAR},
       </if>
-      <if test="record.foodid != null">
-        foodId = #{record.foodid,jdbcType=VARCHAR},
+      <if test="record.foodId != null">
+        food_id = #{record.foodId,jdbcType=VARCHAR},
       </if>
-      <if test="record.foodnum != null">
-        foodNum = #{record.foodnum,jdbcType=INTEGER},
+      <if test="record.foodNum != null">
+        food_num = #{record.foodNum,jdbcType=INTEGER},
       </if>
-      <if test="record.foodonetotalprice != null">
-        foodOneTotalPrice = #{record.foodonetotalprice,jdbcType=DECIMAL},
+      <if test="record.foodOneTotalPrice != null">
+        food_one_total_price = #{record.foodOneTotalPrice,jdbcType=DECIMAL},
       </if>
     </set>
     <if test="_parameter != null">
@@ -174,11 +174,11 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update order_food
-    set uuid = #{record.uuid,jdbcType=VARCHAR},
-      orderId = #{record.orderid,jdbcType=VARCHAR},
-      foodId = #{record.foodid,jdbcType=VARCHAR},
-      foodNum = #{record.foodnum,jdbcType=INTEGER},
-      foodOneTotalPrice = #{record.foodonetotalprice,jdbcType=DECIMAL}
+    set order_food_uuid = #{record.orderFoodUuid,jdbcType=VARCHAR},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
+      food_id = #{record.foodId,jdbcType=VARCHAR},
+      food_num = #{record.foodNum,jdbcType=INTEGER},
+      food_one_total_price = #{record.foodOneTotalPrice,jdbcType=DECIMAL}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -186,27 +186,27 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.practice.starryfood.bean.OrderFood">
     update order_food
     <set>
-      <if test="orderid != null">
-        orderId = #{orderid,jdbcType=VARCHAR},
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
       </if>
-      <if test="foodid != null">
-        foodId = #{foodid,jdbcType=VARCHAR},
+      <if test="foodId != null">
+        food_id = #{foodId,jdbcType=VARCHAR},
       </if>
-      <if test="foodnum != null">
-        foodNum = #{foodnum,jdbcType=INTEGER},
+      <if test="foodNum != null">
+        food_num = #{foodNum,jdbcType=INTEGER},
       </if>
-      <if test="foodonetotalprice != null">
-        foodOneTotalPrice = #{foodonetotalprice,jdbcType=DECIMAL},
+      <if test="foodOneTotalPrice != null">
+        food_one_total_price = #{foodOneTotalPrice,jdbcType=DECIMAL},
       </if>
     </set>
-    where uuid = #{uuid,jdbcType=VARCHAR}
+    where order_food_uuid = #{orderFoodUuid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.practice.starryfood.bean.OrderFood">
     update order_food
-    set orderId = #{orderid,jdbcType=VARCHAR},
-      foodId = #{foodid,jdbcType=VARCHAR},
-      foodNum = #{foodnum,jdbcType=INTEGER},
-      foodOneTotalPrice = #{foodonetotalprice,jdbcType=DECIMAL}
-    where uuid = #{uuid,jdbcType=VARCHAR}
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      food_id = #{foodId,jdbcType=VARCHAR},
+      food_num = #{foodNum,jdbcType=INTEGER},
+      food_one_total_price = #{foodOneTotalPrice,jdbcType=DECIMAL}
+    where order_food_uuid = #{orderFoodUuid,jdbcType=VARCHAR}
   </update>
 </mapper>

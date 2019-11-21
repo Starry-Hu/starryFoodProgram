@@ -4,7 +4,6 @@
 <head>
     <meta charset="utf-8">
     <title>StarryFood</title>
-    <meta name="description" content="Free Responsive Html5 Css3 Templates ">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="css/style.css">
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -24,15 +23,12 @@
         <div class="wrap-container">
             <form name="forms" class="login-cont">
                 <ul>
-                    <li><input type="text" placeholder="请输入您的账号（作为登录 唯一性）" id="cid"></li>
-                    <li><input type="text" placeholder="请输入您的账号昵称" id="cname"></li>
+                    <li><input type="text" placeholder="请输入您的账号（作为登录 唯一性）" id="customerId"></li>
+                    <li><input type="text" placeholder="请输入您的账号昵称" id="customerName"></li>
                     <li><input type="password" id="password1" placeholder="请输入您的密码"></li>
                     <li><input type="password" id="password2" placeholder="请再次输入您的密码"></li>
                 </ul>
-                <a href="javascript:;" class="button text-center block" id="submit">登 录</a>
-                <a href="javascript:;" class="text-center block font-color">忘记密码？</a>
-                <p class="text-center" style="color: #fff">没有账号？ <a href="register.html" target="_Blank"
-                                                                    class="font-color">立即注册</a></p>
+                <a href="javascript:;" class="button text-center block" id="register">注 册</a>
             </form>
         </div>
     </section>
@@ -53,25 +49,26 @@
 <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="js/layer_mobile/layer.js"></script>
 <script type="text/javascript">
-    // 点击登录
-    $('#submit').click(function () {
-        var cid = $('#cid').val();
-        var cname = $('#cname').val();
-        var password1 = $('#password1').val();
-        var password2 = $('#password2').val();
-        if (cid == '' || cname == '' || password1 == '' || password2 == '') {
+    // 点击注册
+    $('#register').click(function () {
+        const customerId = $('#customerId').val();
+        const customerName = $('#customerName').val();
+        const password1 = $('#password1').val();
+        const password2 = $('#password2').val();
+        if (customerId == '' || customerName == '' || password1 == '' || password2== '') {
             //提示层msg
             layer.open({
                 content: '请将信息填写完全！',
                 skin: 'msg',
-                time: 2 //2秒后自动关闭
+                time: 1.5
             });
-        } if (password1 != password2) {
+            return;
+        } else if (password1 != password2) {
             //提示层msg
             layer.open({
                 content: '两次输入密码不一致！',
                 skin: 'msg',
-                time: 2 //2秒后自动关闭
+                time: 1.5
             });
         } else {
             var path = location.protocol + "//" + window.location.host + "/starryfood/customer/register";
@@ -79,9 +76,9 @@
                 type: "post",
                 url: path,
                 data: {
-                    "cid": cid,
-                    "cname": cname,
-                    "password": password1
+                    "customerId": customerId,
+                    "customerName": customerName,
+                    "customerPassword": password1
                 },
                 dataType: "json",
                 success: function (response) {
@@ -89,7 +86,7 @@
                     layer.open({
                         content: response.msg,
                         skin: 'msg',
-                        time: 2 //1秒后自动关闭
+                        time: 1.5
                     });
                     if (response.code == 351) {
                         // 注册成功跳转

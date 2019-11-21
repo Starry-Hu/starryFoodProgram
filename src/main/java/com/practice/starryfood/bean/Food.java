@@ -4,17 +4,17 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class Food {
-    private String fid;
+    private String foodId;
 
-    private String fname;
+    private String foodName;
 
-    private BigDecimal price;
+    private BigDecimal foodPrice;
 
-    private String measurement;
+    private String foodMeasurement;
 
-    private String img;
+    private String foodImg;
 
-    private Integer hassold;
+    private Integer foodHasSold;
 
     private Date createtime;
 
@@ -24,56 +24,56 @@ public class Food {
 
     private String updateuser;
 
-    private Integer isdel;
+    private Integer isDel;
 
-    private String introduce;
+    private String foodIntroduce;
 
-    public String getFid() {
-        return fid;
+    public String getFoodId() {
+        return foodId;
     }
 
-    public void setFid(String fid) {
-        this.fid = fid;
+    public void setFoodId(String foodId) {
+        this.foodId = foodId;
     }
 
-    public String getFname() {
-        return fname;
+    public String getFoodName() {
+        return foodName;
     }
 
-    public void setFname(String fname) {
-        this.fname = fname;
+    public void setFoodName(String foodName) {
+        this.foodName = foodName;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public BigDecimal getFoodPrice() {
+        return foodPrice;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setFoodPrice(BigDecimal foodPrice) {
+        this.foodPrice = foodPrice;
     }
 
-    public String getMeasurement() {
-        return measurement;
+    public String getFoodMeasurement() {
+        return foodMeasurement;
     }
 
-    public void setMeasurement(String measurement) {
-        this.measurement = measurement;
+    public void setFoodMeasurement(String foodMeasurement) {
+        this.foodMeasurement = foodMeasurement;
     }
 
-    public String getImg() {
-        return img;
+    public String getFoodImg() {
+        return foodImg;
     }
 
-    public void setImg(String img) {
-        this.img = img;
+    public void setFoodImg(String foodImg) {
+        this.foodImg = foodImg;
     }
 
-    public Integer getHassold() {
-        return hassold;
+    public Integer getFoodHasSold() {
+        return foodHasSold;
     }
 
-    public void setHassold(Integer hassold) {
-        this.hassold = hassold;
+    public void setFoodHasSold(Integer foodHasSold) {
+        this.foodHasSold = foodHasSold;
     }
 
     public Date getCreatetime() {
@@ -108,19 +108,19 @@ public class Food {
         this.updateuser = updateuser;
     }
 
-    public Integer getIsdel() {
-        return isdel;
+    public Integer getIsDel() {
+        return isDel;
     }
 
-    public void setIsdel(Integer isdel) {
-        this.isdel = isdel;
+    public void setIsDel(Integer isDel) {
+        this.isDel = isDel;
     }
 
-    public String getIntroduce() {
-        return introduce;
+    public String getFoodIntroduce() {
+        return foodIntroduce;
     }
 
-    public void setIntroduce(String introduce) {
-        this.introduce = introduce;
+    public void setFoodIntroduce(String foodIntroduce) {
+        this.foodIntroduce = foodIntroduce;
     }
 }

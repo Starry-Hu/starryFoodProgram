@@ -4,13 +4,12 @@
 <head>
     <meta charset="utf-8">
     <title>StarryFood - MyCartList</title>
-    <meta name="description" content="Free Responsive Html5 Css3 Templates ">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="css/zerogrid.css">
     <link rel="stylesheet" href="css/style.css">
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="css/menu.css">
-    <link rel="stylesheet" href="css/new.css">
+    <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/checkbox.min.css">
     <style>
         .content-box.box-4 .post .wrapper {
@@ -90,38 +89,38 @@
     // 获取购物车信息
     $.ajax({
         type: "get",
-        url: path + "/customer/getCartLogined",
+        url: path + "/customer/logined/getCart",
         dataType: "json",
         success: function (response) {
             const wrapContent = $('#wrapContent');
             for (let i = 0; i < response.data.length; i++) {
                 const element = response.data[i];
                 const contentBox = `<section class="content-box boxstyle-2 box-4">
-                <div class="zerogrid" id="content_${element.foodid}">
+                <div class="zerogrid" id="content_${element.foodId}">
                     <div class="row wrap-box">
                         <div class="post">
                             <div class="wrap-new">
                                 <div class="checkFood el-checkbox el-checkbox-yellow el-checkbox-lg">
-                                    <input type="checkbox" id="checkbox${i}" name="check" value="${element.foodid}">
+                                    <input type="checkbox" id="checkbox${i}" name="check" value="${element.foodId}">
                                     <label for="checkbox${i}" class="el-checkbox-style"></label>
                                 </div>
                                 <div class="col-1-2">
-                                    <img src="${element.img}" />
+                                    <img src="${element.foodImg}" />
                                 </div>
                                 <div class="col-1-2">
                                     <div class="wrapper">
-                                        <h3 class="header">${element.fname}</h3>
-                                        <h3 class="header" id="price_${element.foodid}">单价 ： ${element.price} RMB
-                                            ${element.measurement}</h3>
+                                        <h3 class="header">${element.foodName}</h3>
+                                        <h3 class="header" id="price_${element.foodid}">单价 ： ${element.foodPrice} RMB
+                                            ${element.foodMeasurement}</h3>
                                         <div>
                                             <p class="tianjia2">
-                                                <a class="jia button" onclick="addShu(${element.foodid})">+</a>
-                                                <a class="shu button" id="shu_${element.foodid}">${element.foodnum}</a>
-                                                <a class="jian button" onclick="deleteShu(${element.foodid})">-</a>
+                                                <a class="jia button" onclick="addShu(${element.foodId})">+</a>
+                                                <a class="shu button" id="shu_${element.foodId}">${element.foodNum}</a>
+                                                <a class="jian button" onclick="deleteShu(${element.foodId})">-</a>
                                             </p>
                                         </div>
-                                        <h3 class="header" class="foodOneTotalPrice" id="onetotalprice_${element.foodid}" price="${element.price}">
-                                            该菜品总价： ${element.foodonetotalprice} RMB</h3>
+                                        <h3 class="header" class="foodOneTotalPrice" id="onetotalprice_${element.foodId}" price="${element.foodPrice}">
+                                            该菜品总价： ${element.foodOneTotalPrice} RMB</h3>
                                     </div>
                                 </div>
                             </div>
@@ -135,12 +134,12 @@
     });
 
     // 添加商品数量
-    function addShu(fid) {
-        let nodeName = "#shu_" + fid;
+    function addShu(foodId) {
+        let nodeName = "#shu_" + foodId;
         // 获取对应数节点
         const shuNode = $(nodeName);
         // 获取对应的价格节点
-        nodeName = "#onetotalprice_" + fid;
+        nodeName = "#onetotalprice_" + foodId;
         const oneTotalPriceNode = $(nodeName);
         // 计算新数
         let newShu = parseInt(shuNode.text()) + 1;
@@ -150,9 +149,9 @@
         let newTotalPrice = newShu * price;
         $.ajax({
             type: "post",
-            url: path + "/customer/addToCart",
+            url: path + "/customer/logined/addToCart",
             data: {
-                "foodId": fid,
+                "foodId": foodId,
                 "foodNum": newShu
             },
             dataType: "json",
@@ -171,12 +170,12 @@
     }
 
     // 删除商品数量
-    function deleteShu(fid) {
-        let nodeName = "#shu_" + fid;
+    function deleteShu(foodId) {
+        let nodeName = "#shu_" + foodId;
         // 获取对应数节点
         const shuNode = $(nodeName);
         // 获取对应的价格节点
-        nodeName = "#onetotalprice_" + fid;
+        nodeName = "#onetotalprice_" + foodId;
         const oneTotalPriceNode = $(nodeName);
         // 计算新数
         let newShu = parseInt(shuNode.text()) - 1;
@@ -187,9 +186,9 @@
 
         $.ajax({
             type: "post",
-            url: path + "/customer/deleteFromCart",
+            url: path + "/customer/logined/deleteFromCart",
             data: {
-                "foodId": fid,
+                "foodId": foodId,
                 "foodNum": newShu
             },
             dataType: "json ",

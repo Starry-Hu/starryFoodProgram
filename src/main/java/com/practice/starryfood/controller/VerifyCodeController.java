@@ -22,7 +22,7 @@ import java.awt.image.BufferedImage;
 @RequestMapping("verifyCode")
 public class VerifyCodeController extends BaseController{
     @Autowired
-    VerifyCodeService verifyCodeService;
+    private VerifyCodeService verifyCodeService;
 
     /***
     * @Description: 获取验证码图片
@@ -35,9 +35,8 @@ public class VerifyCodeController extends BaseController{
     BaseResponse get(HttpServletRequest request, HttpServletResponse response) throws Exception {
         // 生成图片
         BufferedImage image = verifyCodeService.getImage();
-        // 保存文本内容
-        request.getSession().setAttribute("verify-code", verifyCodeService.getText());
-        System.out.println(request.getSession().getAttribute("verify-code") + "刚放进去");
+        // 保存文本内容(小写)
+        request.getSession().setAttribute("verify-code", verifyCodeService.getText().toLowerCase());
         // 输出图片
         ImageIO.write(image, "JPEG", response.getOutputStream());
         return ajaxSucc(null, ResultEnum.SUCCESS);

@@ -3,53 +3,53 @@ package com.practice.starryfood.bean;
 import java.math.BigDecimal;
 
 public class CartFood {
-    private String uuid;
+    private String cartFoodUuid;
 
-    private String cartid;
+    private String cartId;
 
-    private String foodid;
+    private String foodId;
 
-    private Integer foodnum;
+    private Integer foodNum;
 
-    private BigDecimal foodonetotalprice;
+    private BigDecimal foodOneTotalPrice;
 
-    public String getUuid() {
-        return uuid;
+    public String getCartFoodUuid() {
+        return cartFoodUuid;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    public void setCartFoodUuid(String cartFoodUuid) {
+        this.cartFoodUuid = cartFoodUuid;
     }
 
-    public String getCartid() {
-        return cartid;
+    public String getCartId() {
+        return cartId;
     }
 
-    public void setCartid(String cartid) {
-        this.cartid = cartid;
+    public void setCartId(String cartId) {
+        this.cartId = cartId;
     }
 
-    public String getFoodid() {
-        return foodid;
+    public String getFoodId() {
+        return foodId;
     }
 
-    public void setFoodid(String foodid) {
-        this.foodid = foodid;
+    public void setFoodId(String foodId) {
+        this.foodId = foodId;
     }
 
-    public Integer getFoodnum() {
-        return foodnum;
+    public Integer getFoodNum() {
+        return foodNum;
     }
 
-    public void setFoodnum(Integer foodnum) {
-        this.foodnum = foodnum;
+    public void setFoodNum(Integer foodNum) {
+        this.foodNum = foodNum;
     }
 
-    public BigDecimal getFoodonetotalprice() {
-        return foodonetotalprice;
+    public BigDecimal getFoodOneTotalPrice() {
+        return foodOneTotalPrice;
     }
 
-    public void setFoodonetotalprice(BigDecimal foodonetotalprice) {
-        this.foodonetotalprice = foodonetotalprice;
+    public void setFoodOneTotalPrice(BigDecimal foodOneTotalPrice) {
+        this.foodOneTotalPrice = foodOneTotalPrice;
     }
 }

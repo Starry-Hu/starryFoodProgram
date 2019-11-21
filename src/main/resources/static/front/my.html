@@ -4,14 +4,13 @@
 <head>
     <meta charset="utf-8">
     <title>StarryFood</title>
-    <meta name="description" content="Free Responsive Html5 Css3 Templates ">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="css/zerogrid.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/lightbox.css">
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="css/menu.css">
-    <link rel="stylesheet" href="css/new.css">
+    <link rel="stylesheet" href="css/main.css">
 </head>
 
 <body>
@@ -82,21 +81,21 @@
 <script src="js/script.js"></script>
 
 <script>
-    var str = window.location.href;
-    var foodid = str.substr(str.indexOf('=') + 1);
+    const str = window.location.href;
+    const foodId = str.substr(str.indexOf('=') + 1);
 
     // 查找菜品信息显示
     $.ajax({
         type: "get",
-        url: path + "/food/getFoodById",
+        url: path + "/food/getFoodById?foodId=" + foodId,
         dataType: "json",
         success: function (response) {
             // if(response.code == 200){
 
             // }
-            $('#foodImg').attr("src", response.data.img);
-            $('#foodName').text(response.data.name + response.data.price + response.data.measurement);
-            $('#foodIntroduce').text(response.data.introduce);
+            $('#foodImg').attr("src", response.data.foodImg);
+            $('#foodName').text(response.data.foodName + response.data.foodPrice + response.data.foodMeasurement);
+            $('#foodIntroduce').text(response.data.foodIntroduce);
         }
     });
 </script>

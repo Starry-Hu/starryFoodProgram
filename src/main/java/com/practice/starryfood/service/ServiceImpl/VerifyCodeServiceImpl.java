@@ -30,18 +30,18 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
      * @Author: StarryHu
      * @Date: 2019/10/24
      */
-    public BufferedImage getImage () {
+    public BufferedImage getImage() {
         BufferedImage image = createImage();
-        Graphics2D g2 = (Graphics2D)image.getGraphics();
+        Graphics2D g2 = (Graphics2D) image.getGraphics();
         StringBuilder sb = new StringBuilder();
         // 向图片中画4个字符
-        for(int i = 0; i < 4; i++)  {
+        for (int i = 0; i < 4; i++) {
             String s = randomChar() + "";
             sb.append(s);
             float x = i * 1.0F * verifyCode.getW() / 4;
             g2.setFont(randomFont());
             g2.setColor(randomColor());
-            g2.drawString(s, x, verifyCode.getH()-5);
+            g2.drawString(s, x, verifyCode.getH() - 5);
         }
         verifyCode.setText(sb.toString());
         drawLine(image);
@@ -55,25 +55,12 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
      * @Author: StarryHu
      * @Date: 2019/10/24
      */
-    public String getText () {
+    public String getText() {
         return verifyCode.getText();
     }
 
-    /***
-     * @Description: 输出图片
-     * @Param: [image, out]
-     * @return: void
-     * @Author: StarryHu
-     * @Date: 2019/10/24
-     */
-    public static void output (BufferedImage image, OutputStream out)
-            throws IOException {
-
-    }
-
-
     // 随机设置颜色
-    private Color randomColor () {
+    private Color randomColor() {
         int red = random.nextInt(150);
         int green = random.nextInt(150);
         int blue = random.nextInt(150);
@@ -81,7 +68,7 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
     }
 
     // 随机设置字体
-    private Font randomFont () {
+    private Font randomFont() {
         String fontName[] = verifyCode.getFontNames();
         int index = random.nextInt(fontName.length);
         String oneFontName = fontName[index];
@@ -91,10 +78,10 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
     }
 
     // 设置干扰线
-    private void drawLine (BufferedImage image) {
-        int num  = 3;
-        Graphics2D g2 = (Graphics2D)image.getGraphics();
-        for(int i = 0; i < num; i++) {
+    private void drawLine(BufferedImage image) {
+        int num = 3;
+        Graphics2D g2 = (Graphics2D) image.getGraphics();
+        for (int i = 0; i < num; i++) {
             int w = verifyCode.getW();
             int h = verifyCode.getH();
 
@@ -109,16 +96,16 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
     }
 
     // 随机设置字符
-    private char randomChar () {
+    private char randomChar() {
         String codes = verifyCode.getCodes();
         int index = random.nextInt(codes.length());
         return codes.charAt(index);
     }
 
     // 根据相关参数，创建图片
-    private BufferedImage createImage () {
+    private BufferedImage createImage() {
         BufferedImage image = new BufferedImage(verifyCode.getW(), verifyCode.getH(), BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2 = (Graphics2D)image.getGraphics();
+        Graphics2D g2 = (Graphics2D) image.getGraphics();
         g2.setColor(verifyCode.getBgColor());
         g2.fillRect(0, 0, verifyCode.getW(), verifyCode.getH());
         return image;

@@ -2,20 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.practice.starryfood.dao.FoodMapper">
   <resultMap id="BaseResultMap" type="com.practice.starryfood.bean.Food">
-    <id column="fid" jdbcType="VARCHAR" property="fid" />
-    <result column="fname" jdbcType="VARCHAR" property="fname" />
-    <result column="price" jdbcType="DECIMAL" property="price" />
-    <result column="measurement" jdbcType="VARCHAR" property="measurement" />
-    <result column="img" jdbcType="VARCHAR" property="img" />
-    <result column="hasSold" jdbcType="INTEGER" property="hassold" />
+    <id column="food_id" jdbcType="VARCHAR" property="foodId" />
+    <result column="food_name" jdbcType="VARCHAR" property="foodName" />
+    <result column="food_price" jdbcType="DECIMAL" property="foodPrice" />
+    <result column="food_measurement" jdbcType="VARCHAR" property="foodMeasurement" />
+    <result column="food_img" jdbcType="VARCHAR" property="foodImg" />
+    <result column="food_has_sold" jdbcType="INTEGER" property="foodHasSold" />
     <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
     <result column="createUser" jdbcType="VARCHAR" property="createuser" />
     <result column="updateUser" jdbcType="VARCHAR" property="updateuser" />
-    <result column="isDel" jdbcType="INTEGER" property="isdel" />
+    <result column="is_del" jdbcType="INTEGER" property="isDel" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.practice.starryfood.bean.Food">
-    <result column="introduce" jdbcType="LONGVARCHAR" property="introduce" />
+    <result column="food_introduce" jdbcType="LONGVARCHAR" property="foodIntroduce" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -76,11 +76,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    fid, fname, price, measurement, img, hasSold, createTime, updateTime, createUser, 
-    updateUser, isDel
+    food_id, food_name, food_price, food_measurement, food_img, food_has_sold, createTime, 
+    updateTime, createUser, updateUser, is_del
   </sql>
   <sql id="Blob_Column_List">
-    introduce
+    food_introduce
   </sql>
   <select id="selectByExampleWithBLOBs" parameterType="com.practice.starryfood.bean.FoodExample" resultMap="ResultMapWithBLOBs">
     select
@@ -120,11 +120,11 @@
     ,
     <include refid="Blob_Column_List" />
     from food
-    where fid = #{fid,jdbcType=VARCHAR}
+    where food_id = #{foodId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from food
-    where fid = #{fid,jdbcType=VARCHAR}
+    where food_id = #{foodId,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.practice.starryfood.bean.FoodExample">
     delete from food
@@ -133,37 +133,37 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.practice.starryfood.bean.Food">
-    insert into food (fid, fname, price, 
-      measurement, img, hasSold, 
+    insert into food (food_id, food_name, food_price, 
+      food_measurement, food_img, food_has_sold, 
       createTime, updateTime, createUser, 
-      updateUser, isDel, introduce
+      updateUser, is_del, food_introduce
       )
-    values (#{fid,jdbcType=VARCHAR}, #{fname,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
-      #{measurement,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR}, #{hassold,jdbcType=INTEGER}, 
+    values (#{foodId,jdbcType=VARCHAR}, #{foodName,jdbcType=VARCHAR}, #{foodPrice,jdbcType=DECIMAL}, 
+      #{foodMeasurement,jdbcType=VARCHAR}, #{foodImg,jdbcType=VARCHAR}, #{foodHasSold,jdbcType=INTEGER}, 
       #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, #{createuser,jdbcType=VARCHAR}, 
-      #{updateuser,jdbcType=VARCHAR}, #{isdel,jdbcType=INTEGER}, #{introduce,jdbcType=LONGVARCHAR}
+      #{updateuser,jdbcType=VARCHAR}, #{isDel,jdbcType=INTEGER}, #{foodIntroduce,jdbcType=LONGVARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.practice.starryfood.bean.Food">
     insert into food
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="fid != null">
-        fid,
+      <if test="foodId != null">
+        food_id,
       </if>
-      <if test="fname != null">
-        fname,
+      <if test="foodName != null">
+        food_name,
       </if>
-      <if test="price != null">
-        price,
+      <if test="foodPrice != null">
+        food_price,
       </if>
-      <if test="measurement != null">
-        measurement,
+      <if test="foodMeasurement != null">
+        food_measurement,
       </if>
-      <if test="img != null">
-        img,
+      <if test="foodImg != null">
+        food_img,
       </if>
-      <if test="hassold != null">
-        hasSold,
+      <if test="foodHasSold != null">
+        food_has_sold,
       </if>
       <if test="createtime != null">
         createTime,
@@ -177,31 +177,31 @@
       <if test="updateuser != null">
         updateUser,
       </if>
-      <if test="isdel != null">
-        isDel,
+      <if test="isDel != null">
+        is_del,
       </if>
-      <if test="introduce != null">
-        introduce,
+      <if test="foodIntroduce != null">
+        food_introduce,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="fid != null">
-        #{fid,jdbcType=VARCHAR},
+      <if test="foodId != null">
+        #{foodId,jdbcType=VARCHAR},
       </if>
-      <if test="fname != null">
-        #{fname,jdbcType=VARCHAR},
+      <if test="foodName != null">
+        #{foodName,jdbcType=VARCHAR},
       </if>
-      <if test="price != null">
-        #{price,jdbcType=DECIMAL},
+      <if test="foodPrice != null">
+        #{foodPrice,jdbcType=DECIMAL},
       </if>
-      <if test="measurement != null">
-        #{measurement,jdbcType=VARCHAR},
+      <if test="foodMeasurement != null">
+        #{foodMeasurement,jdbcType=VARCHAR},
       </if>
-      <if test="img != null">
-        #{img,jdbcType=VARCHAR},
+      <if test="foodImg != null">
+        #{foodImg,jdbcType=VARCHAR},
       </if>
-      <if test="hassold != null">
-        #{hassold,jdbcType=INTEGER},
+      <if test="foodHasSold != null">
+        #{foodHasSold,jdbcType=INTEGER},
       </if>
       <if test="createtime != null">
         #{createtime,jdbcType=TIMESTAMP},
@@ -215,11 +215,11 @@
       <if test="updateuser != null">
         #{updateuser,jdbcType=VARCHAR},
       </if>
-      <if test="isdel != null">
-        #{isdel,jdbcType=INTEGER},
+      <if test="isDel != null">
+        #{isDel,jdbcType=INTEGER},
       </if>
-      <if test="introduce != null">
-        #{introduce,jdbcType=LONGVARCHAR},
+      <if test="foodIntroduce != null">
+        #{foodIntroduce,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -232,23 +232,23 @@
   <update id="updateByExampleSelective" parameterType="map">
     update food
     <set>
-      <if test="record.fid != null">
-        fid = #{record.fid,jdbcType=VARCHAR},
+      <if test="record.foodId != null">
+        food_id = #{record.foodId,jdbcType=VARCHAR},
       </if>
-      <if test="record.fname != null">
-        fname = #{record.fname,jdbcType=VARCHAR},
+      <if test="record.foodName != null">
+        food_name = #{record.foodName,jdbcType=VARCHAR},
       </if>
-      <if test="record.price != null">
-        price = #{record.price,jdbcType=DECIMAL},
+      <if test="record.foodPrice != null">
+        food_price = #{record.foodPrice,jdbcType=DECIMAL},
       </if>
-      <if test="record.measurement != null">
-        measurement = #{record.measurement,jdbcType=VARCHAR},
+      <if test="record.foodMeasurement != null">
+        food_measurement = #{record.foodMeasurement,jdbcType=VARCHAR},
       </if>
-      <if test="record.img != null">
-        img = #{record.img,jdbcType=VARCHAR},
+      <if test="record.foodImg != null">
+        food_img = #{record.foodImg,jdbcType=VARCHAR},
       </if>
-      <if test="record.hassold != null">
-        hasSold = #{record.hassold,jdbcType=INTEGER},
+      <if test="record.foodHasSold != null">
+        food_has_sold = #{record.foodHasSold,jdbcType=INTEGER},
       </if>
       <if test="record.createtime != null">
         createTime = #{record.createtime,jdbcType=TIMESTAMP},
@@ -262,11 +262,11 @@
       <if test="record.updateuser != null">
         updateUser = #{record.updateuser,jdbcType=VARCHAR},
       </if>
-      <if test="record.isdel != null">
-        isDel = #{record.isdel,jdbcType=INTEGER},
+      <if test="record.isDel != null">
+        is_del = #{record.isDel,jdbcType=INTEGER},
       </if>
-      <if test="record.introduce != null">
-        introduce = #{record.introduce,jdbcType=LONGVARCHAR},
+      <if test="record.foodIntroduce != null">
+        food_introduce = #{record.foodIntroduce,jdbcType=LONGVARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -275,35 +275,35 @@
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map">
     update food
-    set fid = #{record.fid,jdbcType=VARCHAR},
-      fname = #{record.fname,jdbcType=VARCHAR},
-      price = #{record.price,jdbcType=DECIMAL},
-      measurement = #{record.measurement,jdbcType=VARCHAR},
-      img = #{record.img,jdbcType=VARCHAR},
-      hasSold = #{record.hassold,jdbcType=INTEGER},
+    set food_id = #{record.foodId,jdbcType=VARCHAR},
+      food_name = #{record.foodName,jdbcType=VARCHAR},
+      food_price = #{record.foodPrice,jdbcType=DECIMAL},
+      food_measurement = #{record.foodMeasurement,jdbcType=VARCHAR},
+      food_img = #{record.foodImg,jdbcType=VARCHAR},
+      food_has_sold = #{record.foodHasSold,jdbcType=INTEGER},
       createTime = #{record.createtime,jdbcType=TIMESTAMP},
       updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
       createUser = #{record.createuser,jdbcType=VARCHAR},
       updateUser = #{record.updateuser,jdbcType=VARCHAR},
-      isDel = #{record.isdel,jdbcType=INTEGER},
-      introduce = #{record.introduce,jdbcType=LONGVARCHAR}
+      is_del = #{record.isDel,jdbcType=INTEGER},
+      food_introduce = #{record.foodIntroduce,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
     update food
-    set fid = #{record.fid,jdbcType=VARCHAR},
-      fname = #{record.fname,jdbcType=VARCHAR},
-      price = #{record.price,jdbcType=DECIMAL},
-      measurement = #{record.measurement,jdbcType=VARCHAR},
-      img = #{record.img,jdbcType=VARCHAR},
-      hasSold = #{record.hassold,jdbcType=INTEGER},
+    set food_id = #{record.foodId,jdbcType=VARCHAR},
+      food_name = #{record.foodName,jdbcType=VARCHAR},
+      food_price = #{record.foodPrice,jdbcType=DECIMAL},
+      food_measurement = #{record.foodMeasurement,jdbcType=VARCHAR},
+      food_img = #{record.foodImg,jdbcType=VARCHAR},
+      food_has_sold = #{record.foodHasSold,jdbcType=INTEGER},
       createTime = #{record.createtime,jdbcType=TIMESTAMP},
       updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
       createUser = #{record.createuser,jdbcType=VARCHAR},
       updateUser = #{record.updateuser,jdbcType=VARCHAR},
-      isDel = #{record.isdel,jdbcType=INTEGER}
+      is_del = #{record.isDel,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -311,20 +311,20 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.practice.starryfood.bean.Food">
     update food
     <set>
-      <if test="fname != null">
-        fname = #{fname,jdbcType=VARCHAR},
+      <if test="foodName != null">
+        food_name = #{foodName,jdbcType=VARCHAR},
       </if>
-      <if test="price != null">
-        price = #{price,jdbcType=DECIMAL},
+      <if test="foodPrice != null">
+        food_price = #{foodPrice,jdbcType=DECIMAL},
       </if>
-      <if test="measurement != null">
-        measurement = #{measurement,jdbcType=VARCHAR},
+      <if test="foodMeasurement != null">
+        food_measurement = #{foodMeasurement,jdbcType=VARCHAR},
       </if>
-      <if test="img != null">
-        img = #{img,jdbcType=VARCHAR},
+      <if test="foodImg != null">
+        food_img = #{foodImg,jdbcType=VARCHAR},
       </if>
-      <if test="hassold != null">
-        hasSold = #{hassold,jdbcType=INTEGER},
+      <if test="foodHasSold != null">
+        food_has_sold = #{foodHasSold,jdbcType=INTEGER},
       </if>
       <if test="createtime != null">
         createTime = #{createtime,jdbcType=TIMESTAMP},
@@ -338,42 +338,42 @@
       <if test="updateuser != null">
         updateUser = #{updateuser,jdbcType=VARCHAR},
       </if>
-      <if test="isdel != null">
-        isDel = #{isdel,jdbcType=INTEGER},
+      <if test="isDel != null">
+        is_del = #{isDel,jdbcType=INTEGER},
       </if>
-      <if test="introduce != null">
-        introduce = #{introduce,jdbcType=LONGVARCHAR},
+      <if test="foodIntroduce != null">
+        food_introduce = #{foodIntroduce,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where fid = #{fid,jdbcType=VARCHAR}
+    where food_id = #{foodId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.practice.starryfood.bean.Food">
     update food
-    set fname = #{fname,jdbcType=VARCHAR},
-      price = #{price,jdbcType=DECIMAL},
-      measurement = #{measurement,jdbcType=VARCHAR},
-      img = #{img,jdbcType=VARCHAR},
-      hasSold = #{hassold,jdbcType=INTEGER},
+    set food_name = #{foodName,jdbcType=VARCHAR},
+      food_price = #{foodPrice,jdbcType=DECIMAL},
+      food_measurement = #{foodMeasurement,jdbcType=VARCHAR},
+      food_img = #{foodImg,jdbcType=VARCHAR},
+      food_has_sold = #{foodHasSold,jdbcType=INTEGER},
       createTime = #{createtime,jdbcType=TIMESTAMP},
       updateTime = #{updatetime,jdbcType=TIMESTAMP},
       createUser = #{createuser,jdbcType=VARCHAR},
       updateUser = #{updateuser,jdbcType=VARCHAR},
-      isDel = #{isdel,jdbcType=INTEGER},
-      introduce = #{introduce,jdbcType=LONGVARCHAR}
-    where fid = #{fid,jdbcType=VARCHAR}
+      is_del = #{isDel,jdbcType=INTEGER},
+      food_introduce = #{foodIntroduce,jdbcType=LONGVARCHAR}
+    where food_id = #{foodId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.practice.starryfood.bean.Food">
     update food
-    set fname = #{fname,jdbcType=VARCHAR},
-      price = #{price,jdbcType=DECIMAL},
-      measurement = #{measurement,jdbcType=VARCHAR},
-      img = #{img,jdbcType=VARCHAR},
-      hasSold = #{hassold,jdbcType=INTEGER},
+    set food_name = #{foodName,jdbcType=VARCHAR},
+      food_price = #{foodPrice,jdbcType=DECIMAL},
+      food_measurement = #{foodMeasurement,jdbcType=VARCHAR},
+      food_img = #{foodImg,jdbcType=VARCHAR},
+      food_has_sold = #{foodHasSold,jdbcType=INTEGER},
       createTime = #{createtime,jdbcType=TIMESTAMP},
       updateTime = #{updatetime,jdbcType=TIMESTAMP},
       createUser = #{createuser,jdbcType=VARCHAR},
       updateUser = #{updateuser,jdbcType=VARCHAR},
-      isDel = #{isdel,jdbcType=INTEGER}
-    where fid = #{fid,jdbcType=VARCHAR}
+      is_del = #{isDel,jdbcType=INTEGER}
+    where food_id = #{foodId,jdbcType=VARCHAR}
   </update>
 </mapper>

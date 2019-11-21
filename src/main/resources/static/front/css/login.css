@@ -177,7 +177,6 @@ button {
     overflow: hidden;
 }
 
-
 /*字体图标*/
 
 @font-face {
@@ -222,13 +221,11 @@ button {
     content: "\e610";
 }
 
-
 /** * Swiper 4.3.3 * Most modern mobile touch slider and framework with hardware accelerated transitions * http://www.idangero.us/swiper/ * * Copyright 2014-2018 Vladimir Kharlampidi * * Released under the MIT License * * Released on:June 5,2018 */
 
 .font-color {
     color: #fab82c;
 }
-
 
 /*登录注册*/
 
@@ -251,7 +248,6 @@ button {
 }
 
 .login-cont li {
-    border-bottom: 1px solid #ebebeb;
     margin-bottom: 10px;
     position: relative;
     overflow: hidden;
@@ -259,9 +255,11 @@ button {
 
 .login-cont li input {
     border: none;
+    border-radius: 5px;
     line-height: 4rem;
     width: 100%;
     outline: 0;
+    padding: 0 10px;
 }
 
 .login-cont {
@@ -271,7 +269,7 @@ button {
 
 #click {
     position: absolute;
-    right: 0;
+    right: 10px;
     top: 50%;
     margin-top: 0.5rem;
     transform: translate(0, -50%)
@@ -285,4 +283,8 @@ button {
     line-height: 4rem;
     font-size: 1.6rem;
     margin-top: 4rem;
+}
+
+#submit, #register {
+    padding: 0;
 }

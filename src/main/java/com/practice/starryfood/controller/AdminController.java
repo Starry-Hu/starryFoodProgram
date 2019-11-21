@@ -31,30 +31,28 @@ public class AdminController extends BaseController{
     /***
      * 登录
      * @param adminId 管理员账号
-     * @param password 密码
+     * @param adminPassword 密码
      * @param session
      * @return
      * @throws Exception
      */
     @PostMapping("/login")
-    BaseResponse login(String adminId, String password,String verifyCode, HttpSession session) throws Exception{
+    BaseResponse login(String adminId, String adminPassword,String verifyCode, HttpSession session) throws Exception{
         // 检查内容是否填写完全
-        if (adminId == null || password == null || verifyCode == null ||
-                adminId.trim().equals("") || password.trim().equals("") || verifyCode.equals("")) {
+        if (adminId == null || adminPassword == null || verifyCode == null ||
+                adminId.trim().equals("") || adminPassword.trim().equals("") || verifyCode.equals("")) {
             return ajaxFail(ResultEnum.ADMIN_INFO_NOT_FULL);
         }
-        // 检查验证码是否正确
-        System.out.println(session.getAttribute("verify-code") + "取");
-        if(!verifyCode.equals(session.getAttribute("verify-code"))){
+        // 检查验证码是否正确（都小写比较）
+        if(!verifyCode.toLowerCase().equals(session.getAttribute("verify-code"))){
             return ajaxFail(ResultEnum.ADMIN_VERIFY_FAIL);
         }
 
-        // 设置session过期时间为永久,并保存相应的管理员用户信息
-        session.setMaxInactiveInterval(-1);
-        Admin admin = adminService.login(adminId,password);
-        session.setAttribute("aid", admin.getUuid());
-        session.setAttribute("adminId", admin.getAdminid());
-        session.setAttribute("adminName",admin.getAdminname());
+        session.setMaxInactiveInterval(3600);
+        Admin admin = adminService.login(adminId,adminPassword);
+        session.setAttribute("adminUuid", admin.getAdminUuid());
+        session.setAttribute("adminId", admin.getAdminId());
+        session.setAttribute("adminName",admin.getAdminName());
         return ajaxSucc(null,ResultEnum.ADMIN_LOGIN_SUCCESS);
     }
 
@@ -68,12 +66,12 @@ public class AdminController extends BaseController{
     public BaseResponse getLoginedAdmin(HttpSession session) throws Exception{
         Map<String, String> resultMap = new HashMap<>();
 
-        String id = (String) session.getAttribute("aid");
+        String id = (String) session.getAttribute("adminUuid");
         String adminName = (String) session.getAttribute("adminName");
         String adminId = (String) session.getAttribute("adminId");
 
         if (adminName != null) {
-            resultMap.put("aid", id);
+            resultMap.put("adminUuid", id);
             resultMap.put("adminId", adminId);
             resultMap.put("adminName", adminName);
             return ajaxSucc(resultMap, ResultEnum.SUCCESS);
@@ -83,7 +81,7 @@ public class AdminController extends BaseController{
 
     /**
      * 修改个人密码
-     * @param uuid 管理员id  uuid
+     * @param adminUuid 管理员id  uuid
      * @param oldPassword 输入的旧密码
      * @param newPassword1 第一次输入的新密码
      * @param newPassword2 第二次输入的新密码
@@ -92,10 +90,10 @@ public class AdminController extends BaseController{
      * @throws Exception
      */
     @PostMapping("/editMyPassword")
-    public BaseResponse editMyPassword(String uuid,String oldPassword, String newPassword1,
+    public BaseResponse editMyPassword(String adminUuid,String oldPassword, String newPassword1,
                                        String newPassword2,HttpSession session,String updateUser) throws Exception {
         // 检测信息是否完整
-        if (uuid == null || newPassword1 == null || newPassword2 == null || uuid.trim().equals("") ||
+        if (adminUuid == null || newPassword1 == null || newPassword2 == null || adminUuid.trim().equals("") ||
                 newPassword1.trim().equals("") || newPassword2.trim().equals("")) {
             return ajaxFail(ResultEnum.ADMIN_INFO_NOT_FULL);
         }
@@ -103,7 +101,7 @@ public class AdminController extends BaseController{
         if (!newPassword1.equals(newPassword2)) {
             return ajaxFail(ResultEnum.ADMIN_NOT_SAME_PSWTWO);
         }
-        adminService.editPersonPsw(uuid,oldPassword,newPassword1);
+        adminService.editPersonPsw(adminUuid,oldPassword,newPassword1);
         return ajaxSucc(null,ResultEnum.ADMIN_EDITPSW_PERSON_SUCCESS);
     }
 
@@ -118,7 +116,7 @@ public class AdminController extends BaseController{
     public BaseResponse adminLogout(HttpSession session) throws Exception{
         // 清除session
         //session.invalidate();
-        session.removeAttribute("aid");
+        session.removeAttribute("adminUuid");
         session.removeAttribute("adminName");
         session.removeAttribute("adminId");
         return ajaxSucc(null, ResultEnum.SUCCESS);
@@ -128,33 +126,33 @@ public class AdminController extends BaseController{
      * 添加管理员信息
      * @param adminId 管理员账户
      * @param adminName 管理员名称
-     * @param password 密码
+     * @param adminPassword 密码
      * @return
      * @throws Exception
      */
     @PostMapping("/add")
-    BaseResponse add(String adminId, String adminName, String password,String createUser) throws Exception{
+    BaseResponse add(String adminId, String adminName, String adminPassword,String createUser) throws Exception{
         // 检查内容是否填写完全
-        if (adminId == null || password == null || adminId.trim().equals("") || password.trim().equals("")) {
+        if (adminId == null || adminPassword == null || adminId.trim().equals("") || adminPassword.trim().equals("")) {
             return ajaxFail(ResultEnum.ADMIN_INFO_NOT_FULL);
         }
-        adminService.addAdmin(adminId,adminName,password,createUser);
+        adminService.addAdmin(adminId,adminName,adminPassword,createUser);
         return ajaxSucc(null,ResultEnum.ADMIN_ADD_SUCCESS);
     }
 
     /**
      * 删除管理员(逻辑删除)
-     * @param uuid 管理员uuid
+     * @param adminUuid 管理员uuid
      * @return
      * @throws Exception
      */
     @GetMapping("/delete")
-    BaseResponse delete(String uuid,String updateUser) throws  Exception{
+    BaseResponse delete(String adminUuid,String updateUser) throws  Exception{
         // 检查内容是否填写完全
-        if (uuid == null || uuid.trim().equals("")){
+        if (adminUuid == null || adminUuid.trim().equals("")){
             return ajaxFail(ResultEnum.ADMIN_INFO_NOT_FULL);
         }
-        adminService.deleteAdmin(uuid,updateUser);
+        adminService.deleteAdmin(adminUuid,updateUser);
         return ajaxSucc(null,ResultEnum.ADMIN_DELETE_SUCCESS);
     }
 

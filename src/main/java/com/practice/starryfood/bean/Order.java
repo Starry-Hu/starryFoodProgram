@@ -3,73 +3,73 @@ package com.practice.starryfood.bean;
 import java.util.Date;
 
 public class Order {
-    private String id;
+    private String orderId;
 
-    private Integer isdel;
+    private String orderCreateCustomer;
 
-    private Date createtime;
+    private Date orderCreateTime;
 
-    private Date updatetime;
+    private String orderDealAdmin;
 
-    private String createcustomer;
+    private Date orderUpdateTime;
 
-    private String dealadmin;
+    private Integer orderCondition;
 
-    private Integer condition;
+    private Integer isDel;
 
-    public String getId() {
-        return id;
+    public String getOrderId() {
+        return orderId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
-    public Integer getIsdel() {
-        return isdel;
+    public String getOrderCreateCustomer() {
+        return orderCreateCustomer;
     }
 
-    public void setIsdel(Integer isdel) {
-        this.isdel = isdel;
+    public void setOrderCreateCustomer(String orderCreateCustomer) {
+        this.orderCreateCustomer = orderCreateCustomer;
     }
 
-    public Date getCreatetime() {
-        return createtime;
+    public Date getOrderCreateTime() {
+        return orderCreateTime;
     }
 
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
+    public void setOrderCreateTime(Date orderCreateTime) {
+        this.orderCreateTime = orderCreateTime;
     }
 
-    public Date getUpdatetime() {
-        return updatetime;
+    public String getOrderDealAdmin() {
+        return orderDealAdmin;
     }
 
-    public void setUpdatetime(Date updatetime) {
-        this.updatetime = updatetime;
+    public void setOrderDealAdmin(String orderDealAdmin) {
+        this.orderDealAdmin = orderDealAdmin;
     }
 
-    public String getCreatecustomer() {
-        return createcustomer;
+    public Date getOrderUpdateTime() {
+        return orderUpdateTime;
     }
 
-    public void setCreatecustomer(String createcustomer) {
-        this.createcustomer = createcustomer;
+    public void setOrderUpdateTime(Date orderUpdateTime) {
+        this.orderUpdateTime = orderUpdateTime;
     }
 
-    public String getDealadmin() {
-        return dealadmin;
+    public Integer getOrderCondition() {
+        return orderCondition;
     }
 
-    public void setDealadmin(String dealadmin) {
-        this.dealadmin = dealadmin;
+    public void setOrderCondition(Integer orderCondition) {
+        this.orderCondition = orderCondition;
     }
 
-    public Integer getCondition() {
-        return condition;
+    public Integer getIsDel() {
+        return isDel;
     }
 
-    public void setCondition(Integer condition) {
-        this.condition = condition;
+    public void setIsDel(Integer isDel) {
+        this.isDel = isDel;
     }
 }

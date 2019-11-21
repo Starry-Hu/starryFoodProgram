@@ -3,60 +3,60 @@ package com.practice.starryfood.bean;
 import java.util.Date;
 
 public class Customer {
-    private String uuid;
+    private String customerUuid;
 
-    private String cid;
+    private String customerId;
 
-    private String cname;
+    private String customerName;
 
-    private String cartid;
+    private String customerCartId;
 
-    private String password;
+    private String customerPassword;
 
     private Date createtime;
 
     private Date updatetime;
 
-    private Integer isdel;
+    private Integer isDel;
 
-    public String getUuid() {
-        return uuid;
+    public String getCustomerUuid() {
+        return customerUuid;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    public void setCustomerUuid(String customerUuid) {
+        this.customerUuid = customerUuid;
     }
 
-    public String getCid() {
-        return cid;
+    public String getCustomerId() {
+        return customerId;
     }
 
-    public void setCid(String cid) {
-        this.cid = cid;
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 
-    public String getCname() {
-        return cname;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void setCname(String cname) {
-        this.cname = cname;
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
-    public String getCartid() {
-        return cartid;
+    public String getCustomerCartId() {
+        return customerCartId;
     }
 
-    public void setCartid(String cartid) {
-        this.cartid = cartid;
+    public void setCustomerCartId(String customerCartId) {
+        this.customerCartId = customerCartId;
     }
 
-    public String getPassword() {
-        return password;
+    public String getCustomerPassword() {
+        return customerPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setCustomerPassword(String customerPassword) {
+        this.customerPassword = customerPassword;
     }
 
     public Date getCreatetime() {
@@ -75,11 +75,11 @@ public class Customer {
         this.updatetime = updatetime;
     }
 
-    public Integer getIsdel() {
-        return isdel;
+    public Integer getIsDel() {
+        return isDel;
     }
 
-    public void setIsdel(Integer isdel) {
-        this.isdel = isdel;
+    public void setIsDel(Integer isDel) {
+        this.isDel = isDel;
     }
 }
