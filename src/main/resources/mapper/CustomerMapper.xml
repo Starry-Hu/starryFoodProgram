@@ -7,8 +7,8 @@
     <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
     <result column="customer_cart_id" jdbcType="VARCHAR" property="customerCartId" />
     <result column="customer_password" jdbcType="VARCHAR" property="customerPassword" />
-    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
-    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="is_del" jdbcType="INTEGER" property="isDel" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -70,8 +70,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    customer_uuid, customer_id, customer_name, customer_cart_id, customer_password, createTime, 
-    updateTime, is_del
+    customer_uuid, customer_id, customer_name, customer_cart_id, customer_password, create_time, 
+    update_time, is_del
   </sql>
   <select id="selectByExample" parameterType="com.practice.starryfood.bean.CustomerExample" resultMap="BaseResultMap">
     select
@@ -106,11 +106,11 @@
   </delete>
   <insert id="insert" parameterType="com.practice.starryfood.bean.Customer">
     insert into customer (customer_uuid, customer_id, customer_name, 
-      customer_cart_id, customer_password, createTime, 
-      updateTime, is_del)
+      customer_cart_id, customer_password, create_time, 
+      update_time, is_del)
     values (#{customerUuid,jdbcType=VARCHAR}, #{customerId,jdbcType=VARCHAR}, #{customerName,jdbcType=VARCHAR}, 
-      #{customerCartId,jdbcType=VARCHAR}, #{customerPassword,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{updatetime,jdbcType=TIMESTAMP}, #{isDel,jdbcType=INTEGER})
+      #{customerCartId,jdbcType=VARCHAR}, #{customerPassword,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{isDel,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.practice.starryfood.bean.Customer">
     insert into customer
@@ -130,11 +130,11 @@
       <if test="customerPassword != null">
         customer_password,
       </if>
-      <if test="createtime != null">
-        createTime,
+      <if test="createTime != null">
+        create_time,
       </if>
-      <if test="updatetime != null">
-        updateTime,
+      <if test="updateTime != null">
+        update_time,
       </if>
       <if test="isDel != null">
         is_del,
@@ -156,11 +156,11 @@
       <if test="customerPassword != null">
         #{customerPassword,jdbcType=VARCHAR},
       </if>
-      <if test="createtime != null">
-        #{createtime,jdbcType=TIMESTAMP},
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updatetime != null">
-        #{updatetime,jdbcType=TIMESTAMP},
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="isDel != null">
         #{isDel,jdbcType=INTEGER},
@@ -191,11 +191,11 @@
       <if test="record.customerPassword != null">
         customer_password = #{record.customerPassword,jdbcType=VARCHAR},
       </if>
-      <if test="record.createtime != null">
-        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.updatetime != null">
-        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.isDel != null">
         is_del = #{record.isDel,jdbcType=INTEGER},
@@ -212,8 +212,8 @@
       customer_name = #{record.customerName,jdbcType=VARCHAR},
       customer_cart_id = #{record.customerCartId,jdbcType=VARCHAR},
       customer_password = #{record.customerPassword,jdbcType=VARCHAR},
-      createTime = #{record.createtime,jdbcType=TIMESTAMP},
-      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       is_del = #{record.isDel,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -234,11 +234,11 @@
       <if test="customerPassword != null">
         customer_password = #{customerPassword,jdbcType=VARCHAR},
       </if>
-      <if test="createtime != null">
-        createTime = #{createtime,jdbcType=TIMESTAMP},
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updatetime != null">
-        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="isDel != null">
         is_del = #{isDel,jdbcType=INTEGER},
@@ -252,8 +252,8 @@
       customer_name = #{customerName,jdbcType=VARCHAR},
       customer_cart_id = #{customerCartId,jdbcType=VARCHAR},
       customer_password = #{customerPassword,jdbcType=VARCHAR},
-      createTime = #{createtime,jdbcType=TIMESTAMP},
-      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
       is_del = #{isDel,jdbcType=INTEGER}
     where customer_uuid = #{customerUuid,jdbcType=VARCHAR}
   </update>

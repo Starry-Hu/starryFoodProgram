@@ -16,13 +16,13 @@ public class Food {
 
     private Integer foodHasSold;
 
-    private Date createtime;
+    private Date createTime;
 
-    private Date updatetime;
+    private Date updateTime;
 
-    private String createuser;
+    private String createUser;
 
-    private String updateuser;
+    private String updateUser;
 
     private Integer isDel;
 
@@ -76,36 +76,36 @@ public class Food {
         this.foodHasSold = foodHasSold;
     }
 
-    public Date getCreatetime() {
-        return createtime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
-    public Date getUpdatetime() {
-        return updatetime;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    public void setUpdatetime(Date updatetime) {
-        this.updatetime = updatetime;
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
-    public String getCreateuser() {
-        return createuser;
+    public String getCreateUser() {
+        return createUser;
     }
 
-    public void setCreateuser(String createuser) {
-        this.createuser = createuser;
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
     }
 
-    public String getUpdateuser() {
-        return updateuser;
+    public String getUpdateUser() {
+        return updateUser;
     }
 
-    public void setUpdateuser(String updateuser) {
-        this.updateuser = updateuser;
+    public void setUpdateUser(String updateUser) {
+        this.updateUser = updateUser;
     }
 
     public Integer getIsDel() {

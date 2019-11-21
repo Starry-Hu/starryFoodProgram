@@ -20,7 +20,7 @@
     <form method="post" class="layui-form">
         <input name="adminId" id="adminId" placeholder="用户名" type="text" lay-verify="required" class="layui-input">
         <hr class="hr15">
-        <input name="psw" id="psw" lay-verify="required" placeholder="密码" type="password" class="layui-input">
+        <input name="adminPassword" id="adminPassword" lay-verify="required" placeholder="密码" type="password" class="layui-input">
         <hr class="hr15">
         <input name="verifyCode" id="verifyCode" lay-verify="required" placeholder="验证码" type="text" class="layui-input">
         <a href="javascript:changeVerify()"><img id="verifyImg" src="#"></a>
@@ -37,27 +37,27 @@
 <script src="lib/layui/layui.js" charset="utf-8"></script>
 <script>
     $(function() {
+        const path = location.protocol + "//" + window.location.host + "/starryfood";
         getVerifyCode();
 
         layui.use(['form','layer'], function() {
-            var form = layui.form;
-            var layer = layui.layer;
+            const form = layui.form;
+            const layer = layui.layer;
 
             //监听提交
             form.on('submit(login)', function() {
-                const path = location.protocol + "//" + window.location.host + "/starryfood/admin/login";
                 $.ajax({
                     type: "POST",
-                    url: path,
+                    url: path + "/admin/login",
                     data: {
                         adminId: $('#adminId').val(),
-                        password: $('#psw').val(),
+                        adminPassword: $('#adminPassword').val(),
                         verifyCode: $('#verifyCode').val(),
                     },
                     dataType: "json",
                     success: function (response) {
                         if (response.code == '241') {
-                            layer.msg('登录成功',{time:2000}, function () {
+                            layer.msg('登录成功',{time:1500}, function () {
                                 location.href = 'index.html'
                             });
                         }
@@ -73,13 +73,13 @@
     })
 
     function changeVerify() {
-        var path = location.protocol + "//" + window.location.host + "/starryfood/verifyCode/get";
-        var newpath = path + "?a=" + new Date().getTime();
+        const path = location.protocol + "//" + window.location.host + "/starryfood/verifyCode/get";
+        const newpath = path + "?a=" + new Date().getTime();
         $("#verifyImg").attr('src',newpath);
     };
 
     function getVerifyCode() {
-        var path = location.protocol + "//" + window.location.host + "/starryfood/verifyCode/get";
+        const path = location.protocol + "//" + window.location.host + "/starryfood/verifyCode/get";
         $("#verifyImg").attr('src',path);
     }
 </script>

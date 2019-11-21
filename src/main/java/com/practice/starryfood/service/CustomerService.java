@@ -1,32 +1,39 @@
 package com.practice.starryfood.service;
 
+import com.github.pagehelper.PageInfo;
 import com.practice.starryfood.bean.Customer;
 import com.practice.starryfood.pojo.CartFoodExtend;
+import com.practice.starryfood.pojo.CustomerExtend;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 public interface CustomerService {
-    // 添加用户
+    // 添加顾客
     int addCustomer(String customerId, String name, String password) throws Exception;
 
-    // 删除用户
+    // 删除顾客
     int deleteCustomer(String customerUuid) throws Exception;
 
-    // 更新用户
-    int updateCustomer(String customerUuid, String customerId, String customerName, String customerPassword) throws Exception;
+    // 更新顾客
+    int updateCustomer(String customerUuid, String customerName, String customerPassword) throws Exception;
 
-    // 查找用户(uuid/账户id)
-    Customer getCustomerByuuid(String customerUuid) throws Exception;
+    // 查找顾客(uuid/账户id)
+    Customer getCustomerByUuid(String customerUuid) throws Exception;
 
     Customer getCustomerByCustomerId(String customerId) throws Exception;
 
+    // 查找所有顾客
+    PageInfo<CustomerExtend> getAllCustomer(Integer pageSize, Integer pageNum) throws Exception;
+
+    // --------------------------- 顾客对自己账户的相关操作 ---------------------
     // 登录
     Customer login(String customerId, String password) throws Exception;
 
     // 注册
     int register(String customerId, String customerName, String password) throws Exception;
 
+    // 修改个人信息
     int editPersonInfo(String customerUuid, String customerName,String oldPassword, String newPassword1);
 
     // --------------------------- 商品购物车相关 ---------------------
@@ -42,6 +49,6 @@ public interface CustomerService {
     // 下单
     BigDecimal makeOrder(String customerUuid, List<String> foodIdList) throws Exception;
 
-    // 获取用户的购物车信息
+    // 获取顾客的购物车信息
     List<CartFoodExtend> getCustomerCart(String customerUuid) throws Exception;
 }

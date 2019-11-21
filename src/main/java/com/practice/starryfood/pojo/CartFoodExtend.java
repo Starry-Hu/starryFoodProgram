@@ -13,42 +13,46 @@ import java.math.BigDecimal;
  */
 public class CartFoodExtend extends CartFood {
     // 食品名称
-    private String fname;
+    private String foodName;
     // 食品单价
-    private BigDecimal price;
+    private BigDecimal foodPrice;
     // 计量单位
-    private String measurement;
+    private String foodMeasurement;
     // 图片路径
-    private String img;
+    private String foodImg;
     // 是否删除
     private int isDel;
 
-    public BigDecimal getPrice() {
-        return price;
+    public String getFoodName() {
+        return foodName;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setFoodName(String foodName) {
+        this.foodName = foodName;
     }
 
-    public String getMeasurement() {
-        return measurement;
+    public BigDecimal getFoodPrice() {
+        return foodPrice;
     }
 
-    public void setMeasurement(String measurement) {
-        this.measurement = measurement;
+    public void setFoodPrice(BigDecimal foodPrice) {
+        this.foodPrice = foodPrice;
     }
 
-    public String getImg() {
-        return img;
+    public String getFoodMeasurement() {
+        return foodMeasurement;
     }
 
-    public String getFname() {
-        return fname;
+    public void setFoodMeasurement(String foodMeasurement) {
+        this.foodMeasurement = foodMeasurement;
     }
 
-    public void setFname(String fname) {
-        this.fname = fname;
+    public String getFoodImg() {
+        return foodImg;
+    }
+
+    public void setFoodImg(String foodImg) {
+        this.foodImg = foodImg;
     }
 
     public int getIsDel() {
@@ -57,9 +61,5 @@ public class CartFoodExtend extends CartFood {
 
     public void setIsDel(int isDel) {
         this.isDel = isDel;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
     }
 }

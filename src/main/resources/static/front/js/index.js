@@ -129,9 +129,15 @@ layui.use(['element','layer'], function() {
 $(function() {
     $.ajax({
         type: "get",
-        url: "admin/getLogined",
+        url: location.protocol + "//" + window.location.host + "/starryfood/admin/getLogined",
         dataType: "json",
-        success: function(response) {
+        success: function (response) {
+            if (response.code != '241') {
+                layer.msg(`您还未登录！请先登录！`, {time: 1000}, function () {
+                    location.href = "login.html";
+                });
+                return;
+            }
             $('#adminName').text(response.data.adminName);
         }
     });
@@ -140,7 +146,7 @@ $(function() {
 function logout() {
     $.ajax({
         type: "get",
-        url: "admin/logout",
+        url: location.protocol + "//" + window.location.host + "/starryfood/admin/logout",
         dataType: "json",
         success: function(response) {
             if (response.code == 0) {

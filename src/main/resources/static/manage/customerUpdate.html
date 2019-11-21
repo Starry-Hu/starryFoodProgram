@@ -39,13 +39,6 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label" for="oldPassword">原密码</label>
-            <div class="layui-input-inline">
-                <input type="text" id="oldPassword" required placeholder="请输入原密码"
-                       autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label" for="newPassword1">新密码</label>
             <div class="layui-input-inline">
                 <input type="password" id="newPassword1" required placeholder="请输入新密码"
@@ -74,23 +67,14 @@
     layui.use(['layer'], function () {
         const path = location.protocol + "//" + window.location.host + "/starryfood";
 
-        // 要修改信息顾客uuid
-        let customerUuid;
-
-        // 获取当前登录顾客信息并填充
-        $.ajax({
-            type: "get",
-            url: path + "/customer/getLoginedCustomer",
-            dataType: "json",
-            success: function (response) {
-                // 成功则显示信息
-                if (response.code == '0') {
-                    customerUuid = response.data.customerUuid;
-                    $('#customerId').val(response.data.customerId);
-                    $('#customerName').val(response.data.customerName);
-                }
-            }
-        });
+        // 从地址栏获取参数
+        const customerUuid = getUrlParam('customerUuid');
+        const customerId = getUrlParam('customerId');
+        const customerName = getUrlParam('customerName');
+        alert(customerUuid)
+        // 回显用户信息
+        $('#customerId').val(customerId);
+        $('#customerName').val(customerName);
 
         // 提交修改信息
         $('#submit').click(function () {
@@ -107,11 +91,10 @@
                 // 提交信息到后台
                 $.ajax({
                     type: "post",
-                    url: path + "/customer/editMyInfo",
+                    url: path + "/customer/update",
                     data: {
                         customerUuid: customerUuid,
                         customerName: customerName,
-                        oldPassword: oldPassword,
                         newPassword1: newPassword1,
                         newPassword2: newPassword2,
                     },
@@ -124,6 +107,20 @@
                 });
             }
         })
+
+        function getUrlParam(name) {
+            //构造一个含有目标参数的正则表达式对象
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            //匹配目标参数
+            var r = window.location.search.substr(1).match(reg);
+            //返回参数
+            if (r != null) {
+                return unescape(r[2]);
+            } else {
+                return null;
+            }
+        }
+
     })
 </script>
 </body>

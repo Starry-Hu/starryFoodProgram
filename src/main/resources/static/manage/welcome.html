@@ -9,22 +9,12 @@
 
     <link rel="stylesheet" href="lib/layui/css/layui.css">
     <link rel="stylesheet" href="css/font.css">
-
-
     <style>
         body {
             height: 100%;
             padding: 0;
             margin: 0;
         }
-
-        /*#outer {*/
-            /*height: 100%;*/
-            /*padding: 100px 0 0;*/
-            /*box-sizing: border-box;*/
-            /*position: relative;*/
-        /*}*/
-
         #main {
             width: 100%;
             height: 100%;
@@ -50,12 +40,6 @@
             color: #fff;
             letter-spacing: 3px;
         }
-
-        #uploadAndDelete {
-            text-align: center;
-            position: relative;
-            bottom: 80px;
-        }
     </style>
 </head>
 
@@ -71,66 +55,16 @@
 <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
 <script src="lib/layui/layui.js" charset="utf-8"></script>
 <script>
-    layui.use('upload', function () {
-        var upload = layui.upload;
-
-        window.onload = function(){
-            var heightValue = $(window).height();
-            $('#main').css("height",heightValue+ "px");
-            if (heightValue > 700){
-                $('#uploadAndDelete').css("top", $(window).height()-200 + "px")
-            } else{
-                $('#uploadAndDelete').css("top", $(window).height()-100 + "px")
-            }
-
+    window.onload = function(){
+        var heightValue = $(window).height();
+        $('#main').css("height",heightValue+ "px");
+        if (heightValue > 700){
+            $('#uploadAndDelete').css("top", $(window).height()-200 + "px")
+        } else{
+            $('#uploadAndDelete').css("top", $(window).height()-100 + "px")
         }
 
-        $('#uploadPlan').click(function () {
-            layer.open({
-                type: 2,
-                content: ['addPlanExcel.html', 'no'],
-                area: ['500px', '300px']
-            });
-        })
-
-        $('#uploadStudent').click(function () {
-            layer.open({
-                type: 2,
-                content: ['addStusExcel.html', 'no'],
-                area: ['500px', '300px']
-            });
-        })
-
-        $('#uploadInformWay').click(function () {
-            layer.open({
-                type: 2,
-                content: ['addInformExcel.html', 'no'],
-                area: ['500px', '300px']
-            });
-        })
-
-        $('#deletePlanInfo').click(function () {
-            $.ajax({
-                type: "get",
-                url: "/ScoreAnalysis/plan/deleteAllRelated", // 需要带上项目名
-                dataType: "json",
-                success: function (response) {
-                    layer.alert(response.msg);
-                }
-            });
-        })
-
-        $('#deleteStudentInfo').click(function () {
-            $.ajax({
-                type: "get",
-                url: "/ScoreAnalysis/student/deleteAllRelated", // 需要带上项目名
-                dataType: "json",
-                success: function (response) {
-                    layer.alert(response.msg);
-                }
-            });
-        })
-    });
+    }
 </script>
 </body>
 

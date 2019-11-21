@@ -9,6 +9,6 @@ public interface CartFoodExtendMapper {
     // 获取某购物车全部菜品信息
     List<CartFoodExtend> getFoodsFromCart(String cartId);
     // 获取某购物车中某类菜品信息
-    CartFoodExtend getFoodFromCartByFid(@Param("cartId") String cartId,
+    CartFoodExtend getFoodFromCartByFoodId(@Param("cartId") String cartId,
                                         @Param("foodId") String foodId);
 }

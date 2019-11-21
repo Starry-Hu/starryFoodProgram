@@ -32,16 +32,13 @@ public class FoodServiceImpl implements FoodService {
     @Autowired
     private FoodExtendMapper foodExtendMapper;
 
-    /***
-     * 添加菜品
-     * @param foodName
-     * @param foodPrice
-     * @param foodMeasurement
-     * @param foodIntroduce
-     * @param foodImg
-     * @return
-     * @throws Exception
-     */
+    /**
+    * @Description: 添加菜品
+    * @Param: [foodName, foodPrice, foodMeasurement, foodIntroduce, foodImg, createUser]
+    * @return: int
+    * @Author: StarryHu
+    * @Date: 2019/11/21
+    */
     public int addFood(String foodName, BigDecimal foodPrice, String foodMeasurement,
                        String foodIntroduce, String foodImg, String createUser) throws Exception {
         Food food = new Food();
@@ -52,8 +49,8 @@ public class FoodServiceImpl implements FoodService {
         food.setFoodMeasurement(foodMeasurement);
         food.setFoodIntroduce(foodIntroduce);
         food.setFoodImg(foodImg);
-        food.setCreatetime(date);
-        food.setCreateuser(createUser);
+        food.setCreateTime(date);
+        food.setCreateUser(createUser);
         food.setIsDel(0);
 
         int n = foodMapper.insert(food);
@@ -73,8 +70,8 @@ public class FoodServiceImpl implements FoodService {
         if (food == null || food.getIsDel() == 1) throw new SAException(ExceptionEnum.FOOD_DELETE_NOT_EXIST);
         Date date = new Date();
         food.setIsDel(1);
-        food.setUpdatetime(date);
-        food.setUpdateuser(updateUser);
+        food.setUpdateTime(date);
+        food.setUpdateUser(updateUser);
         int n = foodMapper.updateByPrimaryKey(food);
         if (n > 0) return n;
         throw new SAException(ExceptionEnum.FOOD_DELETE_FAIL);
@@ -102,8 +99,8 @@ public class FoodServiceImpl implements FoodService {
         food.setFoodMeasurement(foodMeasurement);
         food.setFoodIntroduce(foodIntroduce);
         food.setFoodImg(foodImg);
-        food.setUpdatetime(date);
-        food.setUpdateuser(updateUser);
+        food.setUpdateTime(date);
+        food.setUpdateUser(updateUser);
         food.setIsDel(0);
 
         int n = foodMapper.updateByPrimaryKey(food);
@@ -122,12 +119,12 @@ public class FoodServiceImpl implements FoodService {
         FoodExtend foodExtend = foodExtendMapper.getFoodById(foodId);
         if (foodExtend == null) throw new SAException(ExceptionEnum.FOOD_SEARCH_NULL);
         // 处理时间戳 需要判空
-        if (null != foodExtend.getCreatetime()) {
-            String createTimeString = DateStamp.stampToDate(foodExtend.getCreatetime());
+        if (null != foodExtend.getCreateTime()) {
+            String createTimeString = DateStamp.stampToDate(foodExtend.getCreateTime());
             foodExtend.setCreateTimeString(createTimeString);
         }
         if (null != foodExtend.getUpdateTimeString()) {
-            String updateTimeString = DateStamp.stampToDate(foodExtend.getUpdatetime());
+            String updateTimeString = DateStamp.stampToDate(foodExtend.getUpdateTime());
             foodExtend.setUpdateTimeString(updateTimeString);
         }
         // 返回对象

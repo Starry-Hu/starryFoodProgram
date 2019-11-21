@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <title>StarryFood</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/login.css">
 </head>
 
@@ -14,7 +14,9 @@
 <div class="wrap-body">
     <header class="zerogrid">
         <div class="logo">
+            <hr class="line-1">
             <a href="#">Login</a>
+            <hr class="line-1">
         </div>
     </header>
     <section id="container">
@@ -50,11 +52,45 @@
 <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="lib/layui/layui.js"></script>
 <script type="text/javascript">
+    // 登录密码的明显示和暗显示
+    function ps() {
+        if (this.forms.password.type = "password")
+            box.innerHTML = "<input type=\"html\" name=\"password\" size=\"20\" value=" + this.forms.password
+                .value + ">";
+            click.innerHTML = "<a href=\"javascript:txt()\" class=\"iconfont icon-open-eye\"></a>"
+    }
+
+    function txt() {
+        if (this.forms.password.type = "text")
+            box.innerHTML = "<input type=\"password\" name=\"password\" size=\"20\" value=" + this.forms
+                .password.value + ">";
+            click.innerHTML = "<a href=\"javascript:ps()\" class=\"iconfont icon-biyan\"></a>"
+    }
+
     layui.use(['layer'], function () {
         const path = location.protocol + "//" + window.location.host + "/starryfood";
 
         // 获取当前在线人数
         getOnlineCount();
+
+        // 获取当前系统在线人数
+        function getOnlineCount() {
+            $.ajax({
+                type: "get",
+                url: path + "/customer/getOnlineCount",
+                dataType: "json",
+                success: function (response) {
+                    if (response.code == '0') {
+                        $("#onlineUser").text(response.data);
+                    }
+                    //登录错误的显示
+                    else {
+                        cnsole.log(response.msg);
+                    }
+                }
+            });
+            return false;
+        }
 
         // 点击登录
         $('#submit').click(function () {
@@ -87,42 +123,8 @@
                     }
                 })
             }
-            ;
         })
 
-        // 获取当前系统在线人数
-        function getOnlineCount() {
-            $.ajax({
-                type: "get",
-                url: path + "/customer/getOnlineCount",
-                dataType: "json",
-                success: function (response) {
-                    if (response.code == '0') {
-                        $("#onlineUser").text(response.data);
-                    }
-                    //登录错误的显示
-                    else {
-                        cnsole.log(response.msg);
-                    }
-                }
-            });
-            return false;
-        }
-
-        // 登录密码的明显示和暗显示
-        function ps() {
-            if (this.forms.password.type = "password")
-                box.innerHTML = "<input type=\"html\" name=\"password\" size=\"20\" value=" + this.forms.password
-                    .value + ">";
-            click.innerHTML = "<a href=\"javascript:txt()\" class=\"iconfont icon-open-eye\"></a>"
-        }
-
-        function txt() {
-            if (this.forms.password.type = "text")
-                box.innerHTML = "<input type=\"password\" name=\"password\" size=\"20\" value=" + this.forms
-                    .password.value + ">";
-            click.innerHTML = "<a href=\"javascript:ps()\" class=\"iconfont icon-biyan\"></a>"
-        }
     })
 </script>
 </body>

@@ -55,7 +55,7 @@
                                     </div>
                                     <strong>减肥必备,低脂高蛋白的鸡胸肉也可以很美味</strong><br/><br>
                                     <span>鸡胸脯肉蛋白质含量较高，且易被人体吸收入利用，有增强体力，强壮身体的作用，所含对人体生长发育有重要作用的磷脂类，是中国人膳食结构中脂肪和磷脂的重要来源之一。因为鸡胸脯肉是高蛋白，低脂肪的食材，所以对正在减肥没你来说一定是一个不错的选择。</span><br/><br>
-                                    <a href="foodDetail.html?fid=1" class="button">More Details</a>
+                                    <a href="foodDetail.html?foodId=1" class="button">More Details</a>
                                 </div>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                                     </div>
                                     <strong>减脂必备：有机鸡肉咖喱沙拉</strong><br/><br>
                                     <span>有机鸡肉咖喱沙拉，既有营养又口感丰富，有机鸡肉口感嫩滑，咖喱和苹果醋的香气相得益彰，鸡肉、法诺和坚果的搭配正好软硬适中。</span><br/><br>
-                                    <a href="foodDetail.html?fid=2" class="button">More Details</a>
+                                    <a href="foodDetail.html?foodId=2" class="button">More Details</a>
                                 </div>
                             </div>
                         </div>
@@ -109,7 +109,7 @@
                                     </div>
                                     <strong>奶油蘑菇意面</strong><br/><br>
                                     <span>奶油蘑菇意面主要是以蘑菇，意大利面为主要食材的菜品，千万不要以为是白酱就觉得淡而无味，相反，味道特别鲜美，入口是厚重的奶香，其中有蘑菇的鲜味，培根的香味，最后是调味和奶油香气收尾，配合的特别完美。</span><br/><br>
-                                    <a href="foodDetail.html?fid=3" class="button">More Details</a>
+                                    <a href="foodDetail.html?foodId=3" class="button">More Details</a>
                                 </div>
                             </div>
                         </div>
@@ -123,7 +123,7 @@
         <a href="cartList.html" target="_Blank"><img src="images/shoppingCart.png" alt=" "></a>
     </div>
     <hr class="line">
-    <!--////////////////////////////////////Footer-->
+
     <footer>
         <div class="wrap-footer">
             <div class="zerogrid">
@@ -143,7 +143,7 @@
         const path = location.protocol + "//" + window.location.host + "/starryfood";
 
         $(function () {
-            // 获取当前登录用户的购物车信息，存放于session中
+            // 获取当前登录用户信息
             $.ajax({
                 type: "get",
                 url: path + "/customer/getLoginedCustomer",
@@ -169,6 +169,9 @@
                                 // offset: '20%',
                                 shade: 0.5,
                                 shadeClose: true,//点击遮罩关闭
+                                end: function () { //最后执行reload，刷新页面（以更新用户名）
+                                    location.reload();
+                                }
                             });
                         });
                     }

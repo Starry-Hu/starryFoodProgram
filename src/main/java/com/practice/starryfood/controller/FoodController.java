@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 
 /**
@@ -38,27 +39,32 @@ public class FoodController extends BaseController {
     */
     @PostMapping("/add")
     public BaseResponse addFood(String foodName, BigDecimal foodPrice, String foodMeasurement, String foodIntroduce,
-                                String foodImg, String createUser) throws Exception {
+                                String foodImg, HttpSession session) throws Exception {
         // 判断信息是否填写完全
         if (foodName == null || foodPrice == null || foodMeasurement == null || foodName.trim().equals("")
                 || foodPrice.equals(0.0) || foodMeasurement.trim().equals(""))
             return ajaxFail(ResultEnum.FOOD_INFO_NOT_FULL);
+        // 获取当前登录的管理员作为创建者
+        String createUser = (String) session.getAttribute("adminUuid");
         // 进行菜品添加
         foodService.addFood(foodName, foodPrice, foodMeasurement, foodIntroduce, foodImg, createUser);
         return ajaxSucc(null, ResultEnum.FOOD_ADD_SUCCESS);
     }
 
-    /***
-     * 删除菜品
-     * @param foodId 菜品id
-     * @param updateUser 更新者
-     * @return
-     * @throws Exception
-     */
+    /**
+    * @Description: 删除菜品
+    * @Param: [foodId, session]
+    * @return: com.practice.starryfood.util.BaseResponse
+    * @Author: StarryHu
+    * @Date: 2019/11/21
+    */
     @GetMapping("/delete")
-    public BaseResponse deleteFood(String foodId, String updateUser) throws Exception {
+    public BaseResponse deleteFood(String foodId, HttpSession session) throws Exception {
         // 判断信息是否填写完全
         if (foodId == null || foodId.trim().equals("")) return ajaxFail(ResultEnum.FOOD_INFO_NOT_FULL);
+        // 获取当前登录的管理员
+        String updateUser = (String) session.getAttribute("adminUuid");
+
         // 进行删除
         foodService.deleteFood(foodId, updateUser);
         return ajaxSucc(null, ResultEnum.FOOD_DELETE_SUCCESS);
@@ -74,11 +80,13 @@ public class FoodController extends BaseController {
     */
     @PostMapping("/update")
     public BaseResponse updateFood(String foodId, String foodName, BigDecimal foodPrice, String foodMeasurement, String foodIntroduce,
-                                   String foodImg, String updateUser) throws Exception {
+                                   String foodImg, HttpSession session) throws Exception {
         // 判断信息是否填写完全
         if (foodId == null ||foodName == null || foodPrice == null || foodMeasurement == null || foodName.trim().equals("")
                 || foodId.trim().equals("") || foodPrice.equals(0.0) || foodMeasurement.trim().equals(""))
             return ajaxFail(ResultEnum.FOOD_INFO_NOT_FULL);
+        // 获取当前登录的管理员
+        String updateUser = (String) session.getAttribute("adminUuid");
         // 进行菜品更新
         foodService.updateFood(foodId,foodName, foodPrice, foodMeasurement, foodIntroduce, foodImg, updateUser);
         return ajaxSucc(null, ResultEnum.FOOD_UPDATE_SUCCESS);

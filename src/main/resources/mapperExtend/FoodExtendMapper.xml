@@ -5,15 +5,15 @@
     <!-- 获取全部菜品 -->
     <select id="getFoodById" parameterType="java.lang.String" resultType="com.practice.starryfood.pojo.FoodExtend">
      SELECT
-        A.food_id,
-        A.food_name,
-        A.food_price,
-        A.food_measurement,
-        A.food_has_sold,
-        A.food_introduce,
-        A.food_img,
-        B.adminName AS createUser,
-        C.adminName AS updateUser
+        A.food_id AS foodId,
+        A.food_name AS foodName,
+        A.food_price AS foodPrice,
+        A.food_measurement AS foodMeasurement,
+        A.food_has_sold AS foodHasSold,
+        A.food_introduce AS foodIntroduce,
+        A.food_img AS foodImg,
+        B.admin_name AS create_user,
+        C.admin_name AS update_user
     FROM
         food A
         INNER JOIN admin B ON A.create_user = B.admin_uuid
@@ -25,13 +25,13 @@
     <!-- 获取全部菜品 -->
     <select id="getAllFoods" resultType="com.practice.starryfood.pojo.FoodExtend">
      SELECT
-        A.food_id,
-        A.food_name,
-        A.food_price,
-        A.food_measurement,
-        A.food_has_sold,
-        A.food_introduce,
-        A.food_img,
+        A.food_id AS foodId,
+        A.food_name AS foodName,
+        A.food_price AS foodPrice,
+        A.food_measurement AS foodMeasurement,
+        A.food_has_sold AS foodHasSold,
+        A.food_introduce AS foodIntroduce,
+        A.food_img AS foodImg,
         B.admin_name AS create_user,
         C.admin_name AS update_user
     FROM

@@ -93,7 +93,7 @@
     // 查找菜品信息显示
     $.ajax({
         type: "get",
-        url: path + "/food/getFoodById?fid=" + foodId,
+        url: path + "/food/getFoodById?foodId=" + foodId,
         dataType: "json",
         success: function (response) {
             // 获取成功
@@ -110,11 +110,12 @@
     // 查看购物车中是否有该菜品，并显示相应数量
     $.ajax({
         type: "get",
-        url: path + "/customer/getCartLogined",
+        url: path + "/customer/logined/getCart",
         dataType: "json",
         success: function (response) {
             for (let i = 0; i < response.data.length; i++) {
                 const element = response.data[i];
+                console.log(element)
                 // 找到相同的菜品
                 if (element.foodId == foodId) {
                     // 隐藏添加到购物车按钮
@@ -134,7 +135,7 @@
         let newShu = 1;
         $.ajax({
             type: "post",
-            url: path + "/customer/addToCart",
+            url: path + "/customer/logined/addToCart",
             data: {
                 "foodId": foodId,
                 "foodNum": newShu

@@ -6,16 +6,16 @@ import com.practice.starryfood.pojo.FoodExtend;
 import java.math.BigDecimal;
 
 public interface FoodService {
-    int addFood(String fname, BigDecimal price, String measurement,
-                String introduce, String img, String createUser) throws Exception;
+    int addFood(String foodName, BigDecimal foodPrice, String foodMeasurement,
+                String foodIntroduce, String foodImg, String createUser) throws Exception;
 
-    int deleteFood(String id, String updateUser) throws Exception;
+    int deleteFood(String foodId, String updateUser) throws Exception;
 
-    int updateFood(String fid, String fname, BigDecimal price, String measurement,
-               String introduce, String img, String updateUser) throws Exception;
+    int updateFood(String foodId, String foodName, BigDecimal foodPrice, String foodMeasurement,
+               String foodIntroduce, String foodImg, String updateUser) throws Exception;
 
     // 根据id获取菜品信息
-    FoodExtend getFoodById(String fid) throws Exception;
+    FoodExtend getFoodById(String foodId) throws Exception;
     // 获取全部菜品，带分页
     PageInfo<FoodExtend> getAllFoods(int pageNum, int pageSize) throws Exception;
 }

@@ -67,7 +67,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     /**
-     * 删除管理员
+     * 删除管理员(逻辑删除)
      * @param adminUuid 管理员的uuid
      * @return
      * @throws Exception
@@ -80,7 +80,7 @@ public class AdminServiceImpl implements AdminService {
         admin.setIsDel(1);
         admin.setUpdateTime(date);
         admin.setUpdateUser(updateUser);
-        int n = adminMapper.updateByPrimaryKey(admin);
+        int n = adminMapper.updateByPrimaryKeySelective(admin);
         // 删除成功
         if (n > 0) return n;
         throw new SAException(ExceptionEnum.ADMIN_DELETE_FAIL);
@@ -106,7 +106,7 @@ public class AdminServiceImpl implements AdminService {
         admin.setUpdateTime(date);
         admin.setUpdateUser(updateUser);
 
-        int n = adminMapper.updateByPrimaryKey(admin);
+        int n = adminMapper.updateByPrimaryKeySelective(admin);
         // 更新成功
         if (n > 0){
             return n;
@@ -175,15 +175,15 @@ public class AdminServiceImpl implements AdminService {
 
     /***
      * 修改个人密码（需要判断原密码是否正确）
-     * @param uuid 账户uuid
+     * @param adminUuid 账户uuid
      * @param oldPsw 原密码
      * @param newPsw 新密码
      * @return
      * @throws Exception
      */
-    public int editPersonPsw(String uuid,String oldPsw,String newPsw)throws Exception{
+    public int editPersonPsw(String adminUuid,String oldPsw,String newPsw)throws Exception{
         // 查看管理员是否存在
-        Admin admin = adminMapper.selectByPrimaryKey(uuid);
+        Admin admin = adminMapper.selectByPrimaryKey(adminUuid);
         if (admin == null || admin.getIsDel() == 1)
             throw new SAException(ExceptionEnum.ADMIN_EDITPSW_NOT_EXIST);
         // 查看原密码是否输入正确
@@ -194,7 +194,7 @@ public class AdminServiceImpl implements AdminService {
             throw new SAException(ExceptionEnum.ADMIN_EDITPSW_SAME_WITH_OLD);
 
         admin.setAdminPassword(newPsw);
-        int n = adminMapper.updateByPrimaryKey(admin);
+        int n = adminMapper.updateByPrimaryKeySelective(admin);
         if (n > 0) return n;
         // 出错的情况
         throw new SAException(ExceptionEnum.ADMIN_EDITPSW_FAIL);

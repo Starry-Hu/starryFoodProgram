@@ -80,7 +80,7 @@ public class AdminController extends BaseController{
     }
 
     /**
-     * 修改个人密码
+     * 修改个人密码(管理员修改自己的)
      * @param adminUuid 管理员id  uuid
      * @param oldPassword 输入的旧密码
      * @param newPassword1 第一次输入的新密码

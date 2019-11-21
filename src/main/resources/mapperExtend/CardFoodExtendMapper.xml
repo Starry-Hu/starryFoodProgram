@@ -5,15 +5,15 @@
     <!-- 获取某购物车全部菜品 -->
     <select id="getFoodsFromCart" parameterType="java.lang.String" resultType="com.practice.starryfood.pojo.CartFoodExtend">
      SELECT
-        A.cart_food_uuid,
-        A.cart_id,
-        A.food_id,
-        A.food_num,
-        A.food_one_total_price,
-        B.food_name,
-        B.food_price,
-        B.food_measurement,
-        B.food_img
+        A.cart_food_uuid AS cartFoodUuid,
+        A.cart_id AS cartId,
+        A.food_id AS foodId,
+        A.food_num AS foodNum,
+        A.food_one_total_price AS foodOneTotalPrice,
+        B.food_name AS foodName,
+        B.food_price AS foodPrice,
+        B.food_measurement AS foodMeasurement,
+        B.food_img AS foodImg
     FROM
         `cart_food` A
         INNER JOIN food B ON A.food_id = B.food_id
@@ -22,17 +22,17 @@
     </select>
 
     <!-- 获取某购物车中某类菜品信息 -->
-    <select id="getFoodFromCartByFid" resultType="com.practice.starryfood.pojo.CartFoodExtend">
+    <select id="getFoodFromCartByFoodId" resultType="com.practice.starryfood.pojo.CartFoodExtend">
      SELECT
-        A.cart_food_uuid,
-        A.cart_id,
-        A.food_id,
-        A.food_num,
-        A.food_one_total_price,
-        B.food_name,
-        B.food_price,
-        B.food_measurement,
-        B.food_img
+        A.cart_food_uuid AS cartFoodUuid,
+        A.cart_id AS cartId,
+        A.food_id AS foodId,
+        A.food_num AS foodNum,
+        A.food_one_total_price AS foodOneTotalPrice,
+        B.food_name AS foodName,
+        B.food_price AS foodPrice,
+        B.food_measurement AS foodMeasurement,
+        B.food_img AS foodImg
     FROM
         `cart_food` A
         INNER JOIN food B ON A.food_id = B.food_id

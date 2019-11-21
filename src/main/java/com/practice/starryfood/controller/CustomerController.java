@@ -1,8 +1,11 @@
 package com.practice.starryfood.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.practice.starryfood.bean.Customer;
 import com.practice.starryfood.enums.ResultEnum;
 import com.practice.starryfood.pojo.CartFoodExtend;
+import com.practice.starryfood.pojo.CustomerExtend;
+import com.practice.starryfood.pojo.FoodExtend;
 import com.practice.starryfood.service.CustomerService;
 import com.practice.starryfood.util.BaseResponse;
 import com.practice.starryfood.util.OnlineUserListener;
@@ -29,14 +32,15 @@ public class CustomerController extends BaseController {
     @Autowired
     private CustomerService customerService;
 
-    /***
-     * 注册用户 （用户使用的接口）
-     * @param customerId 用户账户id
-     * @param customerName 用户名
-     * @param customerPassword 密码
-     * @return
-     * @throws Exception
-     */
+
+    // ----------------------------------------- 顾客的注册、登录、退出、修改个人信息 -------------------------------------------
+    /**
+    * @Description:  注册顾客 （顾客使用的接口）
+    * @Param: [customerId, customerName, customerPassword]
+    * @return: com.practice.starryfood.util.BaseResponse
+    * @Author: StarryHu
+    * @Date: 2019/11/21
+    */
     @PostMapping("/register")
     BaseResponse register(String customerId, String customerName, String customerPassword) throws Exception {
         // 检查内容是否填写完全
@@ -49,20 +53,19 @@ public class CustomerController extends BaseController {
     }
 
     /**
-     * 用户登录
-     *
-     * @param customerId      用户账户id
-     * @param customerPassword 密码
-     * @return
-     * @throws Exception
-     */
+    * @Description: 顾客登录
+    * @Param: [customerId, customerPassword, session]
+    * @return: com.practice.starryfood.util.BaseResponse
+    * @Author: StarryHu
+    * @Date: 2019/11/21
+    */
     @PostMapping("/login")
     BaseResponse login(String customerId, String customerPassword, HttpSession session) throws Exception {
         // 检查内容是否填写完全
         if (customerId == null || customerPassword == null || customerId.trim().equals("") || customerPassword.trim().equals("")) {
             return ajaxFail(ResultEnum.CUSTOMER_INFO_NOT_FULL);
         }
-        // 设置session过期时间为1小时,并保存相应的顾客用户信息
+        // 设置session过期时间为1小时,并保存相应的顾客顾客信息
         session.setMaxInactiveInterval(3600);
 
         Customer customer = customerService.login(customerId, customerPassword);
@@ -74,7 +77,7 @@ public class CustomerController extends BaseController {
     }
 
     /**
-     * 获取当前登录的用户信息
+     * 获取当前登录的顾客信息
      *
      * @param session
      * @return
@@ -115,15 +118,15 @@ public class CustomerController extends BaseController {
     }
 
     /**
-    * @Description:  修改用户个人信息/密码
-    * @Param: [customerUuid, customerName, oldPassword, newPassword1, newPassword2, session, updateUser]
+    * @Description:  修改顾客个人信息/密码
+    * @Param: [customerUuid, customerName, oldPassword, newPassword1, newPassword2]
     * @return: com.practice.starryfood.util.BaseResponse
     * @Author: StarryHu
     * @Date: 2019/11/21
     */
     @PostMapping("/editMyInfo")
     public BaseResponse editMyInfo(String customerUuid, String customerName, String oldPassword, String newPassword1,
-                                       String newPassword2, HttpSession session, String updateUser) throws Exception {
+                                       String newPassword2) throws Exception {
         // 检测信息是否完整
         if (customerUuid == null || customerName == null || newPassword1 == null || newPassword2 == null ||
                 customerUuid.trim().equals("") || customerName.trim().equals("") ||
@@ -138,13 +141,32 @@ public class CustomerController extends BaseController {
         return ajaxSucc(null, ResultEnum.CUSTOMER_UPDATE_SUCCESS);
     }
 
+    // ---------------------------------------------   管理员对顾客的增删改  -------------------------------------------
+    /** 
+    * @Description: 管理员添加用户 
+    * @Param: [customerId, customerName, customerPassword] 
+    * @return: com.practice.starryfood.util.BaseResponse 
+    * @Author: StarryHu
+    * @Date: 2019/11/21 
+    */ 
+    @PostMapping("/add")
+    BaseResponse add(String customerId, String customerName, String customerPassword) throws Exception {
+        // 检查内容是否填写完全
+        if (customerId == null || customerName == null || customerPassword == null ||
+                customerId.trim().equals("") || customerName.trim().equals("") || customerPassword.trim().equals("")) {
+            return ajaxFail(ResultEnum.CUSTOMER_INFO_NOT_FULL);
+        }
+        customerService.register(customerId, customerName, customerPassword);
+        return ajaxSucc(null, ResultEnum.CUSTOMER_REGISTER_SUCCESS);
+    }
+
     /**
-     * 删除用户
-     *
-     * @param customerUuid 用户uuid
-     * @return
-     * @throws Exception
-     */
+    * @Description: 管理员删除顾客 （逻辑删除）
+    * @Param: [customerUuid]
+    * @return: com.practice.starryfood.util.BaseResponse
+    * @Author: StarryHu
+    * @Date: 2019/11/21
+    */
     @GetMapping("/delete")
     public BaseResponse delete(String customerUuid) throws Exception {
         // 检查内容是否填写完全
@@ -155,8 +177,25 @@ public class CustomerController extends BaseController {
         return ajaxSucc(null, ResultEnum.CUSTOMER_DELETE_SUCCESS);
     }
 
+    @PostMapping("/update")
+    public BaseResponse update(String customerUuid,String customerName, String newPassword1,
+                               String newPassword2) throws Exception {
+        // 检测信息是否完整
+        if (customerUuid == null || customerName == null || newPassword1 == null || newPassword2 == null ||
+                customerUuid.trim().equals("") || customerName.trim().equals("") ||
+                newPassword1.trim().equals("") || newPassword2.trim().equals("")) {
+            return ajaxFail(ResultEnum.CUSTOMER_INFO_NOT_FULL);
+        }
+        // 两次输入密码不一样
+        if (!newPassword1.equals(newPassword2)) {
+            return ajaxFail(ResultEnum.CUSTOMER_NOT_SAME_PSWTWO);
+        }
+        // 更新
+        customerService.updateCustomer(customerUuid,customerName,newPassword1);
+        return ajaxSucc(null, ResultEnum.CUSTOMER_UPDATE_SUCCESS);
+    }
     /**
-     * 根据用户账户customerId查找用户
+     * 根据顾客账户customerId查找顾客
      *
      * @param customerId
      * @return
@@ -172,9 +211,20 @@ public class CustomerController extends BaseController {
         return ajaxSucc(customer, ResultEnum.CUSTOMER_SEARCH_SUCCESS);
     }
 
-    // ---------------------- 顾客购物车菜品相关（都是指当前用户而言的） ---------------------
+    @GetMapping("/getAllCustomer")
+    public BaseResponse getAllCustomer(Integer pageNum,Integer pageSize) throws Exception {
+        // 判断信息是否填写完全，如果分页条件未填写则给默认值
+        if (pageNum == null || pageSize == null) {
+            pageNum = 1;
+            pageSize = 10;
+        }
+        // 进行查找
+        PageInfo<CustomerExtend> pageInfo =  customerService.getAllCustomer(pageNum,pageSize);
+        return ajaxSucc(pageInfo,ResultEnum.CUSTOMER_SEARCH_SUCCESS);
+    }
+    // ---------------------- 顾客购物车菜品相关（都是指当前顾客而言的） ---------------------
     /***
-     * 获取当前登录用户的购物车信息
+     * 获取当前登录顾客的购物车信息
      * @param session
      * @return
      * @throws Exception
@@ -210,7 +260,7 @@ public class CustomerController extends BaseController {
     }
 
     /***
-     * 当前登录用户 从购物车中删除菜品
+     * 当前登录顾客 从购物车中删除菜品
      * @param session
      * @param foodId
      * @param foodNum
@@ -231,7 +281,7 @@ public class CustomerController extends BaseController {
 
 
     /**
-     * 根据foodId从当前用户的购物车里面取出信息返回
+     * 根据foodId从当前顾客的购物车里面取出信息返回
      *
      * @param session
      * @param foodIdList
@@ -251,7 +301,7 @@ public class CustomerController extends BaseController {
     }
 
     /**
-     * 当前登录用户下单
+     * 当前登录顾客下单
      *
      * @param session
      * @param foodIdList
@@ -273,7 +323,7 @@ public class CustomerController extends BaseController {
 
     // ---------------------------------------------------------------------
     /***
-    * @Description:  获取系统在线用户人数
+    * @Description:  获取系统在线顾客人数
     * @Param: [httpServletRequest, httpServletResponse]
     * @return: com.practice.starryfood.util.BaseResponse
     * @Author: StarryHu

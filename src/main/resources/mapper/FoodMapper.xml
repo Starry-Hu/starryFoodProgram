@@ -8,10 +8,10 @@
     <result column="food_measurement" jdbcType="VARCHAR" property="foodMeasurement" />
     <result column="food_img" jdbcType="VARCHAR" property="foodImg" />
     <result column="food_has_sold" jdbcType="INTEGER" property="foodHasSold" />
-    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
-    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
-    <result column="createUser" jdbcType="VARCHAR" property="createuser" />
-    <result column="updateUser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
     <result column="is_del" jdbcType="INTEGER" property="isDel" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.practice.starryfood.bean.Food">
@@ -76,8 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    food_id, food_name, food_price, food_measurement, food_img, food_has_sold, createTime, 
-    updateTime, createUser, updateUser, is_del
+    food_id, food_name, food_price, food_measurement, food_img, food_has_sold, create_time, 
+    update_time, create_user, update_user, is_del
   </sql>
   <sql id="Blob_Column_List">
     food_introduce
@@ -135,13 +135,13 @@
   <insert id="insert" parameterType="com.practice.starryfood.bean.Food">
     insert into food (food_id, food_name, food_price, 
       food_measurement, food_img, food_has_sold, 
-      createTime, updateTime, createUser, 
-      updateUser, is_del, food_introduce
+      create_time, update_time, create_user, 
+      update_user, is_del, food_introduce
       )
     values (#{foodId,jdbcType=VARCHAR}, #{foodName,jdbcType=VARCHAR}, #{foodPrice,jdbcType=DECIMAL}, 
       #{foodMeasurement,jdbcType=VARCHAR}, #{foodImg,jdbcType=VARCHAR}, #{foodHasSold,jdbcType=INTEGER}, 
-      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, #{createuser,jdbcType=VARCHAR}, 
-      #{updateuser,jdbcType=VARCHAR}, #{isDel,jdbcType=INTEGER}, #{foodIntroduce,jdbcType=LONGVARCHAR}
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, 
+      #{updateUser,jdbcType=VARCHAR}, #{isDel,jdbcType=INTEGER}, #{foodIntroduce,jdbcType=LONGVARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.practice.starryfood.bean.Food">
@@ -165,17 +165,17 @@
       <if test="foodHasSold != null">
         food_has_sold,
       </if>
-      <if test="createtime != null">
-        createTime,
+      <if test="createTime != null">
+        create_time,
       </if>
-      <if test="updatetime != null">
-        updateTime,
+      <if test="updateTime != null">
+        update_time,
       </if>
-      <if test="createuser != null">
-        createUser,
+      <if test="createUser != null">
+        create_user,
       </if>
-      <if test="updateuser != null">
-        updateUser,
+      <if test="updateUser != null">
+        update_user,
       </if>
       <if test="isDel != null">
         is_del,
@@ -203,17 +203,17 @@
       <if test="foodHasSold != null">
         #{foodHasSold,jdbcType=INTEGER},
       </if>
-      <if test="createtime != null">
-        #{createtime,jdbcType=TIMESTAMP},
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updatetime != null">
-        #{updatetime,jdbcType=TIMESTAMP},
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="createuser != null">
-        #{createuser,jdbcType=VARCHAR},
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
       </if>
-      <if test="updateuser != null">
-        #{updateuser,jdbcType=VARCHAR},
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
       </if>
       <if test="isDel != null">
         #{isDel,jdbcType=INTEGER},
@@ -250,17 +250,17 @@
       <if test="record.foodHasSold != null">
         food_has_sold = #{record.foodHasSold,jdbcType=INTEGER},
       </if>
-      <if test="record.createtime != null">
-        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.updatetime != null">
-        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.createuser != null">
-        createUser = #{record.createuser,jdbcType=VARCHAR},
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
       </if>
-      <if test="record.updateuser != null">
-        updateUser = #{record.updateuser,jdbcType=VARCHAR},
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
       </if>
       <if test="record.isDel != null">
         is_del = #{record.isDel,jdbcType=INTEGER},
@@ -281,10 +281,10 @@
       food_measurement = #{record.foodMeasurement,jdbcType=VARCHAR},
       food_img = #{record.foodImg,jdbcType=VARCHAR},
       food_has_sold = #{record.foodHasSold,jdbcType=INTEGER},
-      createTime = #{record.createtime,jdbcType=TIMESTAMP},
-      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
-      createUser = #{record.createuser,jdbcType=VARCHAR},
-      updateUser = #{record.updateuser,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
       is_del = #{record.isDel,jdbcType=INTEGER},
       food_introduce = #{record.foodIntroduce,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
@@ -299,10 +299,10 @@
       food_measurement = #{record.foodMeasurement,jdbcType=VARCHAR},
       food_img = #{record.foodImg,jdbcType=VARCHAR},
       food_has_sold = #{record.foodHasSold,jdbcType=INTEGER},
-      createTime = #{record.createtime,jdbcType=TIMESTAMP},
-      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
-      createUser = #{record.createuser,jdbcType=VARCHAR},
-      updateUser = #{record.updateuser,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
       is_del = #{record.isDel,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -326,17 +326,17 @@
       <if test="foodHasSold != null">
         food_has_sold = #{foodHasSold,jdbcType=INTEGER},
       </if>
-      <if test="createtime != null">
-        createTime = #{createtime,jdbcType=TIMESTAMP},
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updatetime != null">
-        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="createuser != null">
-        createUser = #{createuser,jdbcType=VARCHAR},
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
       </if>
-      <if test="updateuser != null">
-        updateUser = #{updateuser,jdbcType=VARCHAR},
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
       </if>
       <if test="isDel != null">
         is_del = #{isDel,jdbcType=INTEGER},
@@ -354,10 +354,10 @@
       food_measurement = #{foodMeasurement,jdbcType=VARCHAR},
       food_img = #{foodImg,jdbcType=VARCHAR},
       food_has_sold = #{foodHasSold,jdbcType=INTEGER},
-      createTime = #{createtime,jdbcType=TIMESTAMP},
-      updateTime = #{updatetime,jdbcType=TIMESTAMP},
-      createUser = #{createuser,jdbcType=VARCHAR},
-      updateUser = #{updateuser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR},
       is_del = #{isDel,jdbcType=INTEGER},
       food_introduce = #{foodIntroduce,jdbcType=LONGVARCHAR}
     where food_id = #{foodId,jdbcType=VARCHAR}
@@ -369,10 +369,10 @@
       food_measurement = #{foodMeasurement,jdbcType=VARCHAR},
       food_img = #{foodImg,jdbcType=VARCHAR},
       food_has_sold = #{foodHasSold,jdbcType=INTEGER},
-      createTime = #{createtime,jdbcType=TIMESTAMP},
-      updateTime = #{updatetime,jdbcType=TIMESTAMP},
-      createUser = #{createuser,jdbcType=VARCHAR},
-      updateUser = #{updateuser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR},
       is_del = #{isDel,jdbcType=INTEGER}
     where food_id = #{foodId,jdbcType=VARCHAR}
   </update>

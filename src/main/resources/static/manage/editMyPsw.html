@@ -18,24 +18,24 @@
             width: 250px;
         }
     </style>
-    <title>顾客修改个人信息</title>
+    <title>用户修改个人信息</title>
 </head>
 
 <body>
 <div>
     <form id="editForm" class="layui-form">
         <div class="layui-form-item">
-            <label class="layui-form-label " for="customerId">顾客账号</label>
+            <label class="layui-form-label " for="adminId">管理员账号</label>
             <div class="layui-input-inline">
-                <input type="text" id="customerId" placeholder="请输入顾客账号" disabled
+                <input type="text" id="adminId" placeholder="请输入管理员账号" disabled
                        class="layui-input" style="background: #999999;opacity: 0.7">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label " for="customerName">顾客名</label>
+            <label class="layui-form-label " for="adminName">管理员名称</label>
             <div class="layui-input-inline">
-                <input type="text" id="customerName" required placeholder="请输入顾客名"
-                       autocomplete="off" class="layui-input">
+                <input type="text" id="adminName" placeholder="请输入管理员名称" disabled
+                       autocomplete="off" class="layui-input" style="background: #999999;opacity: 0.7">
             </div>
         </div>
         <div class="layui-form-item">
@@ -74,43 +74,45 @@
     layui.use(['layer'], function () {
         const path = location.protocol + "//" + window.location.host + "/starryfood";
 
-        // 要修改信息顾客uuid
-        let customerUuid;
+        // 要修改信息管理员uuid
+        let adminUuid;
 
-        // 获取当前登录顾客信息并填充
+        // 获取当前登录用户信息并填充
         $.ajax({
             type: "get",
-            url: path + "/customer/getLoginedCustomer",
+            url: path + "/admin/getLoginedAdmin",
             dataType: "json",
             success: function (response) {
                 // 成功则显示信息
                 if (response.code == '0') {
-                    customerUuid = response.data.customerUuid;
-                    $('#customerId').val(response.data.customerId);
-                    $('#customerName').val(response.data.customerName);
+                    adminUuid = response.data.adminUuid;
+                    $('#adminId').val(response.data.adminId);
+                    $('#adminName').val(response.data.adminName);
                 }
             }
         });
 
         // 提交修改信息
         $('#submit').click(function () {
-            const customerName = $('#customerName').val();
             const oldPassword = $('#oldPassword').val();
             const newPassword1 = $('#newPassword1').val();
             const newPassword2 = $('#newPassword2').val();
 
-            if (customerName == '' || oldPassword == '' || newPassword1 == '' || newPassword2 == '') {
+            if (oldPassword == '' || newPassword1 == '' || newPassword2 == '') {
                 layer.msg('请将信息填写完全', {
                     time: 1500,
                 })
+            } else if (newPassword1 != newPassword2){
+                layer.msg('新密码两次填写不相同', {
+                    time: 1500,
+                })
             } else {
-                // 提交信息到后台
-                $.ajax({
+                    // 提交信息到后台
+                    $.ajax({
                     type: "post",
-                    url: path + "/customer/editMyInfo",
+                    url: path + "/admin/editMyPassword",
                     data: {
-                        customerUuid: customerUuid,
-                        customerName: customerName,
+                        adminUuid: adminUuid,
                         oldPassword: oldPassword,
                         newPassword1: newPassword1,
                         newPassword2: newPassword2,
@@ -119,12 +121,20 @@
                     success: function (response) {
                         layer.msg(`${response.msg}`, {
                             time: 1500,
+                            end: function () {
+                                // 如果更新成功则让父页面跳转到登录页面，重新登录
+                                if (response.code == '251') {
+                                    layer.msg("请重新登录！");
+                                    location.reload();
+                                }
+                            }
                         })
                     }
-                });
+                })
             }
+
+            })
         })
-    })
 </script>
 </body>
 

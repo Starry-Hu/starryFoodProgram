@@ -1,3 +1,5 @@
+const path = location.protocol + "//" + window.location.host + "/starryfood";
+
 layui.use(['element','layer'], function() {
     var $ = layui.jquery;
     var element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
@@ -123,35 +125,10 @@ layui.use(['element','layer'], function() {
     $(function() {
         FrameWH();
     })
+
+
+
+
+
+
 });
-
-// 获取当前登录的管理员
-$(function() {
-    $.ajax({
-        type: "get",
-        url: "admin/getLogined",
-        dataType: "json",
-        success: function(response) {
-            $('#adminName').text(response.data.adminName);
-        }
-    });
-})
-
-function logout() {
-    $.ajax({
-        type: "get",
-        url: "admin/logout",
-        dataType: "json",
-        success: function(response) {
-            if (response.code == 0) {
-                layer.msg('退出成功', {time:2000}, function() {
-                    location.href = 'login.html'
-                });
-            }else{
-                layer.msg('退出失败')
-            }
-            return false;
-        }
-    });
-}
-
