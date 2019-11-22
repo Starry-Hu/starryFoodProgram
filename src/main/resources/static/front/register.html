@@ -47,54 +47,49 @@
 </div>
 
 <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="js/layer_mobile/layer.js"></script>
+<script type="text/javascript" src="lib/layui/layui.js"></script>
 <script type="text/javascript">
-    // 点击注册
-    $('#register').click(function () {
-        const customerId = $('#customerId').val();
-        const customerName = $('#customerName').val();
-        const password1 = $('#password1').val();
-        const password2 = $('#password2').val();
-        if (customerId == '' || customerName == '' || password1 == '' || password2== '') {
-            //提示层msg
-            layer.open({
-                content: '请将信息填写完全！',
-                skin: 'msg',
-                time: 1.5
-            });
-            return;
-        } else if (password1 != password2) {
-            //提示层msg
-            layer.open({
-                content: '两次输入密码不一致！',
-                skin: 'msg',
-                time: 1.5
-            });
-        } else {
-            var path = location.protocol + "//" + window.location.host + "/starryfood/customer/register";
-            $.ajax({
-                type: "post",
-                url: path,
-                data: {
-                    "customerId": customerId,
-                    "customerName": customerName,
-                    "customerPassword": password1
-                },
-                dataType: "json",
-                success: function (response) {
-                    // 显示信息
-                    layer.open({
-                        content: response.msg,
-                        skin: 'msg',
-                        time: 1.5
-                    });
-                    if (response.code == 351) {
-                        // 注册成功跳转
-                        window.location.href = "login.html";
+    layui.use(['layer'], function () {
+        // 点击注册
+        $('#register').click(function () {
+            const customerId = $('#customerId').val();
+            const customerName = $('#customerName').val();
+            const password1 = $('#password1').val();
+            const password2 = $('#password2').val();
+            if (customerId == '' || customerName == '' || password1 == '' || password2 == '') {
+                layer.msg('请将信息填写完全！',{
+                    time: 1500
+                });
+            } else if (password1 != password2) {
+                layer.msg('两次输入密码不一致！',{
+                    time: 1500
+                });
+            } else {
+                const path = location.protocol + "//" + window.location.host + "/starryfood/customer/register";
+                $.ajax({
+                    type: "post",
+                    url: path,
+                    data: {
+                        "customerId": customerId,
+                        "customerName": customerName,
+                        "customerPassword": password1
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        // 显示信息
+                        layer.msg(response.msg,{
+                            time: 1500,
+                            end: function(){
+                                if (response.code == 351) {
+                                    location.href = 'login.html'
+                                }
+                            }
+                        });
                     }
-                }
-            })
-        };
+                })
+            }
+            ;
+        })
     })
 </script>
 </body>

@@ -33,10 +33,6 @@ function deleteFood(foodId){
             dataType: "json",
             success: function (response) {
                 layer.msg(response.msg);
-                // if(response.code = '411'){
-                //     // 在页面上删除
-                //     $(this).parents("#figureContainer").remove();
-                // }
             }
         })
     }
