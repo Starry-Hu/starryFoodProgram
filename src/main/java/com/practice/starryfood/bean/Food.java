@@ -8,6 +8,8 @@ public class Food {
 
     private String foodName;
 
+    private String foodKindId;
+
     private BigDecimal foodPrice;
 
     private String foodMeasurement;
@@ -42,6 +44,14 @@ public class Food {
 
     public void setFoodName(String foodName) {
         this.foodName = foodName;
+    }
+
+    public String getFoodKindId() {
+        return foodKindId;
+    }
+
+    public void setFoodKindId(String foodKindId) {
+        this.foodKindId = foodKindId;
     }
 
     public BigDecimal getFoodPrice() {

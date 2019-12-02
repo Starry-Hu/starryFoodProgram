@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/font.css">
+    <link rel="stylesheet" href="lib/layui/css/layui.css">
+    <title>所有菜品种类</title>
+    <style>
+        form {
+            width: 600px;
+        }
+
+        table {
+            border-collapse: initial;
+        }
+    </style>
+</head>
+
+<body class="layui-anim layui-anim-up">
+<div>
+    <section>
+        <form id="addForm" class="layui-form">
+            <div class="layui-form-item layui-inline">
+                <div class="layui-input-inline">
+                    <input type="text" id="addFoodKindName" required placeholder="请输入菜品种类名称"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-inline">
+                <div class="layui-btn" id="add">添加菜品种类</div>
+            </div>
+
+            <!-- 刷新 -->
+            <div class="layui-form-item layui-inline">
+            <button class="layui-btn" onclick="javascript:location.reload();">
+                <i class="layui-icon layui-icon-refresh-3"></i>
+            </button>
+            </div>
+        </form>
+    </section>
+
+
+
+    <table id="allFoodKinds" lay-filter="allFoodKinds"></table>
+</div>
+
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delete">删除</a>
+</script>
+<script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="lib/layui/layui.js"></script>
+
+<script>
+    layui.use(['table', 'layer'], function () {
+        const path = location.protocol + "//" + window.location.host + "/starryfood";
+        const table = layui.table, layer = layui.layer;
+        //展示已知数据
+        table.render({
+            elem: '#allFoodKinds',
+            toolbar: 'default',
+            loading: true, //翻页加loading
+            url: path + '/foodKind/getAllFoodKinds',
+            parseData: function (res) {
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "data": res.data, //解析数据列表
+                };
+            },
+            response: {
+                statusCode: 531 //规定成功的状态码，默认：0
+            },
+            request: {
+                pageName: 'pageNum', //页码的参数名称，默认：page
+                limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            },
+            cols: [
+                [{
+                    field: 'number',
+                    title: '',
+                    width: '5%',
+                    type: 'numbers',
+                }, {
+                    field: 'foodKindId',
+                    title: '菜品种类ID',
+                    width: '15%',
+                }, {
+                    field: 'foodKindName',
+                    title: '菜品种类名称',
+                    edit: 'text',
+                    width: '15%',
+                }, {
+                    field: 'createTimeString',
+                    title: '创建时间',
+                    width: '16%',
+                    sort: true,
+                }, {
+                    field: 'createUser',
+                    title: '创建者',
+                    width: '12%',
+                }, {
+                    field: 'updateTimeString',
+                    title: '最近修改时间',
+                    width: '16%',
+                    sort: true,
+                }, {
+                    field: 'updateUser',
+                    title: '最近修改者',
+                    width: '13%',
+                }, {
+                    fixed: 'right',
+                    width: '8%',
+                    align: 'center',
+                    toolbar: '#barDemo'
+                } //这里的toolbar值是模板元素的选择器
+                ]
+            ],
+            even: true,
+            id: "dataTable"
+        });
+
+
+        //监听行工具事件
+        table.on('tool(allFoodKinds)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            const data = obj.data //获得当前行数据
+                , layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent == 'delete') {
+                layer.confirm('确认要删除吗？', {
+                    btn : [ '确定', '取消' ] // 按钮
+                }, function() {
+                    $.ajax({
+                        type: "get",
+                        url: path + "/foodKind/delete?foodKindId=" + data.foodKindId,
+                        dataType: "json",
+                        success: function (response) {
+                            layer.msg(`${response.msg}`, {
+                                time: 1500,
+                                end: function () {
+                                    // 删除成功时，删除对应行（tr）的DOM结构
+                                    if (response.code == 511)
+                                        obj.del();
+                                }
+                            })
+
+                        }
+                    });
+                });
+
+            }
+        })
+
+        // 监听单元格编辑，修改种类名称
+        table.on('edit(allFoodKinds)', function (obj) {
+            let value = obj.value //得到修改后的值
+                , data = obj.data //得到所在行所有键值
+
+            $.ajax({
+                type: "post",
+                url: path + "/foodKind/update",
+                data: {
+                    "foodKindId": data.foodKindId,
+                    "foodKindName": value, //修改的菜品种类名称，此处字段名称也可以用obj.field代替
+                },
+                dataType: "json",
+                success: function (response) {
+                    layer.msg(`${response.msg}`, {
+                        time: 1500,
+                        end: function () {
+                            // 如果没有更新成功，则回滚显示之前的值
+                            if (response.code != 521)
+                                location.reload();
+                        }
+                    })
+
+                }
+            });
+        });
+
+        // 添加菜品种类
+        $('#add').click(function () {
+            const foodKindName = $('#addFoodKindName').val();
+
+            // 检测内容是否填写完全
+            if (foodKindName == '') {
+                layer.msg("请填写菜品种类名称后再添加！", {time: 1500});
+            }else{
+                // 添加菜品，提交到后台
+                $.ajax({
+                    type: "post",
+                    url: path + "/foodKind/add",
+                    data: {
+                        "foodKindName": foodKindName,
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        layer.msg(`${response.msg}`, {
+                            time: 1500,
+                            end: function () {
+                                // 如果没有更新成功，则回滚显示之前的值
+                                if (response.code == 501)
+                                    location.reload();
+                            }
+                        })
+                    }
+                });
+            }
+        })
+
+
+    })
+
+
+</script>
+
+
+</body>
+
+</html>

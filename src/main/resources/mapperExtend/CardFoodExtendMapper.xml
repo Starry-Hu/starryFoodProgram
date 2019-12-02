@@ -21,7 +21,7 @@
         A.cart_id = #{cartId}
     </select>
 
-    <!-- 获取某购物车中某类菜品信息 -->
+    <!-- 获取某购物车中某菜品信息 -->
     <select id="getFoodFromCartByFoodId" resultType="com.practice.starryfood.pojo.CartFoodExtend">
      SELECT
         A.cart_food_uuid AS cartFoodUuid,

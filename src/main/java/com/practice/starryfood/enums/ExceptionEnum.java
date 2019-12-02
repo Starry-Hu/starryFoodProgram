@@ -44,6 +44,14 @@ public enum ExceptionEnum {
     FOOD_UPDATE_FAIL(423,"菜品更新失败"),
     FOOD_SEARCH_NULL(432,"查找失败！菜品为空！无内容"),
 
+    // 菜品种类相关
+    FOOD_KIND_ADD_FAIL(501,"菜品种类添加失败"),
+    FOOD_KIND_DELETE_NOT_EXIST(502,"菜品种类不存在！删除失败"),
+    FOOD_KIND_DELETE_CASCADE(503,"该菜品种类下仍有相关菜品！请先删除相关菜品再进行种类的删除！"),
+    FOOD_KIND_DELETE_FAIL(504,"菜品种类删除失败"),
+    FOOD_KIND_UPDATE_NOT_EXIST(505,"更新失败！菜品种类不存在"),
+    FOOD_KIND_UPDATE_FAIL(506,"菜品种类更新失败"),
+    FOOD_KIND_SEARCH_NOT_EXIST(507,"查找失败！菜品种类不存在"),
 
     // 购物车相关
     CART_ADD_FOOD_FAIL(502,"添加菜品到购物车失败"),

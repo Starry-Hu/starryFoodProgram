@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.practice.starryfood.daoExtend.FoodKindExtendMapper">
+
+    <!-- 获取全部菜品种类 -->
+    <select id="getAllFoodKinds"  resultType="com.practice.starryfood.pojo.FoodKindExtend">
+     SELECT
+        A.food_kind_id AS foodKindId,
+        A.food_kind_name AS foodKindName,
+        A.create_time AS createTime,
+        A.update_time AS updateTime,
+        B.admin_name AS createUser,
+        C.admin_name AS updateUser
+    FROM
+        food_kind A
+        INNER JOIN admin B ON A.create_user = B.admin_uuid
+        LEFT JOIN admin C ON A.update_user = C.admin_uuid
+    WHERE
+        A.is_del = 0
+    ORDER BY
+	    A.create_time DESC
+    </select>
+
+
+</mapper>

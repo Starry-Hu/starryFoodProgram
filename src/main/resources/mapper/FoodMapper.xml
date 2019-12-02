@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.practice.starryfood.bean.Food">
     <id column="food_id" jdbcType="VARCHAR" property="foodId" />
     <result column="food_name" jdbcType="VARCHAR" property="foodName" />
+    <result column="food_kind_id" jdbcType="VARCHAR" property="foodKindId" />
     <result column="food_price" jdbcType="DECIMAL" property="foodPrice" />
     <result column="food_measurement" jdbcType="VARCHAR" property="foodMeasurement" />
     <result column="food_img" jdbcType="VARCHAR" property="foodImg" />
@@ -76,8 +77,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    food_id, food_name, food_price, food_measurement, food_img, food_has_sold, create_time, 
-    update_time, create_user, update_user, is_del
+    food_id, food_name, food_kind_id, food_price, food_measurement, food_img, food_has_sold, 
+    create_time, update_time, create_user, update_user, is_del
   </sql>
   <sql id="Blob_Column_List">
     food_introduce
@@ -133,16 +134,16 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.practice.starryfood.bean.Food">
-    insert into food (food_id, food_name, food_price, 
-      food_measurement, food_img, food_has_sold, 
-      create_time, update_time, create_user, 
-      update_user, is_del, food_introduce
-      )
-    values (#{foodId,jdbcType=VARCHAR}, #{foodName,jdbcType=VARCHAR}, #{foodPrice,jdbcType=DECIMAL}, 
-      #{foodMeasurement,jdbcType=VARCHAR}, #{foodImg,jdbcType=VARCHAR}, #{foodHasSold,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, 
-      #{updateUser,jdbcType=VARCHAR}, #{isDel,jdbcType=INTEGER}, #{foodIntroduce,jdbcType=LONGVARCHAR}
-      )
+    insert into food (food_id, food_name, food_kind_id, 
+      food_price, food_measurement, food_img, 
+      food_has_sold, create_time, update_time, 
+      create_user, update_user, is_del, 
+      food_introduce)
+    values (#{foodId,jdbcType=VARCHAR}, #{foodName,jdbcType=VARCHAR}, #{foodKindId,jdbcType=VARCHAR}, 
+      #{foodPrice,jdbcType=DECIMAL}, #{foodMeasurement,jdbcType=VARCHAR}, #{foodImg,jdbcType=VARCHAR}, 
+      #{foodHasSold,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{createUser,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, #{isDel,jdbcType=INTEGER}, 
+      #{foodIntroduce,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.practice.starryfood.bean.Food">
     insert into food
@@ -152,6 +153,9 @@
       </if>
       <if test="foodName != null">
         food_name,
+      </if>
+      <if test="foodKindId != null">
+        food_kind_id,
       </if>
       <if test="foodPrice != null">
         food_price,
@@ -190,6 +194,9 @@
       </if>
       <if test="foodName != null">
         #{foodName,jdbcType=VARCHAR},
+      </if>
+      <if test="foodKindId != null">
+        #{foodKindId,jdbcType=VARCHAR},
       </if>
       <if test="foodPrice != null">
         #{foodPrice,jdbcType=DECIMAL},
@@ -238,6 +245,9 @@
       <if test="record.foodName != null">
         food_name = #{record.foodName,jdbcType=VARCHAR},
       </if>
+      <if test="record.foodKindId != null">
+        food_kind_id = #{record.foodKindId,jdbcType=VARCHAR},
+      </if>
       <if test="record.foodPrice != null">
         food_price = #{record.foodPrice,jdbcType=DECIMAL},
       </if>
@@ -277,6 +287,7 @@
     update food
     set food_id = #{record.foodId,jdbcType=VARCHAR},
       food_name = #{record.foodName,jdbcType=VARCHAR},
+      food_kind_id = #{record.foodKindId,jdbcType=VARCHAR},
       food_price = #{record.foodPrice,jdbcType=DECIMAL},
       food_measurement = #{record.foodMeasurement,jdbcType=VARCHAR},
       food_img = #{record.foodImg,jdbcType=VARCHAR},
@@ -295,6 +306,7 @@
     update food
     set food_id = #{record.foodId,jdbcType=VARCHAR},
       food_name = #{record.foodName,jdbcType=VARCHAR},
+      food_kind_id = #{record.foodKindId,jdbcType=VARCHAR},
       food_price = #{record.foodPrice,jdbcType=DECIMAL},
       food_measurement = #{record.foodMeasurement,jdbcType=VARCHAR},
       food_img = #{record.foodImg,jdbcType=VARCHAR},
@@ -313,6 +325,9 @@
     <set>
       <if test="foodName != null">
         food_name = #{foodName,jdbcType=VARCHAR},
+      </if>
+      <if test="foodKindId != null">
+        food_kind_id = #{foodKindId,jdbcType=VARCHAR},
       </if>
       <if test="foodPrice != null">
         food_price = #{foodPrice,jdbcType=DECIMAL},
@@ -350,6 +365,7 @@
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.practice.starryfood.bean.Food">
     update food
     set food_name = #{foodName,jdbcType=VARCHAR},
+      food_kind_id = #{foodKindId,jdbcType=VARCHAR},
       food_price = #{foodPrice,jdbcType=DECIMAL},
       food_measurement = #{foodMeasurement,jdbcType=VARCHAR},
       food_img = #{foodImg,jdbcType=VARCHAR},
@@ -365,6 +381,7 @@
   <update id="updateByPrimaryKey" parameterType="com.practice.starryfood.bean.Food">
     update food
     set food_name = #{foodName,jdbcType=VARCHAR},
+      food_kind_id = #{foodKindId,jdbcType=VARCHAR},
       food_price = #{foodPrice,jdbcType=DECIMAL},
       food_measurement = #{foodMeasurement,jdbcType=VARCHAR},
       food_img = #{foodImg,jdbcType=VARCHAR},

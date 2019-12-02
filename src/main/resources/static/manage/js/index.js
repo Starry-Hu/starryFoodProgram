@@ -1,5 +1,28 @@
 const path = location.protocol + "//" + window.location.host + "/starryfood";
 
+// 动态渲染菜品种类的左列表
+$.ajax({
+    type: "get",
+    url: path + "/foodKind/getAllFoodKinds",
+    dataType: "json",
+    success: function (response) {
+        if (response.code == 531) {
+            if (response.data != null) {
+                const foodKindTab = $('#foodKindTab');
+                for(let i = 0; i < response.data.length; i++){
+                    const element = response.data[i];
+                    const $dd = `<dd><a href="#" data-url="foodListByKind.html?foodKindId=${element.foodKindId}"
+                                    data-title="${element.foodKindName}类" data-id="11${2+i}"
+                                    class="site-demo-active" data-type="tabAdd">${element.foodKindName}类</a></dd>`;
+                    foodKindTab.append($dd);
+                }
+            }
+        } else {
+            layer.msg(`{response.msg}`,{time:1500})
+        }
+    }
+});
+
 layui.use(['element','layer'], function() {
     var $ = layui.jquery;
     var element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
@@ -13,7 +36,7 @@ layui.use(['element','layer'], function() {
             //关于tabAdd的方法所传入的参数可看layui的开发文档中基础方法部分
             element.tabAdd('demo', {
                 title: name,
-                content: '<iframe data-frameid="' + id + '" scrolling="auto" frameborder="0" src="' + url + '.html" style="width:100%;height:99%;"></iframe>',
+                content: '<iframe data-frameid="' + id + '" scrolling="auto" frameborder="0" src="' + url + '" style="width:100%;height:99%;"></iframe>',
                 id: id //规定好的id
             })
             CustomRightClick(id); //给tab绑定右击事件

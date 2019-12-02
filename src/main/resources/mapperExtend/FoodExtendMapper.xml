@@ -6,6 +6,7 @@
     <select id="getFoodById" parameterType="java.lang.String" resultType="com.practice.starryfood.pojo.FoodExtend">
      SELECT
         A.food_id AS foodId,
+        A.food_kind_id AS foodKindId,
         A.food_name AS foodName,
         A.food_price AS foodPrice,
         A.food_measurement AS foodMeasurement,
@@ -22,10 +23,12 @@
         A.is_del = 0
         AND A.food_id = #{foodId}
     </select>
+
     <!-- 获取全部菜品 -->
     <select id="getAllFoods" resultType="com.practice.starryfood.pojo.FoodExtend">
      SELECT
         A.food_id AS foodId,
+        A.food_kind_id AS foodKindId,
         A.food_name AS foodName,
         A.food_price AS foodPrice,
         A.food_measurement AS foodMeasurement,
@@ -40,6 +43,32 @@
         LEFT JOIN admin C ON A.update_user = C.admin_uuid
     WHERE
         A.is_del = 0
+    ORDER BY
+	    A.create_time DESC
+    </select>
+
+    <!-- 获取指定种类下的全部菜品 -->
+    <select id="getFoodsByKind" resultType="com.practice.starryfood.pojo.FoodExtend">
+     SELECT
+        A.food_id AS foodId,
+        A.food_kind_id AS foodKindId,
+        A.food_name AS foodName,
+        A.food_price AS foodPrice,
+        A.food_measurement AS foodMeasurement,
+        A.food_has_sold AS foodHasSold,
+        A.food_introduce AS foodIntroduce,
+        A.food_img AS foodImg,
+        B.admin_name AS create_user,
+        C.admin_name AS update_user
+    FROM
+        food A
+        INNER JOIN admin B ON A.create_user = B.admin_uuid
+        LEFT JOIN admin C ON A.update_user = C.admin_uuid
+    WHERE
+        A.is_del = 0
+        AND A.food_king_id = #{foodKindId}
+    ORDER BY
+	    A.create_time DESC
     </select>
 
 </mapper>

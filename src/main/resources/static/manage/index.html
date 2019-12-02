@@ -45,18 +45,26 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                <li class="layui-nav-item layui-this"><a href="#" data-url="welcome" data-title="主页" data-id="00"
+                <li class="layui-nav-item layui-this"><a href="#" data-url="welcome.html" data-title="主页" data-id="00"
                                                          class="site-demo-active" data-type="tabAdd">主页</a></li>
-                <li class="layui-nav-item"><a href="#" data-url="foodList" data-title="菜品相关" data-id="11"
-                                              class="site-demo-active" data-type="tabAdd">菜品相关</a></li>
-                <li class="layui-nav-item"><a href="#" data-url="orderList" data-title="订单相关" data-id="22"
+                <li class="layui-nav-item">
+                    <a href="#" data-url="foodList.html" data-title="菜品相关" data-id="11"
+                                              class="site-demo-active" data-type="tabAdd">菜品相关</a>
+                    <dl class="layui-nav-child" id="foodKindTab"> <!-- 二级菜单，并动态渲染菜品种类 -->
+                        <dd><a data-url="foodKindList.html" data-title="菜品种类列表" data-id="111"
+                               class="site-demo-active" data-type="tabAdd">菜品种类列表</a></dd>
+                        <dd><a data-url="customerIsDelList.html" data-title="已删除用户回收站" data-id="112"
+                               class="site-demo-active" data-type="tabAdd">已删除用户回收站</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="#" data-url="orderList.html" data-title="订单相关" data-id="22"
                                               class="site-demo-active" data-type="tabAdd">订单相关</a></li>
                 <li class="layui-nav-item">
                     <a href="javascript:;">顾客相关</a>
                     <dl class="layui-nav-child"> <!-- 二级菜单 -->
-                        <dd><a data-url="customerList" data-title="顾客列表" data-id="331"
+                        <dd><a data-url="customerList.html" data-title="顾客列表" data-id="331"
                                class="site-demo-active" data-type="tabAdd">顾客列表</a></dd>
-                        <dd><a data-url="customerIsDelList" data-title="已删除用户回收站" data-id="332"
+                        <dd><a data-url="customerIsDelList.html" data-title="已删除用户回收站" data-id="332"
                                class="site-demo-active" data-type="tabAdd">已删除用户回收站</a></dd>
                     </dl>
 
@@ -145,6 +153,29 @@
                         return false;
                     }
                 });
+            });
+
+            // 动态渲染菜品种类的左列表
+            $.ajax({
+                type: "get",
+                url: path + "/foodKind/getAllFoodKinds",
+                dataType: "json",
+                success: function (response) {
+                    if (response.code == 531) {
+                        if (response.data != null) {
+                            const foodKindTab = $('#foodKindTab');
+                            for(let i = 0; i < response.data.length; i++){
+                                const element = response.data[i];
+                                const $dd = `<dd><a href="#" data-url="foodListByKind"
+                                    data-title="${element.foodKindName}类" data-id="11${2+i}"
+                                    class="site-demo-active" data-type="tabAdd">${element.foodKindName}类</a></dd>`;
+                                foodKindTab.append($dd);
+                            }
+                        }
+                    } else {
+                        layer.msg(`{response.msg}`,{time:1500})
+                    }
+                }
             });
         })
     })

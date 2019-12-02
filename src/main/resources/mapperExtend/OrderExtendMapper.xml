@@ -16,6 +16,8 @@
     WHERE
         A.is_del = 0
         AND A.order_create_customer = #{customerUuid}
+    ORDER BY
+	    A.order_create_time DESC
     </select>
 
 </mapper>

@@ -32,27 +32,27 @@ public class FoodController extends BaseController {
 
     /**
     * @Description: 添加菜品信息
-    * @Param: [foodName, foodPrice, foodMeasurement, foodIntroduce, foodImg, createUser]
+    * @Param: [foodName, foodKindId, foodPrice, foodMeasurement, foodIntroduce, foodImg, createUser]
     * @return: com.practice.starryfood.util.BaseResponse
     * @Author: StarryHu
     * @Date: 2019/11/21
     */
     @PostMapping("/add")
-    public BaseResponse addFood(String foodName, BigDecimal foodPrice, String foodMeasurement, String foodIntroduce,
+    public BaseResponse addFood(String foodName,String foodKindId, BigDecimal foodPrice, String foodMeasurement, String foodIntroduce,
                                 String foodImg, HttpSession session) throws Exception {
         // 判断信息是否填写完全
-        if (foodName == null || foodPrice == null || foodMeasurement == null || foodName.trim().equals("")
-                || foodPrice.equals(0.0) || foodMeasurement.trim().equals(""))
+        if (foodName == null || foodKindId == null || foodPrice == null || foodMeasurement == null || foodName.trim().equals("")
+                || foodKindId.trim().equals("") || foodPrice.equals(0.0) || foodMeasurement.trim().equals(""))
             return ajaxFail(ResultEnum.FOOD_INFO_NOT_FULL);
         // 获取当前登录的管理员作为创建者
         String createUser = (String) session.getAttribute("adminUuid");
         // 进行菜品添加
-        foodService.addFood(foodName, foodPrice, foodMeasurement, foodIntroduce, foodImg, createUser);
+        foodService.addFood(foodName, foodKindId, foodPrice, foodMeasurement, foodIntroduce, foodImg, createUser);
         return ajaxSucc(null, ResultEnum.FOOD_ADD_SUCCESS);
     }
 
     /**
-    * @Description: 删除菜品
+    * @Description: 删除菜品(逻辑删除)
     * @Param: [foodId, session]
     * @return: com.practice.starryfood.util.BaseResponse
     * @Author: StarryHu
@@ -79,16 +79,16 @@ public class FoodController extends BaseController {
     * @Date: 2019/11/21
     */
     @PostMapping("/update")
-    public BaseResponse updateFood(String foodId, String foodName, BigDecimal foodPrice, String foodMeasurement, String foodIntroduce,
+    public BaseResponse updateFood(String foodId, String foodKindId, String foodName, BigDecimal foodPrice, String foodMeasurement, String foodIntroduce,
                                    String foodImg, HttpSession session) throws Exception {
         // 判断信息是否填写完全
-        if (foodId == null ||foodName == null || foodPrice == null || foodMeasurement == null || foodName.trim().equals("")
-                || foodId.trim().equals("") || foodPrice.equals(0.0) || foodMeasurement.trim().equals(""))
+        if (foodName == null || foodKindId == null || foodPrice == null || foodMeasurement == null || foodName.trim().equals("")
+                || foodKindId.trim().equals("") || foodPrice.equals(0.0) || foodMeasurement.trim().equals(""))
             return ajaxFail(ResultEnum.FOOD_INFO_NOT_FULL);
         // 获取当前登录的管理员
         String updateUser = (String) session.getAttribute("adminUuid");
         // 进行菜品更新
-        foodService.updateFood(foodId,foodName, foodPrice, foodMeasurement, foodIntroduce, foodImg, updateUser);
+        foodService.updateFood(foodId,foodKindId,foodName, foodPrice, foodMeasurement, foodIntroduce, foodImg, updateUser);
         return ajaxSucc(null, ResultEnum.FOOD_UPDATE_SUCCESS);
     }
 
@@ -106,13 +106,14 @@ public class FoodController extends BaseController {
         FoodExtend foodExtend = foodService.getFoodById(foodId);
         return ajaxSucc(foodExtend,ResultEnum.FOOD_SEARCH_SUCCESS);
     }
+
     /**
-     * 查找全部菜品（带分页）
-     * @param pageNum 页码
-     * @param pageSize 每页大小
-     * @return
-     * @throws Exception
-     */
+    * @Description: 获取全部菜品（带分页）
+    * @Param: [pageNum, pageSize]
+    * @return: com.practice.starryfood.util.BaseResponse
+    * @Author: StarryHu
+    * @Date: 2019/12/2
+    */
     @GetMapping("/getAllFoods")
     public BaseResponse getAllFoods(Integer pageNum, Integer pageSize) throws Exception {
         // 判断信息是否填写完全，如果分页条件未填写则给默认值
@@ -125,4 +126,22 @@ public class FoodController extends BaseController {
         return ajaxSucc(pageInfo,ResultEnum.FOOD_SEARCH_SUCCESS);
     }
 
+    /**
+    * @Description: 获取指定菜品种类的菜品信息（带分页）
+    * @Param: [foodKindId, pageNum, pageSize]
+    * @return: com.practice.starryfood.util.BaseResponse
+    * @Author: StarryHu
+    * @Date: 2019/12/2
+    */
+    @GetMapping("/getFoodsByKind")
+    public BaseResponse getFoodsByKind(String foodKindId,Integer pageNum, Integer pageSize) throws Exception {
+        // 判断信息是否填写完全，如果分页条件未填写则给默认值
+        if (pageNum == null || pageSize == null) {
+            pageNum = 1;
+            pageSize = 10;
+        }
+        // 进行查找
+        PageInfo<FoodExtend> pageInfo =  foodService.getAllFoods(pageNum,pageSize);
+        return ajaxSucc(pageInfo,ResultEnum.FOOD_SEARCH_SUCCESS);
+    }
 }
