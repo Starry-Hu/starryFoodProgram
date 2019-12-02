@@ -39,8 +39,21 @@
         <div id='cssmenu' class="align-center">
             <ul>
                 <li><a href='index.html'><span>Home</span></a></li>
-                <li><a href='menu.html'><span>Menu</span></a></li>
-                <li class='last active'><a href='cartList.html'><span>My</span></a></li>
+                <li class='has-sub'><a href='menu.html'><span>Menu</span></a>
+                    <ul >
+                        <li><a href='menu1.html'><span>Item 1</span></a></li>
+                        <li><a href='menu2.html'><span>Item 2</span></a></li>
+                    </ul>
+                </li>
+                <li class='has-sub last active'><a href='#'><span>My</span></a>
+                    <ul >
+                        <li><a href='myOrder.html'><span>MyOrder</span></a></li>
+                        <li><a href='cartList.html'><span>shoppingCart</span></a></li>
+                    </ul>
+                </li>
+
+                <p class="rightElem" id="logout"><a><span>退出登录</span></a></p>
+                <p class="rightElem" id="editPersonInfo"><a href='#'><span>123</span></a></p>
             </ul>
         </div>
     </header>

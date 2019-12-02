@@ -52,7 +52,10 @@ public enum ResultEnum {
     CART_ADD_FOOD_SUCCESS(501,"菜品添加到购物车成功"),
     CART_DELETE_FOOD_SUCCESS(511,"菜品从购物车删除成功"),
     CART_MARK_ORDER_SUCCESS(521,"下单成功"),
-    CART_INFO_NOT_FULL(599,"信息填写不完全");
+    CART_INFO_NOT_FULL(599,"信息填写不完全"),
+
+    // 订单相关
+    ORDER_SEARCH_SUCCESS(531,"订单查询成功"),
     ;
     private Integer code;
     private String msg;

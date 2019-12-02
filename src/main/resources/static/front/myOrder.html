@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>StarryFood - 我的订单</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="css/zerogrid.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/lightbox.css">
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="lib/layui/css/layui.css">
+    <style>
+        hr {
+            height: 3px;
+            margin: 20px 485px;
+        }
+
+        #main-content {
+            padding: 20px;
+            background-color: #F2F2F2;
+        }
+
+        /* 修改卡片的标题样式 */
+        #main-content .layui-card-header {
+            font-size: 16px !important;
+            border-bottom: 1px solid #e6e6e6;
+        }
+
+        ul li {
+            list-style: initial !important;
+            margin-left: 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="wrap-body">
+    <header class="zerogrid">
+        <div class="logo">
+            <hr class="line-1">
+            <a href="#">StarryFood</a>
+            <span>食 - 人生之大事</span>
+            <hr class="line-1">
+        </div>
+        <div id='cssmenu' class="align-center">
+            <ul>
+                <li><a href='index.html'><span>Home</span></a></li>
+                <li class='has-sub'><a href='menu.html'><span>Menu</span></a>
+                    <ul >
+                        <li><a href='menu1.html'><span>Item 1</span></a></li>
+                        <li><a href='menu2.html'><span>Item 2</span></a></li>
+                    </ul>
+                </li>
+                <li class='has-sub last active'><a href='#'><span>My</span></a>
+                    <ul >
+                        <li><a href='myOrder.html'><span>MyOrder</span></a></li>
+                        <li><a href='cartList.html'><span>shoppingCart</span></a></li>
+                    </ul>
+                </li>
+
+                <p class="rightElem" id="logout"><a><span>退出登录</span></a></p>
+                <p class="rightElem" id="editPersonInfo"><a href='#'><span>123</span></a></p>
+            </ul>
+        </div>
+    </header>
+    <section id="container">
+        <div class="wrap-container">
+            <section class="content-box boxstyle-2 box-4">
+                <div class="zerogrid" style="margin-bottom: 100px">
+                    <div id="main-content">
+                        <!-- 每个菜品的内容展示 -->
+                        <div class="layui-card">
+                            <div class="layui-card-header">订单编号：1C43B19EACBD4860AFC8A757E2A7A44B<p
+                                    style="float: right">下单时间：2019-12-01 19:19:52 <span
+                                    class="layui-badge layui-bg-green">制作中</span></p></div>
+                            <div class="layui-card-body">
+                                <table class="layui-table">
+                                    <colgroup>
+                                        <col width="150">
+                                        <col width="150">
+                                        <col width="200">
+                                        <col>
+                                    </colgroup>
+                                    <thead>
+                                    <tr>
+                                        <th>菜品名称</th>
+                                        <th>单价 / 单位</th>
+                                        <th>数量</th>
+                                        <th>总价</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>鸡肉咖喱沙拉2222</td>
+                                        <td>14 RMB /份</td>
+                                        <td>* 2</td>
+                                        <td>28 RMB</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <blockquote class="layui-elem-quote" style="margin-bottom: 10px">
+                                    <p> 最新订单更新时间：2019-12-01 19:19:52 <span class="layui-btn">制作中</span></p>
+                                </blockquote>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+        </div>
+    </section>
+</div>
+</section>
+
+<div id="shoppingCart">
+    <a href="cartList.html" target="_Blank"><img src="images/shoppingCart.png" alt=" "></a>
+</div>
+
+<footer>
+    <div class="wrap-footer">
+        <div class="zerogrid">
+            <div class="wrap-col">
+                <p>Copyright - StarryHu</p>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+<script src="js/jquery-3.3.1.js" type="text/javascript"></script>
+
+<script>
+    const path = location.protocol + "//" + window.location.host + "/starryfood/customer/logined/getAllOrder";
+
+    // 查找菜品信息显示
+    $.ajax({
+        type: "get",
+        url: path,
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            // 查询订单成功
+            if (response.code == 531) {
+                // 主内容对象
+                const $main = $('#main-content');
+                for (let i = 0; i < response.data.length; i++) {
+                    // 获取菜品对象
+                    const element = response.data[i];
+                    // 卡片订单对象
+                    const $card = $('<div class="layui-card"></div>');
+                    // 订单头部信息显示
+                    const $cardHeader = $('<div class="layui-card-header"></div>');
+                    const $cardHeaderContent = `订单编号：${element.orderId}<span style="float: right">下单时间：${element.createTimeString}</span>`;
+                    $cardHeader.append($cardHeaderContent);
+                    $card.append($cardHeader);
+
+                    // 订单菜品主体内容显示
+                    const $cardBody = $('<div class="layui-card-body"></div>');
+                    // 循环显示每个菜品的内容
+                    if (element.orderFoodExtendList != null) {
+                        const $table = $('<table class="layui-table"></table>');
+                        // 添加表头
+                        $table.append(` <colgroup>
+                                            <col width="150">
+                                            <col width="150">
+                                            <col width="200">
+                                            <col>
+                                        </colgroup>
+                                        <thead>
+                                        <tr>
+                                            <th>菜品名称</th>
+                                            <th>单价 / 单位</th>
+                                            <th>数量 </th>
+                                            <th>总价</th>
+                                        </tr>
+                                        </thead>`);
+                        // 循环添加每个菜品，放入主体中
+                        const $tbody = $('<tbody></tbody>');
+                        for (let j = 0; j < element.orderFoodExtendList.length; j++) {
+                            const elementFood = element.orderFoodExtendList[j];
+                            const $tr = `<tr>
+                                            <td>${elementFood.foodName}</td>
+                                            <td>${elementFood.foodPrice} RMB ${elementFood.foodMeasurement}</td>
+                                            <td>* ${elementFood.foodNum}</td>
+                                            <td>${elementFood.foodOneTotalPrice} RMB</td>
+                                        </tr>`;
+                            $tbody.append($tr);
+                        }
+                        // 将主体内容添加到表格中，同时将表格添加到卡片中
+                        $table.append($tbody);
+                        $cardBody.append($table);
+                    }
+
+                    // 在卡片主体内容的左下角添加最新订单更新时间的显示
+                    const updateTime = `<p> 最新订单更新时间：${element.updateTimeString} </p>`;
+                    $cardBody.append(updateTime);
+                    $card.append($cardBody);
+
+                    // 最终将卡片添加到总内容中
+                    $main.append($card);
+                }
+            }
+
+        }
+    });
+</script>
+</body>
+
+</html>

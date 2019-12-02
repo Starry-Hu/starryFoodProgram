@@ -1,5 +1,6 @@
 package com.practice.starryfood.bean;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class Order {
@@ -8,6 +9,8 @@ public class Order {
     private String orderCreateCustomer;
 
     private Date orderCreateTime;
+
+    private BigDecimal orderSumPrice;
 
     private String orderDealAdmin;
 
@@ -39,6 +42,14 @@ public class Order {
 
     public void setOrderCreateTime(Date orderCreateTime) {
         this.orderCreateTime = orderCreateTime;
+    }
+
+    public BigDecimal getOrderSumPrice() {
+        return orderSumPrice;
+    }
+
+    public void setOrderSumPrice(BigDecimal orderSumPrice) {
+        this.orderSumPrice = orderSumPrice;
     }
 
     public String getOrderDealAdmin() {

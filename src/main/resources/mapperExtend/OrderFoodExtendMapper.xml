@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.practice.starryfood.daoExtend.OrderFoodExtendMapper">
+
+    <!-- 根据订单号获取该订单的全部菜品信息 -->
+    <select id="getFoodByOrderId" parameterType="java.lang.String" resultType="com.practice.starryfood.pojo.OrderFoodExtend">
+     SELECT
+        A.order_id AS orderId,
+        B.food_id AS foodId,
+        B.food_name AS foodName,
+        B.food_price AS foodPrice,
+        B.food_measurement AS foodMeasurement,
+        B.food_img AS foodimg,
+        A.food_num AS foodNum,
+        A.food_one_total_price AS foodOneTotalPrice
+    FROM
+        order_food A
+        INNER JOIN food B ON A.food_id = B.food_id
+    WHERE
+        A.order_id = #{orderId}
+    </select>
+
+</mapper>

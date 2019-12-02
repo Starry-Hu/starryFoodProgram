@@ -5,6 +5,7 @@
     <id column="order_id" jdbcType="VARCHAR" property="orderId" />
     <result column="order_create_customer" jdbcType="VARCHAR" property="orderCreateCustomer" />
     <result column="order_create_time" jdbcType="TIMESTAMP" property="orderCreateTime" />
+    <result column="order_sum_price" jdbcType="DECIMAL" property="orderSumPrice" />
     <result column="order_deal_admin" jdbcType="VARCHAR" property="orderDealAdmin" />
     <result column="order_update_time" jdbcType="TIMESTAMP" property="orderUpdateTime" />
     <result column="order_condition" jdbcType="INTEGER" property="orderCondition" />
@@ -69,8 +70,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    order_id, order_create_customer, order_create_time, order_deal_admin, order_update_time, 
-    order_condition, is_del
+    order_id, order_create_customer, order_create_time, order_sum_price, order_deal_admin, 
+    order_update_time, order_condition, is_del
   </sql>
   <select id="selectByExample" parameterType="com.practice.starryfood.bean.OrderExample" resultMap="BaseResultMap">
     select
@@ -79,7 +80,7 @@
     </if>
     'true' as QUERYID,
     <include refid="Base_Column_List" />
-    from order
+    from order_make
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -90,29 +91,29 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from order
+    from order_make
     where order_id = #{orderId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from order
+    delete from order_make
     where order_id = #{orderId,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.practice.starryfood.bean.OrderExample">
-    delete from order
+    delete from order_make
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.practice.starryfood.bean.Order">
-    insert into order (order_id, order_create_customer, order_create_time, 
-      order_deal_admin, order_update_time, order_condition, 
-      is_del)
+    insert into order_make (order_id, order_create_customer, order_create_time, 
+      order_sum_price, order_deal_admin, order_update_time, 
+      order_condition, is_del)
     values (#{orderId,jdbcType=VARCHAR}, #{orderCreateCustomer,jdbcType=VARCHAR}, #{orderCreateTime,jdbcType=TIMESTAMP}, 
-      #{orderDealAdmin,jdbcType=VARCHAR}, #{orderUpdateTime,jdbcType=TIMESTAMP}, #{orderCondition,jdbcType=INTEGER}, 
-      #{isDel,jdbcType=INTEGER})
+      #{orderSumPrice,jdbcType=DECIMAL}, #{orderDealAdmin,jdbcType=VARCHAR}, #{orderUpdateTime,jdbcType=TIMESTAMP}, 
+      #{orderCondition,jdbcType=INTEGER}, #{isDel,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.practice.starryfood.bean.Order">
-    insert into order
+    insert into order_make
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="orderId != null">
         order_id,
@@ -122,6 +123,9 @@
       </if>
       <if test="orderCreateTime != null">
         order_create_time,
+      </if>
+      <if test="orderSumPrice != null">
+        order_sum_price,
       </if>
       <if test="orderDealAdmin != null">
         order_deal_admin,
@@ -146,6 +150,9 @@
       <if test="orderCreateTime != null">
         #{orderCreateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="orderSumPrice != null">
+        #{orderSumPrice,jdbcType=DECIMAL},
+      </if>
       <if test="orderDealAdmin != null">
         #{orderDealAdmin,jdbcType=VARCHAR},
       </if>
@@ -161,13 +168,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.practice.starryfood.bean.OrderExample" resultType="java.lang.Long">
-    select count(*) from order
+    select count(*) from order_make
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update order
+    update order_make
     <set>
       <if test="record.orderId != null">
         order_id = #{record.orderId,jdbcType=VARCHAR},
@@ -177,6 +184,9 @@
       </if>
       <if test="record.orderCreateTime != null">
         order_create_time = #{record.orderCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.orderSumPrice != null">
+        order_sum_price = #{record.orderSumPrice,jdbcType=DECIMAL},
       </if>
       <if test="record.orderDealAdmin != null">
         order_deal_admin = #{record.orderDealAdmin,jdbcType=VARCHAR},
@@ -196,10 +206,11 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update order
+    update order_make
     set order_id = #{record.orderId,jdbcType=VARCHAR},
       order_create_customer = #{record.orderCreateCustomer,jdbcType=VARCHAR},
       order_create_time = #{record.orderCreateTime,jdbcType=TIMESTAMP},
+      order_sum_price = #{record.orderSumPrice,jdbcType=DECIMAL},
       order_deal_admin = #{record.orderDealAdmin,jdbcType=VARCHAR},
       order_update_time = #{record.orderUpdateTime,jdbcType=TIMESTAMP},
       order_condition = #{record.orderCondition,jdbcType=INTEGER},
@@ -209,13 +220,16 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.practice.starryfood.bean.Order">
-    update order
+    update order_make
     <set>
       <if test="orderCreateCustomer != null">
         order_create_customer = #{orderCreateCustomer,jdbcType=VARCHAR},
       </if>
       <if test="orderCreateTime != null">
         order_create_time = #{orderCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderSumPrice != null">
+        order_sum_price = #{orderSumPrice,jdbcType=DECIMAL},
       </if>
       <if test="orderDealAdmin != null">
         order_deal_admin = #{orderDealAdmin,jdbcType=VARCHAR},
@@ -233,9 +247,10 @@
     where order_id = #{orderId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.practice.starryfood.bean.Order">
-    update order
+    update order_make
     set order_create_customer = #{orderCreateCustomer,jdbcType=VARCHAR},
       order_create_time = #{orderCreateTime,jdbcType=TIMESTAMP},
+      order_sum_price = #{orderSumPrice,jdbcType=DECIMAL},
       order_deal_admin = #{orderDealAdmin,jdbcType=VARCHAR},
       order_update_time = #{orderUpdateTime,jdbcType=TIMESTAMP},
       order_condition = #{orderCondition,jdbcType=INTEGER},

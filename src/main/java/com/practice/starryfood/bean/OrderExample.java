@@ -1,5 +1,6 @@
 package com.practice.starryfood.bean;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -302,6 +303,66 @@ public class OrderExample {
 
         public Criteria andOrderCreateTimeNotBetween(Date value1, Date value2) {
             addCriterion("order_create_time not between", value1, value2, "orderCreateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderSumPriceIsNull() {
+            addCriterion("order_sum_price is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderSumPriceIsNotNull() {
+            addCriterion("order_sum_price is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderSumPriceEqualTo(BigDecimal value) {
+            addCriterion("order_sum_price =", value, "orderSumPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderSumPriceNotEqualTo(BigDecimal value) {
+            addCriterion("order_sum_price <>", value, "orderSumPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderSumPriceGreaterThan(BigDecimal value) {
+            addCriterion("order_sum_price >", value, "orderSumPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderSumPriceGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("order_sum_price >=", value, "orderSumPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderSumPriceLessThan(BigDecimal value) {
+            addCriterion("order_sum_price <", value, "orderSumPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderSumPriceLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("order_sum_price <=", value, "orderSumPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderSumPriceIn(List<BigDecimal> values) {
+            addCriterion("order_sum_price in", values, "orderSumPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderSumPriceNotIn(List<BigDecimal> values) {
+            addCriterion("order_sum_price not in", values, "orderSumPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderSumPriceBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("order_sum_price between", value1, value2, "orderSumPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderSumPriceNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("order_sum_price not between", value1, value2, "orderSumPrice");
             return (Criteria) this;
         }
 

@@ -2,10 +2,11 @@ package com.practice.starryfood.service;
 
 import com.github.pagehelper.PageInfo;
 import com.practice.starryfood.bean.Customer;
-import com.practice.starryfood.enums.ExceptionEnum;
 import com.practice.starryfood.pojo.CartFoodExtend;
 import com.practice.starryfood.pojo.CustomerExtend;
+import com.practice.starryfood.pojo.OrderExtend;
 
+import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -54,8 +55,11 @@ public interface CustomerService {
     List<CartFoodExtend> getInfoFromCart(String customerUuid, List<String> foodIdList) throws Exception;
 
     // 下单
-    BigDecimal makeOrder(String customerUuid, List<String> foodIdList) throws Exception;
+    int makeOrder(List<String> foodIdList, HttpSession session) throws Exception;
 
     // 获取顾客的购物车信息
     List<CartFoodExtend> getCustomerCart(String customerUuid) throws Exception;
+
+    // 获取顾客的全部订单信息
+    List<OrderExtend> getCustomerOrder(String customerUuid) throws Exception;
 }

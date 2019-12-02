@@ -6,6 +6,7 @@ import com.practice.starryfood.enums.ResultEnum;
 import com.practice.starryfood.pojo.CartFoodExtend;
 import com.practice.starryfood.pojo.CustomerExtend;
 import com.practice.starryfood.pojo.FoodExtend;
+import com.practice.starryfood.pojo.OrderExtend;
 import com.practice.starryfood.service.CustomerService;
 import com.practice.starryfood.util.BaseResponse;
 import com.practice.starryfood.util.OnlineUserListener;
@@ -362,10 +363,29 @@ public class CustomerController extends BaseController {
         // 查看下单的菜品是否为空
         if (foodIdList == null || foodIdList.size() == 0)
             return ajaxFail(ResultEnum.CART_INFO_NOT_FULL);
-        customerService.makeOrder(customerUuid, foodIdList);
+        customerService.makeOrder(foodIdList,session);
         return ajaxSucc(null, ResultEnum.CART_MARK_ORDER_SUCCESS);
     }
 
+
+    /**
+    * @Description: 获取当前登录顾客的全部订单信息
+    * @Param: [session]
+    * @return: com.practice.starryfood.util.BaseResponse
+    * @Author: StarryHu
+    * @Date: 2019/12/2
+    */
+    @GetMapping("/logined/getAllOrder")
+    public BaseResponse getAllOrder(HttpSession session) throws Exception {
+        // 获取当前登录顾客
+        String customerUuid = (String) session.getAttribute("customerUuid");
+        if (customerUuid == null) return ajaxFail(ResultEnum.CUSTOMER_NOT_LOGINED);
+
+        // 获取订单信息数组
+        List<OrderExtend> orderExtendList = customerService.getCustomerOrder(customerUuid);
+
+        return ajaxSucc(orderExtendList, ResultEnum.ORDER_SEARCH_SUCCESS);
+    }
 
 
     // ---------------------------------------------------------------------

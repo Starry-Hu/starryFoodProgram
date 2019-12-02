@@ -123,7 +123,7 @@ public class FoodServiceImpl implements FoodService {
             String createTimeString = DateStamp.stampToDate(foodExtend.getCreateTime());
             foodExtend.setCreateTimeString(createTimeString);
         }
-        if (null != foodExtend.getUpdateTimeString()) {
+        if (null != foodExtend.getUpdateTime()) {
             String updateTimeString = DateStamp.stampToDate(foodExtend.getUpdateTime());
             foodExtend.setUpdateTimeString(updateTimeString);
         }

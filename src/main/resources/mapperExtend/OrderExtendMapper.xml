@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.practice.starryfood.daoExtend.OrderExtendMapper">
+
+    <!-- 根据顾客uuid获取其订单号，此处是为了返回orderExtend对象方便之后填充信息 -->
+    <select id="getAllOrderByCustomerUuid" parameterType="java.lang.String" resultType="com.practice.starryfood.pojo.OrderExtend">
+     SELECT
+        A.order_id AS orderId,
+        A.order_create_customer AS orderCreateCustomer,
+        A.order_create_time AS orderCreateTime,
+        A.order_sum_price AS orderSumPrice,
+        A.order_update_time AS orderUpdateTime,
+        A.order_condition AS orderCondition
+    FROM
+        order_make A
+    WHERE
+        A.is_del = 0
+        AND A.order_create_customer = #{customerUuid}
+    </select>
+
+</mapper>
