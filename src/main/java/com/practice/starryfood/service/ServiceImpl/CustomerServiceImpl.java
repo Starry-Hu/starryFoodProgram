@@ -529,33 +529,5 @@ public class CustomerServiceImpl implements CustomerService {
         return list;
     }
 
-    /** 
-    * @Description: 获取某顾客的全部订单信息 
-    * @Param: [customerUuid] 
-    * @return: java.util.List<com.practice.starryfood.pojo.OrderExtend> 
-    * @Author: StarryHu
-    * @Date: 2019/12/2 
-    */ 
-    public List<OrderExtend> getCustomerOrder(String customerUuid) throws Exception {
-        // 获取到该顾客的所有订单号（使用OrderExtend对象，方便之后填充信息）
-        List<OrderExtend> orderExtendList = orderExtendMapper.getAllOrderByCustomerUuid(customerUuid);
 
-        // 通过遍历每一个订单号来获取该订单的所选菜品信息
-        for(OrderExtend orderExtend : orderExtendList){
-            // 用订单号去查询该订单的菜品购买情况，填充到OrderFoodExtend数组中
-            List<OrderFoodExtend> orderFoodExtendList = orderFoodExtendMapper.getFoodByOrderId(orderExtend.getOrderId());
-            orderExtend.setOrderFoodExtendList(orderFoodExtendList);
-            // 处理时间戳 需要判空
-            if (null != orderExtend.getOrderCreateTime()) {
-                String createTimeString = DateStamp.stampToDate(orderExtend.getOrderCreateTime());
-                orderExtend.setCreateTimeString(createTimeString);
-            }
-            if (null != orderExtend.getOrderCreateTime()) {
-                String updateTimeString = DateStamp.stampToDate(orderExtend.getOrderCreateTime());
-                orderExtend.setUpdateTimeString(updateTimeString);
-            }
-        }
-
-        return orderExtendList;
-    }
 }

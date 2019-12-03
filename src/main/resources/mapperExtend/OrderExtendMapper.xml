@@ -12,7 +12,7 @@
         A.order_update_time AS orderUpdateTime,
         A.order_condition AS orderCondition
     FROM
-        order_make A
+        order_make A,customer B,admin C
     WHERE
         A.is_del = 0
         AND A.order_create_customer = #{customerUuid}
@@ -20,4 +20,107 @@
 	    A.order_create_time DESC
     </select>
 
+    <!-- 获取全部订单（未删除的），返回orderExtend对象之后填充信息 -->
+    <select id="getAllOrders" resultType="com.practice.starryfood.pojo.OrderExtend">
+     SELECT
+        A.order_id AS orderId,
+        B.customer_id AS orderCreateCustomer,-- 取顾客账号作为创造者
+        A.order_create_time AS orderCreateTime,
+        A.order_sum_price AS orderSumPrice,
+        A.order_update_time AS orderUpdateTime,
+        A.order_condition AS orderCondition,
+        C.admin_name AS orderDealAdmin
+    FROM
+        order_make A
+        INNER JOIN customer B ON A.order_create_customer = B.customer_uuid
+        LEFT JOIN admin C ON A.order_deal_admin = C.admin_uuid
+    WHERE
+        A.is_del = 0
+    ORDER BY
+        A.order_create_time DESC
+    </select>
+
+    <!-- 获取未处理订单），返回orderExtend对象之后填充信息 -->
+    <select id="getUndoOrders" resultType="com.practice.starryfood.pojo.OrderExtend">
+     SELECT
+        A.order_id AS orderId,
+        B.customer_id AS orderCreateCustomer,-- 取顾客账号作为创造者
+        A.order_create_time AS orderCreateTime,
+        A.order_sum_price AS orderSumPrice,
+        A.order_update_time AS orderUpdateTime,
+        A.order_condition AS orderCondition,
+        C.admin_name AS orderDealAdmin
+    FROM
+        order_make A
+        INNER JOIN customer B ON A.order_create_customer = B.customer_uuid
+        LEFT JOIN admin C ON A.order_deal_admin = C.admin_uuid
+    WHERE
+        A.is_del = 0
+	    AND A.order_condition = 0
+    ORDER BY
+        A.order_create_time DESC
+    </select>
+
+    <!-- 获取制作中订单，返回orderExtend对象之后填充信息 -->
+    <select id="getMakingOrders" resultType="com.practice.starryfood.pojo.OrderExtend">
+     SELECT
+        A.order_id AS orderId,
+        B.customer_id AS orderCreateCustomer,-- 取顾客账号作为创造者
+        A.order_create_time AS orderCreateTime,
+        A.order_sum_price AS orderSumPrice,
+        A.order_update_time AS orderUpdateTime,
+        A.order_condition AS orderCondition,
+        C.admin_name AS orderDealAdmin
+    FROM
+        order_make A
+        INNER JOIN customer B ON A.order_create_customer = B.customer_uuid
+        LEFT JOIN admin C ON A.order_deal_admin = C.admin_uuid
+    WHERE
+        A.is_del = 0
+	    AND A.order_condition = 1
+    ORDER BY
+        A.order_create_time DESC
+    </select>
+
+    <!-- 获取等待支付订单，返回orderExtend对象之后填充信息 -->
+    <select id="getWaitPayOrders" resultType="com.practice.starryfood.pojo.OrderExtend">
+         SELECT
+        A.order_id AS orderId,
+        B.customer_id AS orderCreateCustomer,-- 取顾客账号作为创造者
+        A.order_create_time AS orderCreateTime,
+        A.order_sum_price AS orderSumPrice,
+        A.order_update_time AS orderUpdateTime,
+        A.order_condition AS orderCondition,
+        C.admin_name AS orderDealAdmin
+    FROM
+        order_make A
+        INNER JOIN customer B ON A.order_create_customer = B.customer_uuid
+        LEFT JOIN admin C ON A.order_deal_admin = C.admin_uuid
+    WHERE
+        A.is_del = 0
+	    AND A.order_condition = 2
+    ORDER BY
+        A.order_create_time DESC
+    </select>
+
+    <!-- 获取已完成订单，返回orderExtend对象之后填充信息 -->
+    <select id="getDoneOrders" resultType="com.practice.starryfood.pojo.OrderExtend">
+          SELECT
+        A.order_id AS orderId,
+        B.customer_id AS orderCreateCustomer,-- 取顾客账号作为创造者
+        A.order_create_time AS orderCreateTime,
+        A.order_sum_price AS orderSumPrice,
+        A.order_update_time AS orderUpdateTime,
+        A.order_condition AS orderCondition,
+        C.admin_name AS orderDealAdmin
+    FROM
+        order_make A
+        INNER JOIN customer B ON A.order_create_customer = B.customer_uuid
+        LEFT JOIN admin C ON A.order_deal_admin = C.admin_uuid
+    WHERE
+        A.is_del = 0
+	    AND A.order_condition = 3
+    ORDER BY
+        A.order_create_time DESC
+    </select>
 </mapper>

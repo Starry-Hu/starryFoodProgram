@@ -141,7 +141,7 @@ public class FoodController extends BaseController {
             pageSize = 10;
         }
         // 进行查找
-        PageInfo<FoodExtend> pageInfo =  foodService.getAllFoods(pageNum,pageSize);
+        PageInfo<FoodExtend> pageInfo =  foodService.getFoodsByKind(foodKindId,pageNum,pageSize);
         return ajaxSucc(pageInfo,ResultEnum.FOOD_SEARCH_SUCCESS);
     }
 }

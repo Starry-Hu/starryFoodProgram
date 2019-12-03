@@ -18,6 +18,17 @@
             margin: 30px auto;
         }
 
+        /* 重新设置表单的宽度 */
+        .layui-form-item .layui-input-inline,
+        .layui-form-select .layui-input {
+            width: 250px;
+        }
+
+        /* 设置下拉框的倒三角图标位置*/
+        .layui-form-select .layui-edge {
+            right: 25px;
+        }
+
         .must:after {
             content: "*";
             color: red;
@@ -34,6 +45,14 @@
             <div class="layui-input-inline">
                 <input type="text" id="foodName" required placeholder="请输入菜品名称"
                        autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label must" for="foodKindId">所属种类</label>
+            <div class="layui-input-block">
+                <select name="foodKindId" id="foodKindId" lay-verify="required">
+                    <option value=""></option>
+                </select>
             </div>
         </div>
         <div class="layui-form-item">
@@ -80,35 +99,53 @@
 <script src="js/jquery-3.3.1.js"></script>
 <script src="lib/layui/layui.js"></script>
 <script>
-    layui.use(['layer'], function () {
+    layui.use(['layer', 'form'], function () {
+        const form = layui.form;
+        const path = location.protocol + "//" + window.location.host + "/starryfood";
+
+        // 渲染种类下拉框
+        window.onload = function () {
+            $.ajax({
+                type: "get",
+                url: path + "/foodKind/getAllFoodKinds",
+                dataType: "json",
+                success: function (response) {
+                    for (let i = 0; i < response.data.length; i++) {
+                        const element = response.data[i];
+                        const $option = `<option value='${element.foodKindId}'> ${element.foodKindName} </option>`;
+                        $('#foodKindId').append($option);
+                    }
+                    form.render();
+                }
+            });
+        }
+
         $('#submit').click(function () {
             // 提交表单
             let foodName = $('#foodName').val();
+            let foodKindId = $('#foodKindId').val();
             let foodPrice = $('#foodPrice').val();
             let foodMeasurement = $('#foodMeasurement').val();
             let foodIntroduce = $('#foodIntroduce').val();
             let foodImg = $('#foodImg').val();
-            if (foodName == "" || foodPrice == "" || foodMeasurement == "" || foodIntroduce == "" || foodImg == "") {
+            if (foodName == "" || foodKindId == "" || foodPrice == "" || foodMeasurement == "" || foodIntroduce == "" || foodImg == "") {
                 layer.msg("请确保所需信息填写完毕");
-                return;
             } else {
-                const path = location.protocol + "//" + window.location.host + "/starryfood/food/add";
-                $(function () {
-                    $.ajax({
-                        type: "post",
-                        url: path,
-                        data: {
-                            "foodName": foodName,
-                            "foodPrice": foodPrice,
-                            "foodMeasurement": foodMeasurement,
-                            "foodIntroduce": foodIntroduce,
-                            "foodImg": foodImg
-                        },
-                        dataType: "json",
-                        success: function (response) {
-                            layer.msg(response.msg);
-                        }
-                    })
+                $.ajax({
+                    type: "post",
+                    url: path + "/food/add",
+                    data: {
+                        "foodName": foodName,
+                        "foodKindId": foodKindId,
+                        "foodPrice": foodPrice,
+                        "foodMeasurement": foodMeasurement,
+                        "foodIntroduce": foodIntroduce,
+                        "foodImg": foodImg
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        layer.msg(response.msg);
+                    }
                 })
             }
         })

@@ -53,12 +53,24 @@
                     <dl class="layui-nav-child" id="foodKindTab"> <!-- 二级菜单，并动态渲染菜品种类 -->
                         <dd><a data-url="foodKindList.html" data-title="菜品种类列表" data-id="111"
                                class="site-demo-active" data-type="tabAdd">菜品种类列表</a></dd>
-                        <dd><a data-url="customerIsDelList.html" data-title="已删除用户回收站" data-id="112"
-                               class="site-demo-active" data-type="tabAdd">已删除用户回收站</a></dd>
+                        <!-- 动态渲染菜品类别从而查看各类别的菜品信息 -->
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a href="#" data-url="orderList.html" data-title="订单相关" data-id="22"
-                                              class="site-demo-active" data-type="tabAdd">订单相关</a></li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;" >订单相关</a>
+                    <dl class="layui-nav-child"> <!-- 二级菜单 -->
+                        <dd><a data-url="orderListByCondition.html?searchCondition=-1" data-title="全部订单" data-id="221"
+                               class="site-demo-active" data-type="tabAdd">全部订单</a></dd>
+                        <dd><a data-url="orderListByCondition.html?searchCondition=0" data-title="未处理订单" data-id="222"
+                               class="site-demo-active" data-type="tabAdd">未处理订单</a></dd>
+                        <dd><a data-url="orderListByCondition.html?searchCondition=1" data-title="制作中订单" data-id="223"
+                               class="site-demo-active" data-type="tabAdd">制作中订单</a></dd>
+                        <dd><a data-url="orderListByCondition.html?searchCondition=2" data-title="等待支付订单" data-id="224"
+                               class="site-demo-active" data-type="tabAdd">等待支付订单</a></dd>
+                        <dd><a data-url="orderListByCondition.html?searchCondition=3" data-title="已完成订单" data-id="225"
+                               class="site-demo-active" data-type="tabAdd">已完成订单</a></dd>
+                    </dl>
+                </li>
                 <li class="layui-nav-item">
                     <a href="javascript:;">顾客相关</a>
                     <dl class="layui-nav-child"> <!-- 二级菜单 -->
@@ -155,28 +167,6 @@
                 });
             });
 
-            // 动态渲染菜品种类的左列表
-            $.ajax({
-                type: "get",
-                url: path + "/foodKind/getAllFoodKinds",
-                dataType: "json",
-                success: function (response) {
-                    if (response.code == 531) {
-                        if (response.data != null) {
-                            const foodKindTab = $('#foodKindTab');
-                            for(let i = 0; i < response.data.length; i++){
-                                const element = response.data[i];
-                                const $dd = `<dd><a href="#" data-url="foodListByKind"
-                                    data-title="${element.foodKindName}类" data-id="11${2+i}"
-                                    class="site-demo-active" data-type="tabAdd">${element.foodKindName}类</a></dd>`;
-                                foodKindTab.append($dd);
-                            }
-                        }
-                    } else {
-                        layer.msg(`{response.msg}`,{time:1500})
-                    }
-                }
-            });
         })
     })
 </script>

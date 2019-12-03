@@ -1,6 +1,5 @@
 package com.practice.starryfood.controller;
 
-import com.practice.starryfood.dao.FoodKindMapper;
 import com.practice.starryfood.enums.ResultEnum;
 import com.practice.starryfood.pojo.FoodKindExtend;
 import com.practice.starryfood.service.FoodKindService;

@@ -13,12 +13,20 @@
             width: 400px;
             margin: 30px auto;
         }
+
         .layui-form-label {
             width: 100px;
         }
+
         /* 重新设置表单的宽度 */
-        .layui-form-item .layui-input-inline {
+        .layui-form-item .layui-input-inline,
+        .layui-form-select .layui-input {
             width: 250px;
+        }
+
+        /* 设置下拉框的倒三角图标位置*/
+        .layui-form-select .layui-edge {
+            right:25px;
         }
 
         .must:after {
@@ -27,6 +35,15 @@
             margin-left: 3px;
         }
 
+        /* 图片显示的容器 */
+        #foodImgPicContainer{
+            margin-left: 70px;
+            margin-top: 10px;
+        }
+        #foodImgPicContainer img{
+            width: 320px;
+            height: 320px;
+        }
     </style>
 </head>
 
@@ -38,6 +55,14 @@
             <div class="layui-input-inline">
                 <input type="text" id="foodName" required placeholder="请输入菜品名称"
                        autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label must" for="foodKindId">所属种类</label>
+            <div class="layui-input-block">
+                <select name="foodKindId" id="foodKindId" lay-verify="required">
+                    <option value=""></option>
+                </select>
             </div>
         </div>
         <div class="layui-form-item">
@@ -67,6 +92,9 @@
                 <input type="text" id="foodImg" required placeholder="请输入菜品图片路径"
                        autocomplete="off" class="layui-input">
             </div>
+            <div class="layui-input-inline" id="foodImgPicContainer">
+                <img src="#" id="foodImgPic">
+            </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label must" for="uploadPlan">菜品图片</label>
@@ -84,11 +112,30 @@
 <script src="js/jquery-3.3.1.js"></script>
 <script src="lib/layui/layui.js"></script>
 <script>
-    layui.use(['layer'], function () {
+    layui.use(['layer', 'form'], function () {
         const path = location.protocol + "//" + window.location.host + "/starryfood";
-
+        const form = layui.form;
         const str = window.location.href;
         const foodId = str.substr(str.indexOf('=') + 1);
+
+        // 渲染种类下拉框
+        window.onload = function () {
+            $.ajax({
+                type: "get",
+                url: path + "/foodKind/getAllFoodKinds",
+                dataType: "json",
+                success: function (response) {
+                    for (let i = 0; i < response.data.length; i++) {
+                        const element = response.data[i];
+                        const $option = `<option value='${element.foodKindId}'> ${element.foodKindName} </option>`;
+                        $('#foodKindId').append($option);
+                    }
+                    form.render();
+                }
+            });
+        }
+
+
         // 获取原来的菜品信息进行回显
         $.ajax({
             type: "get",
@@ -98,10 +145,13 @@
                 if (response.code == 431) {
                     const element = response.data;
                     $('#foodName').val(element.foodName);
+                    $('#foodKindId').val(element.foodKindId);
                     $('#foodPrice').val(element.foodPrice);
                     $('#foodMeasurement').val(element.foodMeasurement);
                     $('#foodIntroduce').val(element.foodIntroduce);
                     $('#foodImg').val(element.foodImg);
+                    $('#foodImgPic').attr('src',element.foodImg);
+                    form.render();
                 } else {
                     layer.msg(response.msg);
                 }
@@ -125,10 +175,11 @@
                     data: {
                         "foodId": foodId,
                         "foodName": foodName,
+                        "foodKindId": foodKindId,
                         "foodPrice": foodPrice,
                         "foodMeasurement": foodMeasurement,
-                        "foodIntroduce":foodIntroduce,
-                        "foodImg":foodImg
+                        "foodIntroduce": foodIntroduce,
+                        "foodImg": foodImg
                     },
                     dataType: "json",
                     success: function (response) {

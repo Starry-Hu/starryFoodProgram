@@ -58,15 +58,15 @@
         A.food_has_sold AS foodHasSold,
         A.food_introduce AS foodIntroduce,
         A.food_img AS foodImg,
-        B.admin_name AS create_user,
-        C.admin_name AS update_user
+        B.admin_name AS createUser,
+        C.admin_name AS updateUser
     FROM
         food A
         INNER JOIN admin B ON A.create_user = B.admin_uuid
         LEFT JOIN admin C ON A.update_user = C.admin_uuid
     WHERE
         A.is_del = 0
-        AND A.food_king_id = #{foodKindId}
+        AND A.food_kind_id = #{foodKindId}
     ORDER BY
 	    A.create_time DESC
     </select>

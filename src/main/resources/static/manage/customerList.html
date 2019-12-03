@@ -171,28 +171,31 @@
                     shadeClose: true,//点击遮罩关闭
                 });
             }else if(layEvent == 'delete'){
-                $.ajax({
-                    type: "get",
-                    url: path + "/customer/delete?customerUuid=" + data.customerUuid,
-                    dataType: "json",
-                    success: function (response) {
-                        layer.msg(`${response.msg}`, {
-                            time: 1500,
-                            end: function(){
-                                if (response.code == 311)
-                                    obj.del(); //删除对应行（tr）的DOM结构
-                            }
-                        })
-
-                    }
-                });
+                layer.confirm('确认要删除吗？', {
+                        btn : [ '确定', '取消' ] // 按钮
+                    },function(){
+                    $.ajax({
+                        type: "get",
+                        url: path + "/customer/delete?customerUuid=" + data.customerUuid,
+                        dataType: "json",
+                        success: function (response) {
+                            layer.msg(`${response.msg}`, {
+                                time: 1500,
+                                end: function(){
+                                    if (response.code == 311)
+                                        obj.del(); //删除对应行（tr）的DOM结构
+                                }
+                            })
+                        }
+                    });
+                })
             }
         })
 
         $('#add').click(function () {
             layer.open({
                 type: 2,
-                content: ['customerAdd.html'],
+                content: ['foodAdd.html'],
                 area: ['500px', '350px'],
                 move: false,
                 shade: 0.5,

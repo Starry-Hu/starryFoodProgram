@@ -117,14 +117,7 @@ public class FoodServiceImpl implements FoodService {
         FoodExtend foodExtend = foodExtendMapper.getFoodById(foodId);
         if (foodExtend == null) throw new SAException(ExceptionEnum.FOOD_SEARCH_NULL);
         // 处理时间戳 需要判空
-        if (null != foodExtend.getCreateTime()) {
-            String createTimeString = DateStamp.stampToDate(foodExtend.getCreateTime());
-            foodExtend.setCreateTimeString(createTimeString);
-        }
-        if (null != foodExtend.getUpdateTime()) {
-            String updateTimeString = DateStamp.stampToDate(foodExtend.getUpdateTime());
-            foodExtend.setUpdateTimeString(updateTimeString);
-        }
+        dealFoodTimeStamp(foodExtend);
         // 返回对象
         return foodExtend;
     }
@@ -143,6 +136,12 @@ public class FoodServiceImpl implements FoodService {
         List<FoodExtend> foodList = foodExtendMapper.getAllFoods();
         //如果查到的数据为空，则抛出异常
         if (foodList.size() == 0) throw new SAException(ExceptionEnum.FOOD_SEARCH_NULL);
+
+        // 遍历处理每个对象的时间戳，需要判空
+        for(FoodExtend foodExtend : foodList){
+            dealFoodTimeStamp(foodExtend);
+        }
+
         // 封装成分页对象
         PageInfo<FoodExtend> pageInfo = new PageInfo<>(foodList);
         return pageInfo;
@@ -162,8 +161,35 @@ public class FoodServiceImpl implements FoodService {
         List<FoodExtend> foodList = foodExtendMapper.getFoodsByKind(foodKindId);
         //如果查到的数据为空，则抛出异常
         if (foodList.size() == 0) throw new SAException(ExceptionEnum.FOOD_SEARCH_NULL);
+
+        // 遍历处理每个对象的时间戳，需要判空
+        for(FoodExtend foodExtend : foodList){
+            dealFoodTimeStamp(foodExtend);
+        }
+
         // 封装成分页对象
         PageInfo<FoodExtend> pageInfo = new PageInfo<>(foodList);
         return pageInfo;
+    }
+
+
+    // --------------------------- 内部使用方法 --------------------------------
+    /**
+    * @Description: 处理时间戳
+    * @Param: [foodExtend]
+    * @return: void
+    * @Author: StarryHu
+    * @Date: 2019/12/3
+    */
+    private void dealFoodTimeStamp(FoodExtend foodExtend){
+        // 处理时间戳，需要判空
+        if (null != foodExtend.getCreateTime()) {
+            String createTimeString = DateStamp.stampToDate(foodExtend.getCreateTime());
+            foodExtend.setCreateTimeString(createTimeString);
+        }
+        if (null != foodExtend.getUpdateTime()) {
+            String updateTimeString = DateStamp.stampToDate(foodExtend.getUpdateTime());
+            foodExtend.setUpdateTimeString(updateTimeString);
+        }
     }
 }

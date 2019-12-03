@@ -45,21 +45,24 @@ public enum ExceptionEnum {
     FOOD_SEARCH_NULL(432,"查找失败！菜品为空！无内容"),
 
     // 菜品种类相关
-    FOOD_KIND_ADD_FAIL(501,"菜品种类添加失败"),
-    FOOD_KIND_DELETE_NOT_EXIST(502,"菜品种类不存在！删除失败"),
-    FOOD_KIND_DELETE_CASCADE(503,"该菜品种类下仍有相关菜品！请先删除相关菜品再进行种类的删除！"),
-    FOOD_KIND_DELETE_FAIL(504,"菜品种类删除失败"),
-    FOOD_KIND_UPDATE_NOT_EXIST(505,"更新失败！菜品种类不存在"),
-    FOOD_KIND_UPDATE_FAIL(506,"菜品种类更新失败"),
-    FOOD_KIND_SEARCH_NOT_EXIST(507,"查找失败！菜品种类不存在"),
+    FOOD_KIND_ADD_FAIL(502,"菜品种类添加失败"),
+    FOOD_KIND_DELETE_NOT_EXIST(512,"菜品种类不存在！删除失败"),
+    FOOD_KIND_DELETE_CASCADE(522,"该菜品种类下仍有相关菜品！请先删除相关菜品再进行种类的删除！"),
+    FOOD_KIND_DELETE_FAIL(532,"菜品种类删除失败"),
+    FOOD_KIND_UPDATE_NOT_EXIST(542,"更新失败！菜品种类不存在"),
+    FOOD_KIND_UPDATE_FAIL(552,"菜品种类更新失败"),
+    FOOD_KIND_SEARCH_NOT_EXIST(562,"查找失败！菜品种类不存在"),
 
     // 购物车相关
-    CART_ADD_FOOD_FAIL(502,"添加菜品到购物车失败"),
-    CART_DELETE_FOOD_EMPTY(512,"购物车中删除菜品失败！该菜品在购物车中已空！"),
-    CART_DELETE_FOOD_FAIL(513,"购物车中删除菜品失败"),
-    CART_PAY_FOOD_FAIL(523,"下单失败"),
-    //CART_EMPTY(532,"购物车为空！"),
+    CART_ADD_FOOD_FAIL(602,"添加菜品到购物车失败！"),
+    CART_DELETE_FOOD_EMPTY(612,"购物车中删除菜品失败！该菜品在购物车中已空！"),
+    CART_DELETE_FOOD_FAIL(613,"购物车中删除菜品失败！"),
+    CART_PAY_FOOD_FAIL(623,"下单失败"),
+    CART_EMPTY(632,"购物车为空！"),
 
+    // 订单相关
+    ORDER_SEARCH_ERROR(742,"订单查询条件出错！"),
+    ORDER_EMPTY(752,"订单列表为空！"),
     ;
     private Integer code;
 

@@ -59,7 +59,4 @@ public interface CustomerService {
 
     // 获取顾客的购物车信息
     List<CartFoodExtend> getCustomerCart(String customerUuid) throws Exception;
-
-    // 获取顾客的全部订单信息
-    List<OrderExtend> getCustomerOrder(String customerUuid) throws Exception;
 }

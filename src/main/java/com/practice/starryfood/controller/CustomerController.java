@@ -8,6 +8,7 @@ import com.practice.starryfood.pojo.CustomerExtend;
 import com.practice.starryfood.pojo.FoodExtend;
 import com.practice.starryfood.pojo.OrderExtend;
 import com.practice.starryfood.service.CustomerService;
+import com.practice.starryfood.service.OrderService;
 import com.practice.starryfood.util.BaseResponse;
 import com.practice.starryfood.util.OnlineUserListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,8 @@ import java.util.Map;
 public class CustomerController extends BaseController {
     @Autowired
     private CustomerService customerService;
-
+    @Autowired
+    private OrderService orderService;
 
     // ----------------------------------------- 顾客的注册、登录、退出、修改个人信息 -------------------------------------------
     /**
@@ -270,7 +272,7 @@ public class CustomerController extends BaseController {
         customerService.restoreDeleteCustomer(customerUuid);
         return ajaxSucc(null,ResultEnum.CUSTOMER_RESTORE_SUCCESS);
     }
-    // ---------------------- 顾客购物车菜品相关（都是指当前顾客而言的） ---------------------
+    // -------------------------------------- 顾客购物车菜品相关（都是指当前顾客而言的） -----------------------------
     /***
      * 获取当前登录顾客的购物车信息
      * @param session
@@ -376,17 +378,21 @@ public class CustomerController extends BaseController {
     * @Date: 2019/12/2
     */
     @GetMapping("/logined/getAllOrder")
-    public BaseResponse getAllOrder(HttpSession session) throws Exception {
+    public BaseResponse getAllOrder(HttpSession session,Integer pageNum, Integer pageSize) throws Exception {
+        // 判断信息是否填写完全，如果分页条件未填写则给默认值
+        if (pageNum == null || pageSize == null) {
+            pageNum = 1;
+            pageSize = 10;
+        }
         // 获取当前登录顾客
         String customerUuid = (String) session.getAttribute("customerUuid");
         if (customerUuid == null) return ajaxFail(ResultEnum.CUSTOMER_NOT_LOGINED);
 
-        // 获取订单信息数组
-        List<OrderExtend> orderExtendList = customerService.getCustomerOrder(customerUuid);
+        // 获取该顾客的全部订单信息数组
+        PageInfo<OrderExtend> pageInfo = orderService.getByCustomerUuid(customerUuid,pageNum,pageSize);
 
-        return ajaxSucc(orderExtendList, ResultEnum.ORDER_SEARCH_SUCCESS);
+        return ajaxSucc(pageInfo, ResultEnum.ORDER_SEARCH_SUCCESS);
     }
-
 
     // ---------------------------------------------------------------------
     /***
