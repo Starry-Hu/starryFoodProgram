@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/font.css">
     <link rel="stylesheet" href="lib/layui/css/layui.css">
-    <title>订单总况</title>
+    <title>已删除订单回收站</title>
     <style>
         .layui-form-label {
             width: 60px;
@@ -40,25 +40,19 @@
         </form>
     </div>
 
-    <button class="layui-btn layui-btn-sm" onclick="javascript:location.reload();">
-        <i class="layui-icon layui-icon-refresh-3"></i>
-    </button>
-    <table id="orderByCondition" lay-filter="orderByCondition"></table>
+    <table id="deleteOrder" lay-filter="deleteOrder"></table>
 </div>
 
 
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-sm" lay-event="update">修改</a>
-    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delete">删除</a>
+    <a class="layui-btn layui-btn-sm layui-btn-warm" lay-event="restore">还原</a>
 </script>
+
 <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="lib/layui/layui.js"></script>
 
 <script>
-    layui.use(['table', 'layer'], function () {
-        const str = window.location.href;
-        const searchCondition = str.substr(str.indexOf('=') + 1);
-
+    layui.use(['table','layer'], function () {
         const path = location.protocol + "//" + window.location.host + "/starryfood";
         const table = layui.table,
             layer = layui.layer;
@@ -67,7 +61,7 @@
             elem: '#orderByCondition',
             toolbar: 'default',
             loading: true, //翻页加loading
-            url: path + '/order/getOrdersSimple?searchCondition=' + searchCondition,
+            url: path + '/order/getIsDelOrder',
             parseData: function (res) {
                 if (res.code == 631) {
                     return {
@@ -80,7 +74,6 @@
                     layer.msg(`${res.msg}`, {time: 1500,})
                     return;
                 }
-
             },
             response: {
                 statusCode: 631 //规定成功的状态码，默认：0
@@ -142,78 +135,38 @@
             id: "dataTable"
         });
 
-        // 数据重载（查询某顾客的所有订单情况）
-        const active = {
-            reload: function () {
-                //执行重载
-                table.reload('dataTable', {
-                    url: path + '/order/getByCustomerIdSimple',
-                    parseData: function (res) { //res 即为原始返回的数据
-                        if (res.code == 631) {
-                            return {
-                                "code": res.code, //解析接口状态
-                                "msg": res.msg, //解析提示文本
-                                "count": res.data.size, //解析数据长度
-                                "data": res.data.list, //解析数据列表
-                            };
-                        }else{
-                            layer.msg(`${res.msg}`, {time: 1500})
-                            return;
-                        }
+        //监听行工具事件
+        table.on('tool(deleteOrder)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            const data = obj.data //获得当前行数据
+                , layEvent = obj.event; //获得 lay-event 对应的值
+            if(layEvent == 'restore'){
+                $.ajax({
+                    type: "get",
+                    url: path + "/customer/restoredeleteOrder?customerUuid=" + data.customerUuid,
+                    dataType: "json",
+                    success: function (response) {
+                        layer.msg(`${response.msg}`, {
+                            time: 1500,
+                            end: function(){
+                                if (response.code == 361)
+                                    obj.del(); //删除对应行（tr）的DOM结构
+                            }
+                        })
 
-                    },
-                    response: {
-                        statusCode: 631 //规定成功的状态码，默认：0
-                    },
-                    page: {
-                        curr: 1 //重新从第 1 页开始
-                    },
-                    where: { //类似于 data
-                        customerId: $('#customerId').val()
                     }
                 });
             }
-        };
-        // 数据重载之后的刷新重载表格
-        $('#search').on('click', function () {
-            const type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
-        });
+        })
 
-        //监听行工具事件
-        table.on('tool(orderByCondition)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
-            const data = obj.data //获得当前行数据
-                , layEvent = obj.event; //获得 lay-event 对应的值
-            if (layEvent == 'update') {
-                const content = `orderUpdate.html?orderId=${data.orderId}`;
-                layer.open({
-                    type: 2,
-                    content: [content],
-                    area: ['500px', '350px'],
-                    move: false,
-                    shade: 0.5,
-                    shadeClose: true,//点击遮罩关闭
-                });
-            } else if (layEvent == 'delete') {
-                layer.confirm('确认要删除吗？', {
-                    btn: ['确定', '取消'] // 按钮
-                }, function () {
-                    $.ajax({
-                        type: "get",
-                        url: path + "/order/delete?orderId=" + data.orderId,
-                        dataType: "json",
-                        success: function (response) {
-                            layer.msg(`${response.msg}`, {
-                                time: 1500,
-                                end: function () {
-                                    if (response.code == 311)
-                                        obj.del(); //删除对应行（tr）的DOM结构
-                                }
-                            })
-                        }
-                    });
-                })
-            }
+        $('#add').click(function () {
+            layer.open({
+                type: 2,
+                content: ['customerAdd.html'],
+                area: ['500px', '350px'],
+                move: false,
+                shade: 0.5,
+                shadeClose: true,//点击遮罩关闭
+            });
         })
     })
 </script>

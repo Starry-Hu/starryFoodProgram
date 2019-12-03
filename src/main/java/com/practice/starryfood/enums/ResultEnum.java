@@ -62,6 +62,8 @@ public enum ResultEnum {
 
     // 订单相关
     ORDER_SEARCH_SUCCESS(631,"订单查询成功"),
+    ORDER_DELETE_SUCCESS(641,"订单删除成功"),
+    ORDER_INFO_NOT_FULL(689,"信息填写不完全"),
     ;
     private Integer code;
     private String msg;

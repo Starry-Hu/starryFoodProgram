@@ -22,4 +22,8 @@ public interface OrderExtendMapper {
 
     // 获取已完成订单信息(3)
     List<OrderExtend> getDoneOrders();
+
+    // 获取已删除订单
+    List<OrderExtend> getIsDelOrders();
+
 }

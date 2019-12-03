@@ -61,6 +61,8 @@ public enum ExceptionEnum {
     CART_EMPTY(632,"购物车为空！"),
 
     // 订单相关
+    ORDER_DELETE_FAIL(722,"删除订单失败！"),
+    ORDER_NOT_EXIST(732,"该订单不存在！"),
     ORDER_SEARCH_ERROR(742,"订单查询条件出错！"),
     ORDER_EMPTY(752,"订单列表为空！"),
     ;

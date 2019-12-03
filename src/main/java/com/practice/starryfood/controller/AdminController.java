@@ -1,7 +1,10 @@
 package com.practice.starryfood.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.practice.starryfood.bean.Admin;
 import com.practice.starryfood.enums.ResultEnum;
+import com.practice.starryfood.pojo.AdminExtend;
+import com.practice.starryfood.pojo.OrderExtend;
 import com.practice.starryfood.service.AdminService;
 import com.practice.starryfood.util.BaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,37 +126,69 @@ public class AdminController extends BaseController{
     }
 
     /**
-     * 添加管理员信息
-     * @param adminId 管理员账户
-     * @param adminName 管理员名称
-     * @param adminPassword 密码
-     * @return
-     * @throws Exception
-     */
+    * @Description: 添加管理员信息
+    * @Param: [adminId, adminName, adminPassword1, adminPassword2, createUser]
+    * @return: com.practice.starryfood.util.BaseResponse
+    * @Author: StarryHu
+    * @Date: 2019/12/3
+    */
     @PostMapping("/add")
-    BaseResponse add(String adminId, String adminName, String adminPassword,String createUser) throws Exception{
+    public BaseResponse add(String adminId, String adminName, String adminPassword1,String adminPassword2,String createUser) throws Exception{
         // 检查内容是否填写完全
-        if (adminId == null || adminPassword == null || adminId.trim().equals("") || adminPassword.trim().equals("")) {
+        if (adminId == null || adminPassword1 == null || adminPassword2 == null
+                || adminId.trim().equals("") || adminPassword1.trim().equals("") || adminPassword2.trim().equals("")) {
             return ajaxFail(ResultEnum.ADMIN_INFO_NOT_FULL);
         }
-        adminService.addAdmin(adminId,adminName,adminPassword,createUser);
+        // 检查两次密码是否一致
+        if (!adminPassword1.equals(adminPassword2)) return ajaxFail(ResultEnum.ADMIN_NOT_SAME_PSWTWO);
+
+        adminService.addAdmin(adminId,adminName,adminPassword1,createUser);
         return ajaxSucc(null,ResultEnum.ADMIN_ADD_SUCCESS);
     }
 
     /**
-     * 删除管理员(逻辑删除)
-     * @param adminUuid 管理员uuid
-     * @return
-     * @throws Exception
-     */
+    * @Description: 删除管理员(逻辑删除)
+    * @Param: [adminUuid, updateUser]
+    * @return: com.practice.starryfood.util.BaseResponse
+    * @Author: StarryHu
+    * @Date: 2019/12/3
+    */
     @GetMapping("/delete")
-    BaseResponse delete(String adminUuid,String updateUser) throws  Exception{
+    public BaseResponse delete(String adminUuid,HttpSession session) throws  Exception{
         // 检查内容是否填写完全
         if (adminUuid == null || adminUuid.trim().equals("")){
             return ajaxFail(ResultEnum.ADMIN_INFO_NOT_FULL);
         }
+        // 获取当前登录的管理员
+        String updateUser = (String) session.getAttribute("adminUuid");
+
         adminService.deleteAdmin(adminUuid,updateUser);
         return ajaxSucc(null,ResultEnum.ADMIN_DELETE_SUCCESS);
+    }
+
+
+    /***
+    * @Description: 更新管理员（根据uuid）
+    * @Param: [adminUuid, adminName, adminPassword1, adminPassword2, session]
+    * @return: com.practice.starryfood.util.BaseResponse
+    * @Author: StarryHu
+    * @Date: 2019/12/3
+    */
+    @PostMapping("/update")
+    public BaseResponse update(String adminUuid, String adminName, String adminPassword1,String adminPassword2,HttpSession session) throws Exception{
+        // 检查内容是否填写完全
+        if (adminUuid == null || adminPassword1 == null || adminPassword2 == null
+                || adminUuid.trim().equals("") || adminPassword1.trim().equals("") || adminPassword2.trim().equals("")) {
+            return ajaxFail(ResultEnum.ADMIN_INFO_NOT_FULL);
+        }
+        // 检查两次填写的密码是否一致
+        if (!adminPassword1.equals(adminPassword2)) return ajaxFail(ResultEnum.ADMIN_NOT_SAME_PSWTWO);
+
+        // 获取当前登录的管理员
+        String updateUser = (String) session.getAttribute("adminUuid");
+
+        adminService.updateAdmin(adminUuid,adminName,adminPassword1,updateUser);
+        return ajaxSucc(null,ResultEnum.ADMIN_UPDATE_SUCCESS);
     }
 
     /**
@@ -163,12 +198,31 @@ public class AdminController extends BaseController{
      * @throws Exception
      */
     @GetMapping("/getByAdminId")
-    BaseResponse getAdminByAdminId(String adminId) throws  Exception{
+    public BaseResponse getAdminByAdminId(String adminId) throws  Exception{
         // 检查内容是否填写完全
         if (adminId == null || adminId.trim().equals("")){
             return ajaxFail(ResultEnum.ADMIN_INFO_NOT_FULL);
         }
         Admin admin = adminService.getAdminByAdminId(adminId);
         return ajaxSucc(admin,ResultEnum.ADMIN_SEARCH_SUCCESS);
+    }
+
+    /** 
+    * @Description: 获取全部管理员 
+    * @Param: [pageNum, pageSize] 
+    * @return: com.practice.starryfood.util.BaseResponse 
+    * @Author: StarryHu
+    * @Date: 2019/12/3 
+    */
+    @GetMapping("/getAllAdmins")
+    public BaseResponse getAllAdmins(Integer pageNum, Integer pageSize) throws  Exception{
+        // 判断信息是否填写完全，如果分页条件未填写则给默认值
+        if (pageNum == null || pageSize == null) {
+            pageNum = 1;
+            pageSize = 10;
+        }
+
+        PageInfo<AdminExtend> pageInfo = adminService.getAllAdmins(pageNum,pageSize);
+        return ajaxSucc(pageInfo, ResultEnum.ADMIN_SEARCH_SUCCESS);
     }
 }

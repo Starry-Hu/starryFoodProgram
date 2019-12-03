@@ -18,23 +18,23 @@
             width: 250px;
         }
     </style>
-    <title>添加顾客</title>
+    <title>添加管理员</title>
 </head>
 
 <body>
 <div>
     <form id="editForm" class="layui-form">
         <div class="layui-form-item">
-            <label class="layui-form-label" for="customerId">顾客账号</label>
+            <label class="layui-form-label" for="adminId">管理员账号id</label>
             <div class="layui-input-inline">
-                <input type="text" id="customerId" required placeholder="请输入顾客账号"
+                <input type="text" id="adminId" required placeholder="请输入管理员账号"
                        class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label " for="customerName">顾客名</label>
+            <label class="layui-form-label " for="adminName">管理员名称</label>
             <div class="layui-input-inline">
-                <input type="text" id="customerName" required placeholder="请输入顾客名"
+                <input type="text" id="adminName" required placeholder="请输入管理员名称"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -69,12 +69,12 @@
 
         // 提交修改信息
         $('#submit').click(function () {
-            const customerName = $('#customerName').val();
-            const customerId = $('#customerId').val();
+            const adminId = $('#adminId').val();
+            const adminName = $('#adminName').val();
             const password1 = $('#password1').val();
             const password2 = $('#password2').val();
 
-            if (customerId == '' || customerName == '' || password1 == '' || password2 == '') {
+            if (adminId == '' || adminName == '' || password1 == '' || password2 == '') {
                 layer.msg('请将信息填写完全', {
                     time: 1500,
                 })
@@ -88,10 +88,10 @@
                     type: "post",
                     url: path + "/customer/add",
                     data: {
-                        customerId: customerId,
-                        customerName: customerName,
-                        customerPassword1: password1,
-                        customerPassword2: password2,
+                        adminId: adminId,
+                        adminName: adminName,
+                        adminPassword1: password1,
+                        adminPassword2: password2,
                     },
                     dataType: "json",
                     success: function (response) {

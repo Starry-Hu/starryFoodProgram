@@ -125,4 +125,24 @@
     ORDER BY
         A.order_create_time DESC
     </select>
+
+    <!-- 获取已删除订单 -->
+    <select id="getIsDelOrders" resultType="com.practice.starryfood.pojo.OrderExtend">
+    SELECT
+        A.order_id AS orderId,
+        B.customer_id AS orderCreateCustomer,-- 取顾客账号作为创造者
+        A.order_create_time AS orderCreateTime,
+        A.order_sum_price AS orderSumPrice,
+        A.order_update_time AS orderUpdateTime,
+        A.order_condition AS orderCondition,
+        C.admin_name AS orderDealAdmin
+    FROM
+        order_make A
+        INNER JOIN customer B ON A.order_create_customer = B.customer_uuid
+        LEFT JOIN admin C ON A.order_deal_admin = C.admin_uuid
+    WHERE
+        A.is_del = 1
+    ORDER BY
+        A.order_create_time DESC
+    </select>
 </mapper>

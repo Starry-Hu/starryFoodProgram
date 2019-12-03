@@ -1,13 +1,19 @@
 package com.practice.starryfood.service.ServiceImpl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.practice.starryfood.bean.Admin;
 import com.practice.starryfood.bean.AdminExample;
 import com.practice.starryfood.bean.Food;
 import com.practice.starryfood.dao.AdminMapper;
 import com.practice.starryfood.dao.FoodMapper;
+import com.practice.starryfood.daoExtend.AdminExtendMapper;
 import com.practice.starryfood.enums.ExceptionEnum;
 import com.practice.starryfood.exception.SAException;
+import com.practice.starryfood.pojo.AdminExtend;
+import com.practice.starryfood.pojo.CustomerExtend;
 import com.practice.starryfood.service.AdminService;
+import com.practice.starryfood.util.DateStamp;
 import com.practice.starryfood.util.IDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +34,7 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private AdminMapper adminMapper;
     @Autowired
-    private FoodMapper foodMapper;
+    private AdminExtendMapper adminExtendMapper;
 
     /**
      * 添加管理员 (相当于注册功能)
@@ -86,21 +92,18 @@ public class AdminServiceImpl implements AdminService {
         throw new SAException(ExceptionEnum.ADMIN_DELETE_FAIL);
     }
 
-    /**
-     * 更新管理员信息
-     * @param adminId 管理员账号
-     * @param adminName 管理员名称
-     * @param adminPassword 管理员密码
-     * @return
-     * @throws Exception
-     */
-    public int updateAdmin(String adminUuid, String adminId, String adminName,
-                           String adminPassword,String updateUser) throws Exception {
+    /***
+    * @Description: 更新管理员信息（根据uuid）
+    * @Param: [adminUuid, adminName, adminPassword, updateUser]
+    * @return: int
+    * @Author: StarryHu
+    * @Date: 2019/12/3
+    */
+    public int updateAdmin(String adminUuid, String adminName, String adminPassword,String updateUser) throws Exception {
         Admin admin = adminMapper.selectByPrimaryKey(adminUuid);
         // 根据uuid获取管理员对象，并判断是否存在
         if (admin == null || admin.getIsDel() == 1)  throw new SAException(ExceptionEnum.ADMIN_UPDATE_NOT_EXIST);
         Date date = new Date();
-        admin.setAdminId(adminId);
         admin.setAdminName(adminName);
         admin.setAdminPassword(adminPassword);
         admin.setUpdateTime(date);
@@ -120,7 +123,7 @@ public class AdminServiceImpl implements AdminService {
      * @return
      * @throws Exception
      */
-    public Admin getAdminByuuid(String adminUuid) throws Exception {
+    public Admin getAdminByUuid(String adminUuid) throws Exception {
         Admin admin = adminMapper.selectByPrimaryKey(adminUuid);
         // 管理员不存在或已删除
         if (admin == null || admin.getIsDel() == 1) {
@@ -149,6 +152,37 @@ public class AdminServiceImpl implements AdminService {
         return admin;
     }
 
+    /**
+    * @Description: 获取全部管理员（带分页）
+    * @Param: [pageNum, pageSize]
+    * @return: com.github.pagehelper.PageInfo<com.practice.starryfood.pojo.AdminExtend>
+    * @Author: StarryHu
+    * @Date: 2019/12/3
+    */
+    public PageInfo<AdminExtend> getAllAdmins(int pageNum, int pageSize) throws Exception{
+        // 开启分页查询，写在查询语句之前
+        PageHelper.startPage(pageNum, pageSize);
+        // 获取查询到的对象
+        List<AdminExtend> adminExtendList = adminExtendMapper.getAllAdmins();
+
+        //如果查到的数据为空，则抛出异常
+        if (adminExtendList.size() == 0) throw new SAException(ExceptionEnum.ADMIN_SEARCH_NOT_EXIST);
+
+        // 逐个处理时间戳 需要判空
+        for (AdminExtend adminExtend : adminExtendList) {
+            if (null != adminExtend.getCreateTime()) {
+                String createTimeString = DateStamp.stampToDate(adminExtend.getCreateTime());
+                adminExtend.setCreateTimeString(createTimeString);
+            }
+            if (null != adminExtend.getUpdateTime()) {
+                String updateTimeString = DateStamp.stampToDate(adminExtend.getUpdateTime());
+                adminExtend.setUpdateTimeString(updateTimeString);
+            }
+        }
+        // 封装成分页对象
+        PageInfo<AdminExtend> pageInfo = new PageInfo<>(adminExtendList);
+        return pageInfo;
+    }
     /**
      * 管理员登录
      * @param adminId 管理员账号
