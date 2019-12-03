@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.practice.starryfood.daoExtend.FoodExtendMapper">
 
-    <!-- 获取全部菜品 -->
+    <!-- 获取指定id的菜品 -->
     <select id="getFoodById" parameterType="java.lang.String" resultType="com.practice.starryfood.pojo.FoodExtend">
      SELECT
         A.food_id AS foodId,
@@ -48,7 +48,7 @@
     </select>
 
     <!-- 获取指定种类下的全部菜品 -->
-    <select id="getFoodsByKind" resultType="com.practice.starryfood.pojo.FoodExtend">
+    <select id="getFoodsByOneKind" resultType="com.practice.starryfood.pojo.FoodExtend">
      SELECT
         A.food_id AS foodId,
         A.food_kind_id AS foodKindId,

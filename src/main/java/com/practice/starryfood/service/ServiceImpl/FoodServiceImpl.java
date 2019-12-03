@@ -5,9 +5,11 @@ import com.github.pagehelper.PageInfo;
 import com.practice.starryfood.bean.Food;
 import com.practice.starryfood.dao.FoodMapper;
 import com.practice.starryfood.daoExtend.FoodExtendMapper;
+import com.practice.starryfood.daoExtend.FoodKindExtendMapper;
 import com.practice.starryfood.enums.ExceptionEnum;
 import com.practice.starryfood.exception.SAException;
 import com.practice.starryfood.pojo.FoodExtend;
+import com.practice.starryfood.pojo.FoodKindExtend;
 import com.practice.starryfood.service.FoodService;
 import com.practice.starryfood.util.DateStamp;
 import com.practice.starryfood.util.IDGenerator;
@@ -31,6 +33,8 @@ public class FoodServiceImpl implements FoodService {
     private FoodMapper foodMapper;
     @Autowired
     private FoodExtendMapper foodExtendMapper;
+    @Autowired
+    private FoodKindExtendMapper foodKindExtendMapper;
 
     /**
     * @Description: 添加菜品
@@ -148,17 +152,47 @@ public class FoodServiceImpl implements FoodService {
     }
 
     /**
+    * @Description: 获取带种类的全部菜品，带分页
+    * @Param: [pageNum, pageSize]
+    * @return: com.github.pagehelper.PageInfo<com.practice.starryfood.pojo.FoodKindExtend>
+    * @Author: StarryHu
+    * @Date: 2019/12/3
+    */
+    public PageInfo<FoodKindExtend> getAllFoodsWithKind(int pageNum, int pageSize) throws Exception{
+        // 开启分页查询，写在查询语句之前
+        PageHelper.startPage(pageNum, pageSize);
+        // 获取全部的菜品种类扩展对象
+        List<FoodKindExtend> foodKindExtendList = foodKindExtendMapper.getAllFoodKinds();
+
+        if (foodKindExtendList == null || foodKindExtendList.size() == 0){
+            throw new SAException(ExceptionEnum.FOOD_KIND_SEARCH_NOT_EXIST);
+        }
+
+        // 对每个菜品种类对象进行菜品数组填充，同时处理时间戳
+        for(FoodKindExtend foodKindExtend : foodKindExtendList){
+            List<FoodExtend> foodList = foodExtendMapper.getFoodsByOneKind(foodKindExtend.getFoodKindId());
+            //如果查到的数据为空，则跳过
+            if (foodList.size() == 0) break;
+
+            foodKindExtend.setFoodExtendList(foodList);
+        }
+
+        // 封装成分页对象
+        PageInfo<FoodKindExtend> pageInfo = new PageInfo<>(foodKindExtendList);
+        return pageInfo;
+    }
+    /**
     * @Description: 分页获取某种类下的全部菜品
     * @Param: [foodKindId, pageNum, pageSize]
     * @return: com.github.pagehelper.PageInfo<com.practice.starryfood.pojo.FoodExtend>
     * @Author: StarryHu
     * @Date: 2019/12/2
     */
-    public PageInfo<FoodExtend> getFoodsByKind(String foodKindId,int pageNum, int pageSize) throws Exception{
+    public PageInfo<FoodExtend> getFoodsByOneKind(String foodKindId,int pageNum, int pageSize) throws Exception{
         // 开启分页查询，写在查询语句之前
         PageHelper.startPage(pageNum, pageSize);
         // 获取查询到的对象
-        List<FoodExtend> foodList = foodExtendMapper.getFoodsByKind(foodKindId);
+        List<FoodExtend> foodList = foodExtendMapper.getFoodsByOneKind(foodKindId);
         //如果查到的数据为空，则抛出异常
         if (foodList.size() == 0) throw new SAException(ExceptionEnum.FOOD_SEARCH_NULL);
 
@@ -171,8 +205,6 @@ public class FoodServiceImpl implements FoodService {
         PageInfo<FoodExtend> pageInfo = new PageInfo<>(foodList);
         return pageInfo;
     }
-
-
     // --------------------------- 内部使用方法 --------------------------------
     /**
     * @Description: 处理时间戳

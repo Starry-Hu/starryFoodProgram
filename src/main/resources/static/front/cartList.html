@@ -39,14 +39,9 @@
         <div id='cssmenu' class="align-center">
             <ul>
                 <li><a href='index.html'><span>Home</span></a></li>
-                <li class='has-sub'><a href='menu.html'><span>Menu</span></a>
-                    <ul >
-                        <li><a href='menu1.html'><span>Item 1</span></a></li>
-                        <li><a href='menu2.html'><span>Item 2</span></a></li>
-                    </ul>
-                </li>
+                <li><a href='menu.html'><span>Menu</span></a></li>
                 <li class='has-sub last active'><a href='#'><span>My</span></a>
-                    <ul >
+                    <ul>
                         <li><a href='myOrder.html'><span>MyOrder</span></a></li>
                         <li><a href='cartList.html'><span>shoppingCart</span></a></li>
                     </ul>
@@ -71,7 +66,7 @@
                                 <input type="checkbox" id="checkAll">
                                 <label for="checkAll" class="el-checkbox-style"></label>
                             </div>
-                            <button id="makeOrder">下单 </button>
+                            <button class="layui-btn" id="makeOrder">下单</button>
                         </div>
                     </div>
                 </div>
@@ -105,10 +100,12 @@
         url: path + "/customer/logined/getCart",
         dataType: "json",
         success: function (response) {
-            const wrapContent = $('#wrapContent');
-            for (let i = 0; i < response.data.length; i++) {
-                const element = response.data[i];
-                const contentBox = `<section class="content-box boxstyle-2 box-4">
+            // 成功获取时渲染
+            if (response.code == 0) {
+                const wrapContent = $('#wrapContent');
+                for (let i = 0; i < response.data.length; i++) {
+                    const element = response.data[i];
+                    const contentBox = `<section class="content-box boxstyle-2 box-4">
                 <div class="zerogrid" id="content_${element.foodId}">
                     <div class="row wrap-box">
                         <div class="post">
@@ -141,8 +138,14 @@
                     </div>
                 </div>
             </section>`;
-                wrapContent.append(contentBox);
+                    wrapContent.append(contentBox);
+                }
+            }else {
+                layer.alert(`${response.msg}`, {
+                    time: 1500,
+                })
             }
+
         }
     });
 
@@ -176,7 +179,9 @@
                     // 修改价格节点的值
                     oneTotalPriceNode.text("该菜品总价：" + newTotalPrice + "RMB");
                 } else {
-                    alert(response.msg)
+                    layer.alert(`${response.msg}`, {
+                        time: 1500,
+                    })
                 }
             }
         });
@@ -220,7 +225,9 @@
                         oneTotalPriceNode.text("该菜品总价：" + newTotalPrice + "RMB");
                     }
                 } else {
-                    alert(response.msg)
+                    layer.alert(`${response.msg}`, {
+                        time: 1500,
+                    })
                 }
             }
         });

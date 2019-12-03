@@ -49,12 +49,7 @@
         <div id='cssmenu' class="align-center">
             <ul>
                 <li><a href='index.html'><span>Home</span></a></li>
-                <li class='has-sub'><a href='menu.html'><span>Menu</span></a>
-                    <ul >
-                        <li><a href='menu1.html'><span>Item 1</span></a></li>
-                        <li><a href='menu2.html'><span>Item 2</span></a></li>
-                    </ul>
-                </li>
+                <li><a href='menu.html'><span>Menu</span></a></li>
                 <li class='has-sub last active'><a href='#'><span>My</span></a>
                     <ul >
                         <li><a href='myOrder.html'><span>MyOrder</span></a></li>
@@ -143,12 +138,12 @@
         success: function (response) {
             console.log(response);
             // 查询订单成功
-            if (response.code == 531) {
+            if (response.code == 631) {
                 // 主内容对象
                 const $main = $('#main-content');
-                for (let i = 0; i < response.data.length; i++) {
+                for (let i = 0; i < response.data.list.length; i++) {
                     // 获取菜品对象
-                    const element = response.data[i];
+                    const element = response.data.list[i];
                     // 卡片订单对象
                     const $card = $('<div class="layui-card"></div>');
                     // 订单头部信息显示
@@ -194,8 +189,15 @@
                         $cardBody.append($table);
                     }
 
-                    // 在卡片主体内容的左下角添加最新订单更新时间的显示
-                    const updateTime = `<p> 最新订单更新时间：${element.updateTimeString} </p>`;
+                    // 添加最新更新时间的显示
+                    const updateTime = `<blockquote class="layui-elem-quote" style="margin-bottom: 10px">
+                                    <p> 最新订单更新时间： ${ element.updateTimeString == null? '无' : element.updateTimeString }
+                                        ${ element.orderCondition == 0? '<span class="layui-btn layui-bg-cyan"> 等待接单 </span>' : '' }
+                                        ${ element.orderCondition == 1? '<span class="layui-btn"> 制作中 </span>' : '' }
+                                        ${ element.orderCondition == 2? '<span class="layui-btn layui-bg-warm"> 等待支付 </span>' : '' }
+                                        ${ element.orderCondition == 3? '<span class="layui-btn layui-bg-normal"> 已完成 </span>' : '' }
+                                    </p>
+                                </blockquote>`;
                     $cardBody.append(updateTime);
                     $card.append($cardBody);
 

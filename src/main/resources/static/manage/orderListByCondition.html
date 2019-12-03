@@ -67,14 +67,20 @@
             elem: '#orderByCondition',
             toolbar: 'default',
             loading: true, //翻页加loading
-            url: path + '/order/getOrders?searchCondition=' + searchCondition,
+            url: path + '/order/getOrdersSimple?searchCondition=' + searchCondition,
             parseData: function (res) {
-                return {
-                    "code": res.code, //解析接口状态
-                    "msg": res.msg, //解析提示文本
-                    "count": res.data.size, //解析数据长度
-                    "data": res.data.list, //解析数据列表
-                };
+                if (res.code == 631) {
+                    return {
+                        "code": res.code, //解析接口状态
+                        "msg": res.msg, //解析提示文本
+                        "count": res.data.size, //解析数据长度
+                        "data": res.data.list, //解析数据列表
+                    };
+                }else{
+                    layer.msg(`${res.msg}`, {time: 1500,})
+                    return;
+                }
+
             },
             response: {
                 statusCode: 631 //规定成功的状态码，默认：0
@@ -141,17 +147,20 @@
             reload: function () {
                 //执行重载
                 table.reload('dataTable', {
-                    url: path + '/order/getByCustomerId',
+                    url: path + '/order/getByCustomerIdSimple',
                     parseData: function (res) { //res 即为原始返回的数据
                         if (res.code == 631) {
                             return {
                                 "code": res.code, //解析接口状态
                                 "msg": res.msg, //解析提示文本
-                                "count": res.count, //解析数据总个数
-                                "data": res.data.list //解析数据列表
+                                "count": res.data.size, //解析数据长度
+                                "data": res.data.list, //解析数据列表
                             };
+                        }else{
+                            layer.msg(`${res.msg}`, {time: 1500})
+                            return;
                         }
-                        layer.msg(`${response.msg}`, {time: 1500,})
+
                     },
                     response: {
                         statusCode: 631 //规定成功的状态码，默认：0
@@ -175,8 +184,10 @@
         table.on('tool(orderByCondition)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             const data = obj.data //获得当前行数据
                 , layEvent = obj.event; //获得 lay-event 对应的值
+            const dataString = JSON.stringify(data);// 将数据转成字符串拼接到地址中
+            alert(dataString)
             if (layEvent == 'update') {
-                const content = `foodUpdate.html?foodId=${data.foodId}`;
+                const content = `orderUpdate.html?data=${dataString}`;
                 layer.open({
                     type: 2,
                     content: [content],

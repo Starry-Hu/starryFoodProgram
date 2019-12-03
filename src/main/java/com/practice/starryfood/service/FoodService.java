@@ -2,6 +2,7 @@ package com.practice.starryfood.service;
 
 import com.github.pagehelper.PageInfo;
 import com.practice.starryfood.pojo.FoodExtend;
+import com.practice.starryfood.pojo.FoodKindExtend;
 
 import java.math.BigDecimal;
 
@@ -23,6 +24,9 @@ public interface FoodService {
     // 获取全部菜品，带分页
     PageInfo<FoodExtend> getAllFoods(int pageNum, int pageSize) throws Exception;
 
+    // 获取带种类的全部菜品，带分页
+    PageInfo<FoodKindExtend> getAllFoodsWithKind(int pageNum, int pageSize) throws Exception;
+
     // 获取某种类下的菜品，带分页
-    PageInfo<FoodExtend> getFoodsByKind(String foodKindId,int pageNum, int pageSize) throws Exception;
+    PageInfo<FoodExtend> getFoodsByOneKind(String foodKindId,int pageNum, int pageSize) throws Exception;
 }

@@ -30,12 +30,7 @@
         <div id='cssmenu' class="align-center">
             <ul>
                 <li><a href='index.html'><span>Home</span></a></li>
-                <li class='has-sub active'><a href='menu.html'><span>Menu</span></a>
-                    <ul >
-                        <li><a href='menu1.html'><span>Item 1</span></a></li>
-                        <li><a href='menu2.html'><span>Item 2</span></a></li>
-                    </ul>
-                </li>
+                <li><a href='menu.html'><span>Menu</span></a></li>
                 <li class='has-sub last'><a href='#'><span>My</span></a>
                     <ul >
                         <li><a href='myOrder.html'><span>MyOrder</span></a></li>
@@ -116,6 +111,10 @@
                     .data.foodMeasurement);
                 $('#hasSold').text("已售： " + response.data.foodHasSold);
                 $('#foodIntroduce').text(response.data.foodIntroduce);
+            }else{
+                layer.msg(`${response.msg}`, {
+                    time: 1500,
+                })
             }
         }
     });
@@ -126,18 +125,24 @@
         url: path + "/customer/logined/getCart",
         dataType: "json",
         success: function (response) {
-            for (let i = 0; i < response.data.length; i++) {
-                const element = response.data[i];
-                console.log(element)
-                // 找到相同的菜品
-                if (element.foodId == foodId) {
-                    // 隐藏添加到购物车按钮
-                    $('#tianjia1').css("display", "none");
-                    // 显示当前菜品在购物车个数
-                    $('#tianjia2').css("display", "block");
-                    $('#shu').text(element.foodNum);
-                    break;
+            if (response.data != null){
+                for (let i = 0; i < response.data.length; i++) {
+                    const element = response.data[i];
+                    console.log(element)
+                    // 找到相同的菜品
+                    if (element.foodId == foodId) {
+                        // 隐藏添加到购物车按钮
+                        $('#tianjia1').css("display", "none");
+                        // 显示当前菜品在购物车个数
+                        $('#tianjia2').css("display", "block");
+                        $('#shu').text(element.foodNum);
+                        break;
+                    }
                 }
+            }else{
+                layer.msg(`${response.msg}`, {
+                    time: 1500,
+                })
             }
         }
     });
@@ -156,12 +161,16 @@
             dataType: "json",
             success: function (response) {
                 // 添加成功
-                if (response.code == 501) {
+                if (response.code == 601) {
                     // 隐藏添加到购物车按钮
                     $('#tianjia1').css("display", "none");
                     // 显示当前菜品在购物车个数
                     $('#tianjia2').css("display", "block");
                     $('#shu').text(1);
+                }else{
+                    layer.msg(`${response.msg}`, {
+                        time: 1500,
+                    })
                 }
             }
         });
@@ -181,7 +190,7 @@
             dataType: "json",
             success: function (response) {
                 // 添加成功
-                if (response.code == 501) {
+                if (response.code == 601) {
                     if (newShu == 1) {
                         // 隐藏添加到购物车按钮
                         $('#tianjia1').css("display", "none");
@@ -199,7 +208,7 @@
         let newShu = $('#shu').text() - 1;
         $.ajax({
             type: "post",
-            url: path + "/customer/deleteFromCart",
+            url: path + "/customer/logined/deleteFromCart",
             data: {
                 "foodId": foodId,
                 "foodNum": newShu
@@ -207,7 +216,7 @@
             dataType: "json",
             success: function (response) {
                 // 删除成功
-                if (response.code == 511) {
+                if (response.code == 611) {
                     if (newShu == 0) {
                         // 显示添加到购物车按钮
                         $('#tianjia1').css("display", " inline-block");

@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.practice.starryfood.daoExtend.FoodExtendMapper;
 import com.practice.starryfood.enums.ResultEnum;
 import com.practice.starryfood.pojo.FoodExtend;
+import com.practice.starryfood.pojo.FoodKindExtend;
 import com.practice.starryfood.service.FoodService;
 import com.practice.starryfood.util.BaseResponse;
 import com.practice.starryfood.util.DateStamp;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @Project starryfood
@@ -108,7 +110,7 @@ public class FoodController extends BaseController {
     }
 
     /**
-    * @Description: 获取全部菜品（带分页）
+    * @Description: 获取全部菜品（带分页），但没有按照种类分类返回
     * @Param: [pageNum, pageSize]
     * @return: com.practice.starryfood.util.BaseResponse
     * @Author: StarryHu
@@ -126,6 +128,25 @@ public class FoodController extends BaseController {
         return ajaxSucc(pageInfo,ResultEnum.FOOD_SEARCH_SUCCESS);
     }
 
+    /** 
+    * @Description: 获取带种类的全部菜品对象 
+    * @Param: [pageNum, pageSize] 
+    * @return: com.practice.starryfood.util.BaseResponse 
+    * @Author: StarryHu
+    * @Date: 2019/12/3 
+    */ 
+    @GetMapping("/getAllFoodsWithKind")
+    public BaseResponse getAllFoodsWithKind(Integer pageNum, Integer pageSize) throws Exception {
+        // 判断信息是否填写完全，如果分页条件未填写则给默认值
+        if (pageNum == null || pageSize == null) {
+            pageNum = 1;
+            pageSize = 10;
+        }
+        // 进行查找
+        PageInfo<FoodKindExtend> pageInfo = foodService.getAllFoodsWithKind(pageNum,pageSize);
+        return ajaxSucc(pageInfo,ResultEnum.FOOD_KIND_SEARCH_SUCCESS);
+    }
+
     /**
     * @Description: 获取指定菜品种类的菜品信息（带分页）
     * @Param: [foodKindId, pageNum, pageSize]
@@ -141,7 +162,7 @@ public class FoodController extends BaseController {
             pageSize = 10;
         }
         // 进行查找
-        PageInfo<FoodExtend> pageInfo =  foodService.getFoodsByKind(foodKindId,pageNum,pageSize);
+        PageInfo<FoodExtend> pageInfo =  foodService.getFoodsByOneKind(foodKindId,pageNum,pageSize);
         return ajaxSucc(pageInfo,ResultEnum.FOOD_SEARCH_SUCCESS);
     }
 }

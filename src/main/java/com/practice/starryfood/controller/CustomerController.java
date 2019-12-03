@@ -388,8 +388,8 @@ public class CustomerController extends BaseController {
         String customerUuid = (String) session.getAttribute("customerUuid");
         if (customerUuid == null) return ajaxFail(ResultEnum.CUSTOMER_NOT_LOGINED);
 
-        // 获取该顾客的全部订单信息数组
-        PageInfo<OrderExtend> pageInfo = orderService.getByCustomerUuid(customerUuid,pageNum,pageSize);
+        // 获取该顾客的全部订单信息数组（包括每个订单的菜品信息）
+        PageInfo<OrderExtend> pageInfo = orderService.getByCustomerUuidDetail(customerUuid,pageNum,pageSize);
 
         return ajaxSucc(pageInfo, ResultEnum.ORDER_SEARCH_SUCCESS);
     }

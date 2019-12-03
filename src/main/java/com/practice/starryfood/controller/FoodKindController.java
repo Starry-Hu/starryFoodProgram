@@ -87,7 +87,7 @@ public class FoodKindController extends BaseController{
     }
 
     /**
-    * @Description: 获取全部菜品种类
+    * @Description: 获取全部菜品种类【不包括每个种类的菜品信息】
     * @Param: []
     * @return: com.practice.starryfood.util.BaseResponse
     * @Author: StarryHu
@@ -98,5 +98,4 @@ public class FoodKindController extends BaseController{
         List<FoodKindExtend> foodKindExtendList = foodKindService.getAllFoodKinds();
         return ajaxSucc(foodKindExtendList,ResultEnum.FOOD_KIND_SEARCH_SUCCESS);
     }
-
 }

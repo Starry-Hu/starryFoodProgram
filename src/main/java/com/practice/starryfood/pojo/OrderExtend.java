@@ -16,8 +16,6 @@ public class OrderExtend extends Order {
     private String createTimeString;
     // 订单更新时间的字符串（时间戳转）
     private String updateTimeString;
-    // 订单状态字符串
-    private String orderConditionString;
     // 该订单的食品信息（使用扩展食品类 记录更全面的信息）
     List<OrderFoodExtend> orderFoodExtendList;
 
@@ -31,14 +29,6 @@ public class OrderExtend extends Order {
 
     public String getUpdateTimeString() {
         return updateTimeString;
-    }
-
-    public String getOrderConditionString() {
-        return orderConditionString;
-    }
-
-    public void setOrderConditionString(String orderConditionString) {
-        this.orderConditionString = orderConditionString;
     }
 
     public void setUpdateTimeString(String updateTimeString) {

@@ -5,9 +5,11 @@ import com.practice.starryfood.bean.FoodExample;
 import com.practice.starryfood.bean.FoodKind;
 import com.practice.starryfood.dao.FoodKindMapper;
 import com.practice.starryfood.dao.FoodMapper;
+import com.practice.starryfood.daoExtend.FoodExtendMapper;
 import com.practice.starryfood.daoExtend.FoodKindExtendMapper;
 import com.practice.starryfood.enums.ExceptionEnum;
 import com.practice.starryfood.exception.SAException;
+import com.practice.starryfood.pojo.FoodExtend;
 import com.practice.starryfood.pojo.FoodKindExtend;
 import com.practice.starryfood.service.FoodKindService;
 import com.practice.starryfood.util.DateStamp;
@@ -108,7 +110,7 @@ public class FoodKindServiceImpl implements FoodKindService {
     }
 
     /**
-    * @Description: 获取全部的菜品种类
+    * @Description: 获取全部的菜品种类【不包括其中的菜品信息】
     * @Param: []
     * @return: java.util.List<com.practice.starryfood.bean.FoodKind>
     * @Author: StarryHu
@@ -119,8 +121,9 @@ public class FoodKindServiceImpl implements FoodKindService {
 
         if (foodKindExtendList.size() == 0) throw new SAException(ExceptionEnum.FOOD_KIND_SEARCH_NOT_EXIST);
 
-        // 对每个种类处理时间戳，需要判空
+        // 对每个种类进行处理
         for(FoodKindExtend foodKindExtend : foodKindExtendList){
+            // 处理时间戳
             if (null != foodKindExtend.getCreateTime()) {
                 String createTimeString = DateStamp.stampToDate(foodKindExtend.getCreateTime());
                 foodKindExtend.setCreateTimeString(createTimeString);

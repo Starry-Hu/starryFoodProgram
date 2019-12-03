@@ -30,8 +30,8 @@ public class OrderController extends BaseController {
      * @Author: StarryHu
      * @Date: 2019/12/3
      */
-    @GetMapping("/getOrders")
-    public BaseResponse getOrders(Integer searchCondition, Integer pageNum, Integer pageSize) throws Exception {
+    @GetMapping("/getOrdersSimple")
+    public BaseResponse getOrdersSimple(Integer searchCondition, Integer pageNum, Integer pageSize) throws Exception {
         // 判断信息是否填写完全，如果分页条件未填写则给默认值
         if (pageNum == null || pageSize == null) {
             pageNum = 1;
@@ -43,19 +43,36 @@ public class OrderController extends BaseController {
             searchCondition = -1;
         }
 
-        PageInfo<OrderExtend> pageInfo = orderService.getOrders(searchCondition, pageNum,pageSize);
+        PageInfo<OrderExtend> pageInfo = orderService.getOrders(searchCondition, pageNum,pageSize,false);
+        return ajaxSucc(pageInfo, ResultEnum.ORDER_SEARCH_SUCCESS);
+    }
+
+    @GetMapping("/getOrdersDetail")
+    public BaseResponse getOrdersDetail(Integer searchCondition, Integer pageNum, Integer pageSize) throws Exception {
+        // 判断信息是否填写完全，如果分页条件未填写则给默认值
+        if (pageNum == null || pageSize == null) {
+            pageNum = 1;
+            pageSize = 10;
+        }
+
+        // 未传条件参数时默认当成-1查找全部订单信息
+        if (searchCondition == null){
+            searchCondition = -1;
+        }
+
+        PageInfo<OrderExtend> pageInfo = orderService.getOrders(searchCondition, pageNum,pageSize,false);
         return ajaxSucc(pageInfo, ResultEnum.ORDER_SEARCH_SUCCESS);
     }
 
     /***
-    * @Description: 根据顾客账号id获取其对应的全部订单信息
+    * @Description: 根据顾客账号id获取其对应的全部订单信息[仅用于显示列表，不展示菜品]
     * @Param: [customerId, pageNum, pageSize]
     * @return: com.practice.starryfood.util.BaseResponse
     * @Author: StarryHu
     * @Date: 2019/12/3
     */
-    @GetMapping("/getByCustomerId")
-    public BaseResponse getByCustomerId(String customerId, Integer pageNum, Integer pageSize) throws Exception {
+    @GetMapping("/getByCustomerIdSimple")
+    public BaseResponse getByCustomerIdSimple(String customerId, Integer pageNum, Integer pageSize) throws Exception {
         if (customerId == null || customerId.trim().equals("")){
             return ajaxFail(ResultEnum.CUSTOMER_INFO_NOT_FULL);
         }
@@ -65,7 +82,9 @@ public class OrderController extends BaseController {
             pageSize = 10;
         }
 
-        PageInfo<OrderExtend> pageInfo = orderService.getByCustomerId(customerId, pageNum,pageSize);
+        PageInfo<OrderExtend> pageInfo = orderService.getByCustomerIdSimple(customerId, pageNum,pageSize);
         return ajaxSucc(pageInfo, ResultEnum.ORDER_SEARCH_SUCCESS);
     }
+
+//    获取某订单详情
 }

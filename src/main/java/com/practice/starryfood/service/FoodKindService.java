@@ -14,6 +14,6 @@ public interface FoodKindService {
     // 更新菜品种类
     int updateFoodKind(String foodKindId,String foodKindName, String updateUser) throws Exception;
 
-    // 获取全部菜品种类
+    // 获取全部菜品种类（根据isDetail判断是否要添加相应的菜品信息进行返回）
     List<FoodKindExtend> getAllFoodKinds() throws Exception;
 }

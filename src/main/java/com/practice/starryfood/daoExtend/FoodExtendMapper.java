@@ -11,5 +11,5 @@ public interface FoodExtendMapper {
     // 获取全部菜品
     List<FoodExtend> getAllFoods();
     // 获取指定种类下的全部菜品
-    List<FoodExtend> getFoodsByKind(String foodKindId);
+    List<FoodExtend> getFoodsByOneKind(String foodKindId);
 }
