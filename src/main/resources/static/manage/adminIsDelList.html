@@ -7,12 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/font.css">
     <link rel="stylesheet" href="lib/layui/css/layui.css">
-    <title>已删除顾客回收站</title>
+    <title>已删除管理员回收站</title>
     <style>
-        .layui-form-label {
-            width: 60px;
-        }
-
         form {
             width: 600px;
         }
@@ -25,7 +21,7 @@
 
 <body class="layui-anim layui-anim-up">
 <div>
-    <table id="deleteCustomer" lay-filter="deleteCustomer"></table>
+    <table id="deleteAdmin" lay-filter="deleteAdmin"></table>
 </div>
 
 
@@ -43,20 +39,28 @@
             layer = layui.layer;
         //展示已知数据
         table.render({
-            elem: '#deleteCustomer',
+            elem: '#deleteAdmin',
             toolbar: 'default',
             loading: true, //翻页加loading
-            url: path + '/customer/getAllDeleteCustomer', //数据接口(不需要带项目名)
+            url: path + '/admin/getIsDeleteAdmins', //数据接口(不需要带项目名)
             parseData: function (res) { //res 即为原始返回的数据
-                return {
-                    "code": res.code, //解析接口状态
-                    "msg": res.msg, //解析提示文本
-                    "count": res.data.size, //解析数据长度
-                    "data": res.data.list, //解析数据列表
-                };
+                if (res.code == 231) {
+                    return {
+                        "code": res.code, //解析接口状态
+                        "msg": res.msg, //解析提示文本
+                        "count": res.data.size, //解析数据长度
+                        "data": res.data.list, //解析数据列表
+                    };
+                }else{
+                    layer.msg(`${res.msg}`, {
+                        time: 1500,
+                    })
+                    return;
+                }
+
             },
             response: {
-                statusCode: 331 //规定成功的状态码，默认：0
+                statusCode: 231 //规定成功的状态码，默认：0
             },
             request: {
                 pageName: 'pageNum', //页码的参数名称，默认：page
@@ -70,25 +74,34 @@
                     type: 'numbers',
                     minWidth: 20,
                 },{
-                    field: 'customerId',
-                    title: '顾客账号',
-                    width: '20%',
+                    field: 'adminId',
+                    title: '管理员账号',
+                    width: '15%',
                     minWidth: 120,
                 }, {
-                    field: 'customerName',
-                    title: '顾客姓名',
-                    width: '20%',
+                    field: 'adminName',
+                    title: '管理员名称(点击修改)',
+                    edit: 'text',
+                    width: '15%',
                     minWidth: 120,
-                }, {
+                },{
                     field: 'createTimeString',
                     title: '创建时间',
-                    width: '20%',
-                    minWidth: 120,
+                    width: '16%',
+                    sort: true,
+                }, {
+                    field: 'createUser',
+                    title: '创建者',
+                    width: '12%',
                 }, {
                     field: 'updateTimeString',
-                    title: '上次修改时间',
-                    width: '20%',
-                    minWidth: 120,
+                    title: '最近修改时间',
+                    width: '16%',
+                    sort: true,
+                }, {
+                    field: 'updateUser',
+                    title: '最近修改者',
+                    width: '13%',
                 }, {
                     fixed: 'right',
                     width: '15%',
@@ -106,19 +119,19 @@
         });
 
         //监听行工具事件
-        table.on('tool(deleteCustomer)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+        table.on('tool(deleteAdmin)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             const data = obj.data //获得当前行数据
                 , layEvent = obj.event; //获得 lay-event 对应的值
             if(layEvent == 'restore'){
                 $.ajax({
                     type: "get",
-                    url: path + "/customer/restoreDeleteCustomer?customerUuid=" + data.customerUuid,
+                    url: path + "/admin/restoreDeleteAdmin?adminUuid=" + data.adminUuid,
                     dataType: "json",
                     success: function (response) {
                         layer.msg(`${response.msg}`, {
                             time: 1500,
                             end: function(){
-                                if (response.code == 361)
+                                if (response.code == 251)
                                     obj.del(); //删除对应行（tr）的DOM结构
                             }
                         })
@@ -126,17 +139,6 @@
                     }
                 });
             }
-        })
-
-        $('#add').click(function () {
-            layer.open({
-                type: 2,
-                content: ['customerAdd.html'],
-                area: ['500px', '350px'],
-                move: false,
-                shade: 0.5,
-                shadeClose: true,//点击遮罩关闭
-            });
         })
     })
 </script>

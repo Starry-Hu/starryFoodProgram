@@ -12,7 +12,7 @@ $.ajax({
                 for(let i = 0; i < response.data.length; i++){
                     const element = response.data[i];
                     const $dd = `<dd><a href="#" data-url="foodListByKind.html?foodKindId=${element.foodKindId}"
-                                    data-title="${element.foodKindName}类" data-id="11${2+i}"
+                                    data-title="${element.foodKindName}类" data-id="11${3+i}"
                                     class="site-demo-active" data-type="tabAdd">${element.foodKindName}类</a></dd>`;
                     foodKindTab.append($dd);
                 }

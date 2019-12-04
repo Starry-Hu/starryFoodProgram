@@ -13,6 +13,8 @@
         A.food_has_sold AS foodHasSold,
         A.food_introduce AS foodIntroduce,
         A.food_img AS foodImg,
+        A.create_time AS createTime,
+        A.update_time AS updateTime,
         B.admin_name AS create_user,
         C.admin_name AS update_user
     FROM
@@ -35,6 +37,8 @@
         A.food_has_sold AS foodHasSold,
         A.food_introduce AS foodIntroduce,
         A.food_img AS foodImg,
+        A.create_time AS createTime,
+        A.update_time AS updateTime,
         B.admin_name AS create_user,
         C.admin_name AS update_user
     FROM
@@ -58,6 +62,8 @@
         A.food_has_sold AS foodHasSold,
         A.food_introduce AS foodIntroduce,
         A.food_img AS foodImg,
+        A.create_time AS createTime,
+        A.update_time AS updateTime,
         B.admin_name AS createUser,
         C.admin_name AS updateUser
     FROM
@@ -71,4 +77,29 @@
 	    A.create_time DESC
     </select>
 
+    <!-- 根据名字模糊查询下的菜品列表 -->
+    <select id="getFoodsByNameLike" resultType="com.practice.starryfood.pojo.FoodExtend">
+     SELECT
+        A.food_id AS foodId,
+        A.food_kind_id AS foodKindId,
+        A.food_name AS foodName,
+        A.food_price AS foodPrice,
+        A.food_measurement AS foodMeasurement,
+        A.food_has_sold AS foodHasSold,
+        A.food_introduce AS foodIntroduce,
+        A.food_img AS foodImg,
+        A.create_time AS createTime,
+        A.update_time AS updateTime,
+        B.admin_name AS createUser,
+        C.admin_name AS updateUser
+    FROM
+        food A
+        INNER JOIN admin B ON A.create_user = B.admin_uuid
+        LEFT JOIN admin C ON A.update_user = C.admin_uuid
+    WHERE
+        A.is_del = 0
+        AND A.food_name LIKE '%${value}%'
+    ORDER BY
+	    A.create_time DESC
+    </select>
 </mapper>

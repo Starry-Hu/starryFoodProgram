@@ -165,4 +165,26 @@ public class FoodController extends BaseController {
         PageInfo<FoodExtend> pageInfo =  foodService.getFoodsByOneKind(foodKindId,pageNum,pageSize);
         return ajaxSucc(pageInfo,ResultEnum.FOOD_SEARCH_SUCCESS);
     }
+
+    
+    /** 
+    * @Description: 根据菜品名模糊查询相应的菜品列表信息
+    * @Param: [keyName, pageNum, pageSize] 
+    * @return: com.practice.starryfood.util.BaseResponse 
+    * @Author: StarryHu
+    * @Date: 2019/12/4 
+    */ 
+    @GetMapping("/getFoodsByNameLike")
+    public BaseResponse getFoodsByNameLike(String keyName,Integer pageNum, Integer pageSize) throws Exception {
+        // 判断相应信息是否填写
+        if (keyName == null || keyName.trim().equals("")) return ajaxFail(ResultEnum.FOOD_INFO_NOT_FULL);
+        // 判断信息是否填写完全，如果分页条件未填写则给默认值
+        if (pageNum == null || pageSize == null) {
+            pageNum = 1;
+            pageSize = 10;
+        }
+        // 进行查找
+        PageInfo<FoodExtend> pageInfo =  foodService.getFoodsByNameLike(keyName,pageNum,pageSize);
+        return ajaxSucc(pageInfo,ResultEnum.FOOD_SEARCH_SUCCESS);
+    }
 }

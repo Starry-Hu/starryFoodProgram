@@ -7,10 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/font.css">
     <link rel="stylesheet" href="lib/layui/css/layui.css">
-    <title>所有顾客</title>
+    <title>所有管理员</title>
     <style>
         .layui-form-label {
-            width: 60px;
+            width: 80px;
         }
 
         form {
@@ -28,9 +28,9 @@
     <div class="demoTable">
         <form id="editForm" class="layui-form">
             <div class="layui-form-item layui-inline">
-                <label class="layui-form-label must">顾客账号</label>
+                <label class="layui-form-label must">管理员名称</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="customerId" id="customerId" required placeholder="请输入顾客账号"
+                    <input type="text" name="adminName" id="adminName" required placeholder="请输入管理员名称"
                            autocomplete="off" class="layui-input">
                 </div>
             </div>
@@ -39,11 +39,17 @@
             </div>
         </form>
     </div>
+    <section style="margin-bottom: 10px;">
+        <button class="layui-btn" id="add">添加管理员</button>
+        <button class="layui-btn" onclick="javascript:location.reload();">
+            <i class="layui-icon layui-icon-refresh-3"></i>
+        </button>
+    </section>
 
-    <button class="layui-btn layui-btn-sm" id="add">添加顾客</button>
-    <button class="layui-btn layui-btn-sm" onclick="javascript:location.reload();">
-        <i class="layui-icon layui-icon-refresh-3"></i>
-    </button>
+    <blockquote class="layui-elem-quote layui-quote-nm">
+        点击管理员名称可直接进行修改
+    </blockquote>
+
     <table id="allAdmin" lay-filter="allAdmin"></table>
 </div>
 
@@ -56,7 +62,7 @@
 <script type="text/javascript" src="lib/layui/layui.js"></script>
 
 <script>
-    layui.use(['table','layer'], function () {
+    layui.use(['table', 'layer'], function () {
         const path = location.protocol + "//" + window.location.host + "/starryfood";
         const table = layui.table,
             layer = layui.layer;
@@ -67,12 +73,20 @@
             loading: true, //翻页加loading
             url: path + '/admin/getAllAdmins', //数据接口(不需要带项目名)
             parseData: function (res) { //res 即为原始返回的数据
-                return {
-                    "code": res.code, //解析接口状态
-                    "msg": res.msg, //解析提示文本
-                    "count": res.data.size, //解析数据长度
-                    "data": res.data.list, //解析数据列表
-                };
+                if (res.code = 231) {
+                    return {
+                        "code": res.code, //解析接口状态
+                        "msg": res.msg, //解析提示文本
+                        "count": res.data.size, //解析数据长度
+                        "data": res.data.list, //解析数据列表
+                    };
+                } else {
+                    layer.msg(`${response.msg}`, {
+                        time: 1500,
+                    })
+                    return;
+                }
+
             },
             response: {
                 statusCode: 231 //规定成功的状态码，默认：0
@@ -88,18 +102,18 @@
                     width: '5%',
                     type: 'numbers',
                     minWidth: 20,
-                },{
+                }, {
                     field: 'adminId',
                     title: '管理员账号',
                     width: '15%',
                     minWidth: 120,
                 }, {
                     field: 'adminName',
-                    title: '管理员名称(点击修改)',
+                    title: '管理员名称',
                     edit: 'text',
                     width: '15%',
                     minWidth: 120,
-                },{
+                }, {
                     field: 'createTimeString',
                     title: '创建时间',
                     width: '16%',
@@ -143,7 +157,7 @@
                         return {
                             "code": res.code, //解析接口状态
                             "msg": res.msg, //解析提示文本
-                            "count":1 , //解析数据总个数
+                            "count": 1, //解析数据总个数
                             "data": [res.data], //解析数据列表
                         };
                     },
@@ -170,7 +184,7 @@
             const data = obj.data //获得当前行数据
                 , layEvent = obj.event; //获得 lay-event 对应的值
             if (layEvent == 'update') {
-                const content = `customerUpdate.html?customerUuid=${data.customerUuid}&customerId=${data.customerId}&customerName=${data.customerName}`;
+                const content = `adminUpdate.html?adminUuid=${data.adminUuid}&adminId=${data.adminId}&adminName=${data.adminName}`;
                 layer.open({
                     type: 2,
                     content: [content],
@@ -179,19 +193,19 @@
                     shade: 0.5,
                     shadeClose: true,//点击遮罩关闭
                 });
-            }else if(layEvent == 'delete'){
+            } else if (layEvent == 'delete') {
                 layer.confirm('确认要删除吗？', {
-                        btn : [ '确定', '取消' ] // 按钮
-                    },function(){
+                    btn: ['确定', '取消'] // 按钮
+                }, function () {
                     $.ajax({
                         type: "get",
-                        url: path + "/customer/delete?customerUuid=" + data.customerUuid,
+                        url: path + "/admin/delete?adminUuid=" + data.adminUuid,
                         dataType: "json",
                         success: function (response) {
                             layer.msg(`${response.msg}`, {
                                 time: 1500,
-                                end: function(){
-                                    if (response.code == 311)
+                                end: function () {
+                                    if (response.code == 211)
                                         obj.del(); //删除对应行（tr）的DOM结构
                                 }
                             })
@@ -202,7 +216,7 @@
         })
 
         // 监听单元格编辑，修改种类名称
-        table.on('edit(allFoodKinds)', function (obj) {
+        table.on('edit(allAdmin)', function (obj) {
             let value = obj.value //得到修改后的值
                 , data = obj.data //得到所在行所有键值
 

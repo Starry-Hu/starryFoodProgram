@@ -7,68 +7,197 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/font.css">
     <link rel="stylesheet" href="lib/layui/css/layui.css">
-    <title>菜品总况</title>
+    <title>全部菜品</title>
     <style>
-        figure{
-            width: 300px;
-            height: 350px;
+        .layui-form-label {
+            width: 60px;
         }
-        figure img{
-            width: 100%;
-            height: 280px;
+
+        form {
+            width: 600px;
         }
-        figure figcaption{
-            color: #0C0C0C;
-            font-size: 16px;
-            font-weight: bold;
-            text-align: center;
-            margin:10px;
-        }
-        figure p{
-            text-align: center;
+
+        table {
+            border-collapse: initial;
         }
     </style>
 </head>
 
 <body class="layui-anim layui-anim-up">
-<button type="button" class="layui-btn layui-btn-normal" onclick="addFood()">添加菜品</button>
-<button type="button" class="layui-btn layui-btn-primary" onclick="javascript:location.reload();">
-    <i class="layui-icon layui-icon-refresh-3"></i>
-</button>
-<div class="layui-row" id="content">
-   <!-- 显示全部菜品信息 -->
+
+<div>
+    <div class="demoTable">
+        <form id="editForm" class="layui-form">
+            <div class="layui-form-item layui-inline">
+                <label class="layui-form-label must">顾客账号</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="keyName" id="keyName" required placeholder="请输入顾客账号"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-inline">
+                <div class="layui-btn" data-type="reload" id="search">搜索</div>
+            </div>
+        </form>
+    </div>
+
+    <table id="allFood" lay-filter="allFood"></table>
 </div>
 
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn" lay-event="update">修改</a>
+    <a class="layui-btn layui-btn-danger" lay-event="delete">删除</a>
+</script>
 <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="lib/layui/layui.js"></script>
-<script type="text/javascript" src="js/foodList.js"></script>
-<script>
-    layui.use(['layer'], function() {
-        const path = location.protocol + "//" + window.location.host + "/starryfood";
-        $.ajax({
-            type: "get",
-            url: path + "/food/getAllFoods",
-            dataType: "json",
-            success: function (response) {
-                const content = $('#content');
-                for (let i = 0; i < response.data.list.length; i++) {
-                    const element = response.data.list[i];
-                    let elemItem = `<div class="layui-col-xs6 layui-col-sm6 layui-col-md4" id="${element.foodId}">
-                    <figure>
-                        <img src="${element.foodImg}">
-                        <figcaption>${element.foodName}</figcaption>
-                        <p>
-                            <button type="button" class="layui-btn" onclick="updateFood('${element.foodId}')">修改</button>
-                            <button type="button" class="layui-btn layui-btn-danger" onclick="deleteFood('${element.foodId}')">删除</button>
-                        </p>
-                    </figure>
-                </div>`;
-                    content.append(elemItem);
-                }
-            }
-        });
-    })
 
+<script>
+    layui.use(['table', 'layer'], function () {
+        const path = location.protocol + "//" + window.location.host + "/starryfood";
+        const table = layui.table,
+            layer = layui.layer;
+        //展示已知数据
+        table.render({
+            elem: '#allFood',
+            toolbar: 'default',
+            loading: true, //翻页加loading
+            url: path + '/food/getAllFoods',
+            parseData: function (res) { //res 即为原始返回的数据
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "count": res.data.size, //解析数据长度
+                    "data": res.data.list, //解析数据列表
+                };
+            },
+            response: {
+                statusCode: 431 //规定成功的状态码，默认：0
+            },
+            request: {
+                pageName: 'pageNum', //页码的参数名称，默认：page
+                limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            },
+            cols: [
+                [{
+                    field: 'number',
+                    title: '',
+                    width: '5%',
+                    type: 'numbers',
+                    minWidth: 20,
+                }, {
+                    field: 'foodId',
+                    title: '菜品Id',
+                    width: '15%',
+                    minWidth: 100,
+                }, {
+                    field: 'foodName',
+                    title: '菜品名称',
+                    width: '15%',
+                    minWidth: 100,
+                }, {
+                    field: 'foodHasSold',
+                    title: '已售数量',
+                    sort: true,
+                    width: '15%',
+                    minWidth: 100,
+                }, {
+                    field: 'createTimeString',
+                    title: '创建时间',
+                    width: '20%',
+                    minWidth: 120,
+                }, {
+                    field: 'createUser',
+                    title: '创建者',
+                    width: '10%',
+                    minWidth: 50,
+                }, {
+                    field: 'updateTimeString',
+                    title: '上次修改时间',
+                    sort: true,
+                    width: '20%',
+                    minWidth: 120,
+                }, {
+                    field: 'updateUser',
+                    title: '修改者',
+                    width: '10%',
+                    minWidth: 50,
+                }, {
+                    fixed: 'right',
+                    width: '15%',
+                    minWidth: 100,
+                    align: 'center',
+                    toolbar: '#barDemo'
+                } //这里的toolbar值是模板元素的选择器
+                ]
+            ],
+            even: true,
+            page: true, //是否显示分页
+            limits: [10, 20, 30, 50, 80],
+            limit: 10, //每页默认显示的数量
+            id: "dataTable"
+        });
+
+        // 数据重载（查询）
+        const active = {
+            reload: function () {
+                //执行重载
+                table.reload('dataTable', {
+                    url: path + '/food/getFoodsByNameLike',
+                    response: {
+                        statusCode: 431 //规定成功的状态码[此处和原来接口的一样，也可以不写]
+                    },
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    },
+                    where: { //类似于 data
+                        keyName: $('#keyName').val()
+                    }
+                });
+            }
+        };
+        // 数据重载之后的刷新重载表格
+        $('#search').on('click', function () {
+            const type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        //监听行工具事件
+        table.on('tool(allFood)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            const data = obj.data //获得当前行数据
+                , layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent == 'update') {
+                const content = `foodUpdate.html?foodId=${data.foodId}`;
+                layer.open({
+                    type: 2,
+                    content: [content],
+                    area: ['500px', '350px'],
+                    move: false,
+                    shade: 0.5,
+                    shadeClose: true,//点击遮罩关闭
+                });
+            } else if (layEvent == 'delete') {
+                layer.confirm('确认要删除吗？', {
+                    btn: ['确定', '取消'] // 按钮
+                }, function () {
+                    $.ajax({
+                        type: "get",
+                        url: path + "/food/delete?foodId=" + data.foodId,
+                        dataType: "json",
+                        success: function (response) {
+                            layer.msg(`${response.msg}`, {
+                                time: 1500,
+                                end: function () {
+                                    if (response.code == 411)
+                                        obj.del(); //删除对应行（tr）的DOM结构
+                                }
+                            })
+                        }
+                    });
+                })
+            }
+        })
+    })
 </script>
 
 

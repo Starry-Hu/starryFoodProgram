@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.practice.starryfood.daoExtend.AdminExtendMapper">
 
-    <!-- 获取全部顾客信息（未删除的） -->
+    <!-- 获取全部管理员信息（未删除的） -->
     <select id="getAllAdmins" resultType="com.practice.starryfood.pojo.AdminExtend">
      SELECT
         A.admin_uuid AS adminUuid,
@@ -22,17 +22,23 @@
         A.create_time DESC
     </select>
 
-    <!-- 获取全部已删除的顾客信息 -->
-    <select id="getAllDeleteCustomer" resultType="com.practice.starryfood.pojo.CustomerExtend">
+    <!-- 获取全部已删除的管理员信息 -->
+    <select id="getIsDeleteAdmins" resultType="com.practice.starryfood.pojo.AdminExtend">
      SELECT
-        customer_uuid AS customerUuid,
-        customer_id AS customerId,
-        customer_name AS customerName,
-        create_time AS createTime,
-        update_time AS updateTime
+        A.admin_uuid AS adminUuid,
+        A.admin_id AS adminId,
+        A.admin_name AS adminName,
+        A.create_time AS createTime,
+        A.update_time AS updateTime,
+        B.admin_name AS createUser,
+        C.admin_name AS updateUser
     FROM
-        customer
+        admin A
+        INNER JOIN admin B ON A.create_user = B.admin_uuid
+        LEFT JOIN admin C ON A.update_user = C.admin_uuid
     WHERE
-        is_del = 1
+        A.is_del = 1
+    ORDER BY
+        A.create_time DESC
     </select>
 </mapper>

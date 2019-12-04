@@ -18,6 +18,7 @@ public enum ResultEnum {
     ADMIN_UPDATE_SUCCESS(221,"更新管理员信息成功"),
     ADMIN_SEARCH_SUCCESS(231,"查找管理员成功"),
     ADMIN_LOGIN_SUCCESS(241,"登录成功"),
+    ADMIN_RESTORE_SUCCESS(251,"删除管理员成功"),
 
     ADMIN_EDITPSW_PERSON_SUCCESS(251,"个人密码修改成功！"),
 

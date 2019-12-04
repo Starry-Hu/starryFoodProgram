@@ -3,18 +3,20 @@ package com.practice.starryfood.enums;
 public enum ExceptionEnum {
     // 管理员相关
     ADMIN_ADD_FAIL(202,"管理员添加失败"),
-    ADMIN_ADD_EXIST(203,"添加失败！该账户名已存在！"),
+    ADMIN_ADD_EXIST(203,"添加失败！该管理员账户已存在！"),
     ADMIN_DELETE_NOT_EXIST(212,"删除失败！该管理员不存在"),
     ADMIN_DELETE_FAIL(213,"删除失败！"),
     ADMIN_UPDATE_NOT_EXIST(222,"更新失败！该管理员不存在"),
     ADMIN_UPDATE_FAIL(222,"顾客更新失败"),
-    ADMIN_SEARCH_NOT_EXIST(232,"查找失败！该顾客不存在"),
-    ADMIN_LOGIN_NOT_EXIST(242,"登陆失败！该顾客不存在"),
+    ADMIN_SEARCH_NOT_EXIST(232,"查找失败！该管理员不存在"),
+    ADMIN_LOGIN_NOT_EXIST(242,"登陆失败！该管理员不存在"),
     ADMIN_LOGIN_PSW_ERROR(243,"登录失败！账户或密码错误！"),
-    ADMIN_EDITPSW_NOT_EXIST(252,"修改密码失败！该顾客不存在！"),
+    ADMIN_EDITPSW_NOT_EXIST(252,"修改密码失败！该管理员不存在！"),
     ADMIN_EDITPSW_OLDPSW_ERROR(253, "原密码错误！"),
     ADMIN_EDITPSW_SAME_WITH_OLD(254,"新旧密码一致！无变化！"),
     ADMIN_EDITPSW_FAIL(255,"修改密码失败！"),
+    ADMIN_IS_RESTORE_NOW(266,"该管理员已还原！"),
+    ADMIN_RESTORE_FAIL(267,"该管理员还原失败！"),
 
     // 顾客相关
     CUSTOMER_ADD_FAIL(302,"顾客添加失败"),
@@ -32,8 +34,8 @@ public enum ExceptionEnum {
     CUSTOMER_EDITPSW_OLDPSW_ERROR(363, "原密码错误！"),
     CUSTOMER_EDITPSW_SAME_WITH_OLD(364,"新旧密码一致！无变化！"),
     CUSTOMER_EDITPSW_FAIL(365,"修改密码失败！"),
-    CUSTOMER_IS_RESTORE_NOW(365,"该顾客已还原！"),
-    CUSTOMER_RESTORE_FAIL(365,"该顾客还原失败！"),
+    CUSTOMER_IS_RESTORE_NOW(366,"该顾客已还原！"),
+    CUSTOMER_RESTORE_FAIL(367,"该顾客还原失败！"),
 
 
     // 菜品相关

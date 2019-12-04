@@ -38,23 +38,20 @@ public class AdminServiceImpl implements AdminService {
 
     /**
      * 添加管理员 (相当于注册功能)
-     * @param adminId 管理员账号
-     * @param adminName 管理员名称
+     *
+     * @param adminId       管理员账号
+     * @param adminName     管理员名称
      * @param adminPassword 账户密码
      * @return
      * @throws Exception
      */
-    public int addAdmin(String adminId, String adminName, String adminPassword,String createUser) throws Exception {
+    public int addAdmin(String adminId, String adminName, String adminPassword, String createUser) throws Exception {
         // 设置查询条件
         AdminExample adminExample = new AdminExample();
         adminExample.createCriteria().andAdminIdEqualTo(adminId);
         List<Admin> data = adminMapper.selectByExample(adminExample);
         // 如果查出来的数据不为空，则抛出账户已存在异常
         if (data.size() != 0) throw new SAException(ExceptionEnum.ADMIN_ADD_EXIST);
-        Admin test = data.get(0);
-        // 对查出来的数据进行判断，看同名账户是否存在
-        if (test != null && test.getIsDel() == 0) throw new SAException(ExceptionEnum.ADMIN_ADD_EXIST);
-
 
         Admin admin = new Admin();
         Date date = new Date();
@@ -74,11 +71,12 @@ public class AdminServiceImpl implements AdminService {
 
     /**
      * 删除管理员(逻辑删除)
+     *
      * @param adminUuid 管理员的uuid
      * @return
      * @throws Exception
      */
-    public int deleteAdmin(String adminUuid,String updateUser) throws Exception {
+    public int deleteAdmin(String adminUuid, String updateUser) throws Exception {
         // 查找相应管理员，并判断是否存在，如果已不存在则抛出异常
         Admin admin = adminMapper.selectByPrimaryKey(adminUuid);
         if (admin == null || admin.getIsDel() == 1) throw new SAException(ExceptionEnum.ADMIN_DELETE_FAIL);
@@ -92,17 +90,40 @@ public class AdminServiceImpl implements AdminService {
         throw new SAException(ExceptionEnum.ADMIN_DELETE_FAIL);
     }
 
+    /**
+     * @Description: 恢复已删除管理员
+     * @Param: [adminUuid, updateUser]
+     * @return: int
+     * @Author: StarryHu
+     * @Date: 2019/12/4
+     */
+    public int restoreDeleteAdmin(String adminUuid, String updateUser) throws Exception {
+        Admin admin = adminMapper.selectByPrimaryKey(adminUuid);
+        // 如果该管理员不存在或者已恢复，则抛出异常
+        if (admin == null || admin.getIsDel() == 0) throw new SAException(ExceptionEnum.ADMIN_IS_RESTORE_NOW);
+
+        // 进行还原操作
+        admin.setIsDel(0);
+        Date date = new Date();
+        admin.setUpdateTime(date);
+        admin.setUpdateUser(updateUser);
+
+        int n = adminMapper.updateByPrimaryKeySelective(admin);
+        if (n <= 0) throw new SAException(ExceptionEnum.ADMIN_RESTORE_FAIL);
+        return n;
+    }
+
     /***
-    * @Description: 更新管理员信息（根据uuid）
-    * @Param: [adminUuid, adminName, adminPassword, updateUser]
-    * @return: int
-    * @Author: StarryHu
-    * @Date: 2019/12/3
-    */
-    public int updateAdmin(String adminUuid, String adminName, String adminPassword,String updateUser) throws Exception {
+     * @Description: 更新管理员信息（根据uuid）
+     * @Param: [adminUuid, adminName, adminPassword, updateUser]
+     * @return: int
+     * @Author: StarryHu
+     * @Date: 2019/12/3
+     */
+    public int updateAdmin(String adminUuid, String adminName, String adminPassword, String updateUser) throws Exception {
         Admin admin = adminMapper.selectByPrimaryKey(adminUuid);
         // 根据uuid获取管理员对象，并判断是否存在
-        if (admin == null || admin.getIsDel() == 1)  throw new SAException(ExceptionEnum.ADMIN_UPDATE_NOT_EXIST);
+        if (admin == null || admin.getIsDel() == 1) throw new SAException(ExceptionEnum.ADMIN_UPDATE_NOT_EXIST);
         Date date = new Date();
         admin.setAdminName(adminName);
         admin.setAdminPassword(adminPassword);
@@ -111,7 +132,7 @@ public class AdminServiceImpl implements AdminService {
 
         int n = adminMapper.updateByPrimaryKeySelective(admin);
         // 更新成功
-        if (n > 0){
+        if (n > 0) {
             return n;
         }
         throw new SAException(ExceptionEnum.ADMIN_UPDATE_FAIL);
@@ -119,6 +140,7 @@ public class AdminServiceImpl implements AdminService {
 
     /**
      * 根据uuid获取管理员信息
+     *
      * @param adminUuid
      * @return
      * @throws Exception
@@ -134,6 +156,7 @@ public class AdminServiceImpl implements AdminService {
 
     /**
      * 根据账户名查找管理员
+     *
      * @param adminId 管理员账户（唯一性）
      * @return
      * @throws Exception
@@ -153,13 +176,13 @@ public class AdminServiceImpl implements AdminService {
     }
 
     /**
-    * @Description: 获取全部管理员（带分页）
-    * @Param: [pageNum, pageSize]
-    * @return: com.github.pagehelper.PageInfo<com.practice.starryfood.pojo.AdminExtend>
-    * @Author: StarryHu
-    * @Date: 2019/12/3
-    */
-    public PageInfo<AdminExtend> getAllAdmins(int pageNum, int pageSize) throws Exception{
+     * @Description: 获取全部管理员（带分页）
+     * @Param: [pageNum, pageSize]
+     * @return: com.github.pagehelper.PageInfo<com.practice.starryfood.pojo.AdminExtend>
+     * @Author: StarryHu
+     * @Date: 2019/12/3
+     */
+    public PageInfo<AdminExtend> getAllAdmins(int pageNum, int pageSize) throws Exception {
         // 开启分页查询，写在查询语句之前
         PageHelper.startPage(pageNum, pageSize);
         // 获取查询到的对象
@@ -170,22 +193,35 @@ public class AdminServiceImpl implements AdminService {
 
         // 逐个处理时间戳 需要判空
         for (AdminExtend adminExtend : adminExtendList) {
-            if (null != adminExtend.getCreateTime()) {
-                String createTimeString = DateStamp.stampToDate(adminExtend.getCreateTime());
-                adminExtend.setCreateTimeString(createTimeString);
-            }
-            if (null != adminExtend.getUpdateTime()) {
-                String updateTimeString = DateStamp.stampToDate(adminExtend.getUpdateTime());
-                adminExtend.setUpdateTimeString(updateTimeString);
-            }
+            dealAdminTimeStamp(adminExtend);
         }
         // 封装成分页对象
         PageInfo<AdminExtend> pageInfo = new PageInfo<>(adminExtendList);
         return pageInfo;
     }
+
+    public PageInfo<AdminExtend> getIsDeleteAdmins(int pageNum, int pageSize) throws Exception {
+        // 开启分页查询，写在查询语句之前
+        PageHelper.startPage(pageNum, pageSize);
+        // 获取查询到的对象
+        List<AdminExtend> adminExtendList = adminExtendMapper.getIsDeleteAdmins();
+
+        //如果查到的数据为空，则抛出异常
+        if (adminExtendList.size() == 0) throw new SAException(ExceptionEnum.ADMIN_SEARCH_NOT_EXIST);
+
+        // 逐个处理时间戳 需要判空
+        for (AdminExtend adminExtend : adminExtendList) {
+            dealAdminTimeStamp(adminExtend);
+        }
+        // 封装成分页对象
+        PageInfo<AdminExtend> pageInfo = new PageInfo<>(adminExtendList);
+        return pageInfo;
+    }
+
     /**
      * 管理员登录
-     * @param adminId 管理员账号
+     *
+     * @param adminId       管理员账号
      * @param adminPassword 密码
      * @throws Exception
      */
@@ -202,7 +238,7 @@ public class AdminServiceImpl implements AdminService {
         // 如果第一个用户不存在或已删除则抛出异常
         if (admin == null || admin.getIsDel() == 1) throw new SAException(ExceptionEnum.ADMIN_LOGIN_NOT_EXIST);
         // 密码不正确时抛的异常
-        if (!adminPassword.equals(admin.getAdminPassword()))  throw new SAException(ExceptionEnum.ADMIN_LOGIN_PSW_ERROR);
+        if (!adminPassword.equals(admin.getAdminPassword())) throw new SAException(ExceptionEnum.ADMIN_LOGIN_PSW_ERROR);
         // 如果正确则顺利返回该管理员对象
         return admin;
     }
@@ -215,7 +251,7 @@ public class AdminServiceImpl implements AdminService {
      * @return
      * @throws Exception
      */
-    public int editPersonPsw(String adminUuid,String oldPsw,String newPsw)throws Exception{
+    public int editPersonPsw(String adminUuid, String oldPsw, String newPsw) throws Exception {
         // 查看管理员是否存在
         Admin admin = adminMapper.selectByPrimaryKey(adminUuid);
         if (admin == null || admin.getIsDel() == 1)
@@ -233,5 +269,17 @@ public class AdminServiceImpl implements AdminService {
         // 出错的情况
         throw new SAException(ExceptionEnum.ADMIN_EDITPSW_FAIL);
 
+    }
+
+    private void dealAdminTimeStamp(AdminExtend adminExtend) {
+        // 逐个处理时间戳 需要判空
+        if (null != adminExtend.getCreateTime()) {
+            String createTimeString = DateStamp.stampToDate(adminExtend.getCreateTime());
+            adminExtend.setCreateTimeString(createTimeString);
+        }
+        if (null != adminExtend.getUpdateTime()) {
+            String updateTimeString = DateStamp.stampToDate(adminExtend.getUpdateTime());
+            adminExtend.setUpdateTimeString(updateTimeString);
+        }
     }
 }

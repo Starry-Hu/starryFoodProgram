@@ -135,6 +135,30 @@
             id: "dataTable"
         });
 
+        // 数据重载（查询）
+        const active = {
+            reload: function () {
+                //执行重载
+                table.reload('dataTable', {
+                    url: path + '/order/getIsDelOrderByCustomerId',
+                    response: {
+                        statusCode: 431 //规定成功的状态码[此处和原来接口的一样，也可以不写]
+                    },
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    },
+                    where: { //类似于 data
+                        customerId: $('#customerId').val()
+                    }
+                });
+            }
+        };
+        // 数据重载之后的刷新重载表格
+        $('#search').on('click', function () {
+            const type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
         //监听行工具事件
         table.on('tool(deleteOrder)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             const data = obj.data //获得当前行数据
@@ -158,16 +182,6 @@
             }
         })
 
-        $('#add').click(function () {
-            layer.open({
-                type: 2,
-                content: ['customerAdd.html'],
-                area: ['500px', '350px'],
-                move: false,
-                shade: 0.5,
-                shadeClose: true,//点击遮罩关闭
-            });
-        })
     })
 </script>
 

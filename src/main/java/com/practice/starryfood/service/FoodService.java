@@ -29,4 +29,8 @@ public interface FoodService {
 
     // 获取某种类下的菜品，带分页
     PageInfo<FoodExtend> getFoodsByOneKind(String foodKindId,int pageNum, int pageSize) throws Exception;
+
+    // 根据名称模糊查找菜品
+    PageInfo<FoodExtend> getFoodsByNameLike(String keyName,int pageNum, int pageSize) throws Exception;
+
 }

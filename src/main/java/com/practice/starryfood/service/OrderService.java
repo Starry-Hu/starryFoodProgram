@@ -13,9 +13,17 @@ public interface OrderService {
     // 【顾客自用，详细版，带菜品信息】获取某顾客的全部订单信息（顾客uuid）[带分页]
     PageInfo<OrderExtend> getByCustomerUuidDetail(String customerUuid, int pageNum, int pageSize) throws Exception;
 
+    // 根据订单号获取某订单详细信息
+    OrderExtend getByOrderId(String orderId) throws Exception;
+
+    // ----------------------------------- 删除 -----------------------------------
     // 删除某订单(逻辑删除)
     int delete(String orderId,String updateUser) throws Exception;
 
     // 获取已删除的订单（列表显示）
     PageInfo<OrderExtend> getIsDelOrders(int pageNum, int pageSize) throws Exception;
+
+    // 获取某顾客已删除的订单（列表显示）
+    PageInfo<OrderExtend> getIsDelOrderByCustomerId(String customerId, int pageNum, int pageSize) throws Exception;
+
 }

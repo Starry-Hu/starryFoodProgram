@@ -40,7 +40,7 @@ public class AdminController extends BaseController{
      * @throws Exception
      */
     @PostMapping("/login")
-    BaseResponse login(String adminId, String adminPassword,String verifyCode, HttpSession session) throws Exception{
+    public BaseResponse login(String adminId, String adminPassword,String verifyCode, HttpSession session) throws Exception{
         // 检查内容是否填写完全
         if (adminId == null || adminPassword == null || verifyCode == null ||
                 adminId.trim().equals("") || adminPassword.trim().equals("") || verifyCode.equals("")) {
@@ -83,18 +83,15 @@ public class AdminController extends BaseController{
     }
 
     /**
-     * 修改个人密码(管理员修改自己的)
-     * @param adminUuid 管理员id  uuid
-     * @param oldPassword 输入的旧密码
-     * @param newPassword1 第一次输入的新密码
-     * @param newPassword2 第二次输入的新密码
-     * @param updateUser 更新者
-     * @return
-     * @throws Exception
-     */
+    * @Description: 修改个人密码(管理员修改自己的)
+    * @Param: [adminUuid, oldPassword, newPassword1, newPassword2]
+    * @return: com.practice.starryfood.util.BaseResponse
+    * @Author: StarryHu
+    * @Date: 2019/12/4
+    */
     @PostMapping("/editMyPassword")
     public BaseResponse editMyPassword(String adminUuid,String oldPassword, String newPassword1,
-                                       String newPassword2,HttpSession session,String updateUser) throws Exception {
+                                       String newPassword2) throws Exception {
         // 检测信息是否完整
         if (adminUuid == null || newPassword1 == null || newPassword2 == null || adminUuid.trim().equals("") ||
                 newPassword1.trim().equals("") || newPassword2.trim().equals("")) {
@@ -133,14 +130,17 @@ public class AdminController extends BaseController{
     * @Date: 2019/12/3
     */
     @PostMapping("/add")
-    public BaseResponse add(String adminId, String adminName, String adminPassword1,String adminPassword2,String createUser) throws Exception{
+    public BaseResponse add(String adminId, String adminName, String adminPassword1,String adminPassword2,HttpSession session) throws Exception{
         // 检查内容是否填写完全
-        if (adminId == null || adminPassword1 == null || adminPassword2 == null
-                || adminId.trim().equals("") || adminPassword1.trim().equals("") || adminPassword2.trim().equals("")) {
+        if (adminId == null || adminName == null|| adminPassword1 == null || adminPassword2 == null
+                || adminId.trim().equals("") || adminName.trim().equals("") || adminPassword1.trim().equals("") || adminPassword2.trim().equals("")) {
             return ajaxFail(ResultEnum.ADMIN_INFO_NOT_FULL);
         }
         // 检查两次密码是否一致
         if (!adminPassword1.equals(adminPassword2)) return ajaxFail(ResultEnum.ADMIN_NOT_SAME_PSWTWO);
+
+        // 获取当前登录的管理员
+        String createUser = (String) session.getAttribute("adminUuid");
 
         adminService.addAdmin(adminId,adminName,adminPassword1,createUser);
         return ajaxSucc(null,ResultEnum.ADMIN_ADD_SUCCESS);
@@ -166,7 +166,25 @@ public class AdminController extends BaseController{
         return ajaxSucc(null,ResultEnum.ADMIN_DELETE_SUCCESS);
     }
 
+    /** 
+    * @Description: 恢复已删除管理员 
+    * @Param: [adminUuid, session] 
+    * @return: com.practice.starryfood.util.BaseResponse 
+    * @Author: StarryHu
+    * @Date: 2019/12/4 
+    */ 
+    @GetMapping("/restoreDeleteAdmin")
+    public BaseResponse restoreDeleteAdmin(String adminUuid,HttpSession session) throws  Exception{
+        // 检查内容是否填写完全
+        if (adminUuid == null || adminUuid.trim().equals("")){
+            return ajaxFail(ResultEnum.ADMIN_INFO_NOT_FULL);
+        }
+        // 获取当前登录的管理员
+        String updateUser = (String) session.getAttribute("adminUuid");
 
+        adminService.restoreDeleteAdmin(adminUuid,updateUser);
+        return ajaxSucc(null,ResultEnum.ADMIN_RESTORE_SUCCESS);
+    }
     /***
     * @Description: 更新管理员（根据uuid）
     * @Param: [adminUuid, adminName, adminPassword1, adminPassword2, session]
@@ -191,6 +209,7 @@ public class AdminController extends BaseController{
         return ajaxSucc(null,ResultEnum.ADMIN_UPDATE_SUCCESS);
     }
 
+    // ------------------------------------ 查询管理员信息 ---------------------------------
     /**
      * 根据管理员账户名获取管理员对象
      * @param adminId 管理员账户名
@@ -223,6 +242,25 @@ public class AdminController extends BaseController{
         }
 
         PageInfo<AdminExtend> pageInfo = adminService.getAllAdmins(pageNum,pageSize);
+        return ajaxSucc(pageInfo, ResultEnum.ADMIN_SEARCH_SUCCESS);
+    }
+
+    /**
+     * @Description: 获取已删除管理员
+     * @Param: [pageNum, pageSize]
+     * @return: com.practice.starryfood.util.BaseResponse
+     * @Author: StarryHu
+     * @Date: 2019/12/4
+     */
+    @GetMapping("/getIsDeleteAdmins")
+    public BaseResponse getIsDeleteAdmins(Integer pageNum, Integer pageSize) throws  Exception{
+        // 判断信息是否填写完全，如果分页条件未填写则给默认值
+        if (pageNum == null || pageSize == null) {
+            pageNum = 1;
+            pageSize = 10;
+        }
+
+        PageInfo<AdminExtend> pageInfo = adminService.getIsDeleteAdmins(pageNum,pageSize);
         return ajaxSucc(pageInfo, ResultEnum.ADMIN_SEARCH_SUCCESS);
     }
 }

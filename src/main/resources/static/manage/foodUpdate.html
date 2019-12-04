@@ -26,7 +26,7 @@
 
         /* 设置下拉框的倒三角图标位置*/
         .layui-form-select .layui-edge {
-            right:25px;
+            right: 25px;
         }
 
         .must:after {
@@ -36,11 +36,12 @@
         }
 
         /* 图片显示的容器 */
-        #foodImgPicContainer{
+        #foodImgPicContainer {
             margin-left: 70px;
             margin-top: 10px;
         }
-        #foodImgPicContainer img{
+
+        #foodImgPicContainer img {
             width: 320px;
             height: 320px;
         }
@@ -118,22 +119,28 @@
         const str = window.location.href;
         const foodId = str.substr(str.indexOf('=') + 1);
 
+        // 动态选中该菜品对应的种类值
+        let oldFoodKindId = '';
+
         // 渲染种类下拉框
-        window.onload = function () {
-            $.ajax({
-                type: "get",
-                url: path + "/foodKind/getAllFoodKinds",
-                dataType: "json",
-                success: function (response) {
-                    for (let i = 0; i < response.data.length; i++) {
-                        const element = response.data[i];
-                        const $option = `<option value='${element.foodKindId}'> ${element.foodKindName} </option>`;
-                        $('#foodKindId').append($option);
-                    }
-                    form.render();
+        $.ajax({
+            type: "get",
+            url: path + "/foodKind/getAllFoodKinds",
+            dataType: "json",
+            success: function (response) {
+                for (let i = 0; i < response.data.length; i++) {
+                    const element = response.data[i];
+                    const $option = `<option value='${element.foodKindId}'> ${element.foodKindName} </option>`;
+                    $('#foodKindId').append($option);
                 }
-            });
-        }
+                form.render();
+
+                // 如果回显数据先执行则修改了KindId，此时选中默认值。否则由回显数据部分进行显示
+                if (oldFoodKindId != ''){
+                    $('#foodKindId').val(oldFoodKindId);
+                }
+            }
+        });
 
 
         // 获取原来的菜品信息进行回显
@@ -145,12 +152,14 @@
                 if (response.code == 431) {
                     const element = response.data;
                     $('#foodName').val(element.foodName);
+                    oldFoodKindId = element.foodKindId;
                     $('#foodKindId').val(element.foodKindId);
                     $('#foodPrice').val(element.foodPrice);
                     $('#foodMeasurement').val(element.foodMeasurement);
                     $('#foodIntroduce').val(element.foodIntroduce);
                     $('#foodImg').val(element.foodImg);
-                    $('#foodImgPic').attr('src',element.foodImg);
+                    $('#foodImgPic').attr('src', element.foodImg);
+
                     form.render();
                 } else {
                     layer.msg(response.msg);
@@ -161,11 +170,12 @@
         // 提交表单
         $('#submit').click(function () {
             let foodName = $('#foodName').val();
+            let foodKindId = $('#foodKindId').val();
             let foodPrice = $('#foodPrice').val();
             let foodMeasurement = $('#foodMeasurement').val();
             let foodIntroduce = $('#foodIntroduce').val();
             let foodImg = $('#foodImg').val();
-            if (foodName == "" || foodPrice == "" || foodMeasurement == "" || foodIntroduce == "" || foodImg == "") {
+            if (foodName == "" || foodKindId == "" || foodPrice == "" || foodMeasurement == "" || foodIntroduce == "" || foodImg == "") {
                 layer.msg("请确保所需信息填写完毕");
                 return;
             } else {

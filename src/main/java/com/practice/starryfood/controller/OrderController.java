@@ -33,8 +33,8 @@ public class OrderController extends BaseController {
      * @Author: StarryHu
      * @Date: 2019/12/3
      */
-    @GetMapping("/getOrdersSimple")
-    public BaseResponse getOrdersSimple(Integer searchCondition, Integer pageNum, Integer pageSize) throws Exception {
+    @GetMapping("/getAllOrdersSimple")
+    public BaseResponse getAllOrdersSimple(Integer searchCondition, Integer pageNum, Integer pageSize) throws Exception {
         // 判断信息是否填写完全，如果分页条件未填写则给默认值
         if (pageNum == null || pageSize == null) {
             pageNum = 1;
@@ -58,8 +58,8 @@ public class OrderController extends BaseController {
     * @Author: StarryHu
     * @Date: 2019/12/3 
     */ 
-    @GetMapping("/getOrdersDetail")
-    public BaseResponse getOrdersDetail(Integer searchCondition, Integer pageNum, Integer pageSize) throws Exception {
+    @GetMapping("/getAllOrdersDetail")
+    public BaseResponse getAllOrdersDetail(Integer searchCondition, Integer pageNum, Integer pageSize) throws Exception {
         // 判断信息是否填写完全，如果分页条件未填写则给默认值
         if (pageNum == null || pageSize == null) {
             pageNum = 1;
@@ -97,13 +97,68 @@ public class OrderController extends BaseController {
         return ajaxSucc(pageInfo, ResultEnum.ORDER_SEARCH_SUCCESS);
     }
 
-    /** 
-    * @Description: 删除订单
-    * @Param: [orderId, session] 
-    * @return: com.practice.starryfood.util.BaseResponse 
+
+    /**
+    * @Description: 根据订单号获取某一订单信息
+    * @Param: [orderId]
+    * @return: com.practice.starryfood.util.BaseResponse
     * @Author: StarryHu
-    * @Date: 2019/12/4 
-    */ 
+    * @Date: 2019/12/4
+    */
+    @GetMapping("/getByOrderId")
+    public BaseResponse getByOrderId(String orderId) throws Exception {
+        if (orderId == null || orderId.trim().equals("")){
+            return ajaxFail(ResultEnum.ORDER_INFO_NOT_FULL);
+        }
+
+        OrderExtend orderExtend = orderService.getByOrderId(orderId);
+        return ajaxSucc(orderExtend, ResultEnum.ORDER_SEARCH_SUCCESS);
+    }
+
+
+
+    /**
+     * @Description: 获取已删除订单
+     * @Param: [pageNum, pageSize]
+     * @return: com.practice.starryfood.util.BaseResponse
+     * @Author: StarryHu
+     * @Date: 2019/12/4
+     */
+    @GetMapping("/getIsDelOrder")
+    public BaseResponse getIsDelOrder(Integer pageNum, Integer pageSize) throws Exception{
+        // 判断信息是否填写完全，如果分页条件未填写则给默认值
+        if (pageNum == null || pageSize == null) {
+            pageNum = 1;
+            pageSize = 10;
+        }
+
+        PageInfo<OrderExtend> pageInfo = orderService.getIsDelOrders(pageNum,pageSize);
+        return ajaxSucc(pageInfo,ResultEnum.ORDER_SEARCH_SUCCESS);
+    }
+
+    @GetMapping("/getIsDelOrderByCustomerId")
+    public BaseResponse getIsDelOrderByCustomerId(String customerId,Integer pageNum, Integer pageSize) throws Exception{
+        if (customerId == null || customerId.trim().equals("")) {
+            return ajaxFail(ResultEnum.ORDER_INFO_NOT_FULL);
+
+        }
+        // 判断信息是否填写完全，如果分页条件未填写则给默认值
+        if (pageNum == null || pageSize == null) {
+            pageNum = 1;
+            pageSize = 10;
+        }
+
+        PageInfo<OrderExtend> pageInfo = orderService.getIsDelOrderByCustomerId(customerId,pageNum,pageSize);
+        return ajaxSucc(pageInfo,ResultEnum.ORDER_SEARCH_SUCCESS);
+    }
+
+    /**
+    * @Description: 删除订单
+    * @Param: [orderId, session]
+    * @return: com.practice.starryfood.util.BaseResponse
+    * @Author: StarryHu
+    * @Date: 2019/12/4
+    */
     @GetMapping("/deleteOrder")
     public BaseResponse deleteOrder(String orderId, HttpSession session) throws Exception{
         // 查看信息是否填写完全
@@ -113,29 +168,8 @@ public class OrderController extends BaseController {
         // 获取当前登录的管理员
         String updateUser = (String) session.getAttribute("adminUuid");
         orderService.delete(orderId,updateUser);
-        
+
         return ajaxSucc(null,ResultEnum.ORDER_DELETE_SUCCESS);
     }
 
-
-    /** 
-    * @Description: 获取已删除订单
-    * @Param: [pageNum, pageSize] 
-    * @return: com.practice.starryfood.util.BaseResponse 
-    * @Author: StarryHu
-    * @Date: 2019/12/4 
-    */ 
-    @GetMapping("/getIsDelOrder")
-    public BaseResponse getIsDelOrder(Integer pageNum, Integer pageSize) throws Exception{
-        // 判断信息是否填写完全，如果分页条件未填写则给默认值
-        if (pageNum == null || pageSize == null) {
-            pageNum = 1;
-            pageSize = 10;
-        }
-        
-        PageInfo<OrderExtend> pageInfo = orderService.getIsDelOrders(pageNum,pageSize);
-        return ajaxSucc(pageInfo,ResultEnum.ORDER_SEARCH_SUCCESS);
-    }
-
-    //    获取某订单详情
 }

@@ -145,7 +145,6 @@ public class FoodServiceImpl implements FoodService {
         for(FoodExtend foodExtend : foodList){
             dealFoodTimeStamp(foodExtend);
         }
-
         // 封装成分页对象
         PageInfo<FoodExtend> pageInfo = new PageInfo<>(foodList);
         return pageInfo;
@@ -171,9 +170,13 @@ public class FoodServiceImpl implements FoodService {
         // 对每个菜品种类对象进行菜品数组填充，同时处理时间戳
         for(FoodKindExtend foodKindExtend : foodKindExtendList){
             List<FoodExtend> foodList = foodExtendMapper.getFoodsByOneKind(foodKindExtend.getFoodKindId());
-            //如果查到的数据为空，则跳过
+            //如果查到的菜品数据为空，则跳过
             if (foodList.size() == 0) break;
 
+            // 处理菜品时间戳
+            for(FoodExtend foodExtend : foodList){
+                dealFoodTimeStamp(foodExtend);
+            }
             foodKindExtend.setFoodExtendList(foodList);
         }
 
@@ -181,6 +184,7 @@ public class FoodServiceImpl implements FoodService {
         PageInfo<FoodKindExtend> pageInfo = new PageInfo<>(foodKindExtendList);
         return pageInfo;
     }
+
     /**
     * @Description: 分页获取某种类下的全部菜品
     * @Param: [foodKindId, pageNum, pageSize]
@@ -196,7 +200,7 @@ public class FoodServiceImpl implements FoodService {
         //如果查到的数据为空，则抛出异常
         if (foodList.size() == 0) throw new SAException(ExceptionEnum.FOOD_SEARCH_NULL);
 
-        // 遍历处理每个对象的时间戳，需要判空
+        // 遍历处理每个对象，处理时间戳，需要判空
         for(FoodExtend foodExtend : foodList){
             dealFoodTimeStamp(foodExtend);
         }
@@ -205,6 +209,32 @@ public class FoodServiceImpl implements FoodService {
         PageInfo<FoodExtend> pageInfo = new PageInfo<>(foodList);
         return pageInfo;
     }
+
+    /**
+    * @Description: 根据菜品名称模糊查询相应的菜品列表
+    * @Param: [keyName, pageNum, pageSize]
+    * @return: com.github.pagehelper.PageInfo<com.practice.starryfood.pojo.FoodExtend>
+    * @Author: StarryHu
+    * @Date: 2019/12/4
+    */
+    public PageInfo<FoodExtend> getFoodsByNameLike(String keyName,int pageNum, int pageSize) throws Exception{
+        // 开启分页查询，写在查询语句之前
+        PageHelper.startPage(pageNum, pageSize);
+        // 获取查询到的对象
+        List<FoodExtend> foodList = foodExtendMapper.getFoodsByNameLike(keyName);
+        //如果查到的数据为空，则抛出异常
+        if (foodList.size() == 0) throw new SAException(ExceptionEnum.FOOD_SEARCH_NULL);
+
+        // 遍历处理每个对象，处理时间戳，需要判空
+        for(FoodExtend foodExtend : foodList){
+            dealFoodTimeStamp(foodExtend);
+        }
+        // 封装成分页对象
+        PageInfo<FoodExtend> pageInfo = new PageInfo<>(foodList);
+        return pageInfo;
+    }
+
+
     // --------------------------- 内部使用方法 --------------------------------
     /**
     * @Description: 处理时间戳

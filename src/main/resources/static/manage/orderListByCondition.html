@@ -67,19 +67,19 @@
             elem: '#orderByCondition',
             toolbar: 'default',
             loading: true, //翻页加loading
-            url: path + '/order/getOrdersSimple?searchCondition=' + searchCondition,
+            url: path + '/order/getAllOrdersSimple?searchCondition=' + searchCondition,
             parseData: function (res) {
-                if (res.code == 631) {
+                // if (res.code == 631) {
                     return {
                         "code": res.code, //解析接口状态
                         "msg": res.msg, //解析提示文本
                         "count": res.data.size, //解析数据长度
                         "data": res.data.list, //解析数据列表
                     };
-                }else{
-                    layer.msg(`${res.msg}`, {time: 1500,})
-                    return;
-                }
+                // }else{
+                //     layer.msg(`${res.msg}`, {time: 1500,})
+                //     return;
+                // }
 
             },
             response: {

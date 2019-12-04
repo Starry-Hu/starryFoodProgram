@@ -26,4 +26,9 @@ public interface OrderExtendMapper {
     // 获取已删除订单
     List<OrderExtend> getIsDelOrders();
 
+    // 获取某顾客的已删除订单
+    List<OrderExtend> getIsDelOrderByCustomerId(String customerId);
+
+    // 获取某一订单
+    OrderExtend getByOrderId(String orderId);
 }

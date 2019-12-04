@@ -109,6 +109,8 @@ public class OrderServiceImpl implements OrderService {
 
         // 添加对应的菜品信息
         for (OrderExtend orderExtend : orderExtendList) {
+            // 如果该订单已经删除，则不用处理
+            if (orderExtend.getIsDel() == 1) continue;
             // 详细查找 - 用订单号去查询该订单的菜品购买情况，填充到OrderFoodExtend数组中
             if (isDetail){
                 List<OrderFoodExtend> orderFoodExtendList = orderFoodExtendMapper.getFoodByOrderId(orderExtend.getOrderId());
@@ -161,6 +163,20 @@ public class OrderServiceImpl implements OrderService {
         return pageInfo;
     }
 
+    public OrderExtend getByOrderId(String orderId) throws Exception{
+        OrderExtend orderExtend = orderExtendMapper.getByOrderId(orderId);
+        // 检查该订单是否存在
+        if (orderExtend ==null || orderExtend.getIsDel() == 1) throw new SAException(ExceptionEnum.ORDER_EMPTY);
+        // 填充相关的菜品信息
+        List<OrderFoodExtend> orderFoodExtendList = orderFoodExtendMapper.getFoodByOrderId(orderExtend.getOrderId());
+        orderExtend.setOrderFoodExtendList(orderFoodExtendList);
+        // 处理时间戳 需要判空
+        dealOrderTimeStamp(orderExtend);
+
+        return orderExtend;
+    }
+
+
     // ----------------------------- 删除 ------------------------------
     /**
     * @Description: 删除某订单 逻辑删除
@@ -208,7 +224,31 @@ public class OrderServiceImpl implements OrderService {
         // 封装成分页对象
         PageInfo<OrderExtend> pageInfo = new PageInfo<>(orderList);
         return pageInfo;
+    }
 
+
+    /**
+    * @Description: 获取某顾客的已删除订单列表（不需要详细信息）
+    * @Param: [customerId, pageNum, pageSize]
+    * @return: com.github.pagehelper.PageInfo<com.practice.starryfood.pojo.OrderExtend>
+    * @Author: StarryHu
+    * @Date: 2019/12/4
+    */
+    public PageInfo<OrderExtend> getIsDelOrderByCustomerId(String customerId, int pageNum, int pageSize) throws Exception{
+        // 开启分页查询，写在查询语句之前
+        PageHelper.startPage(pageNum, pageSize);
+
+        // 查询已删除的订单(使用扩展类对象，显示时间戳信息)
+        List<OrderExtend> orderList = orderExtendMapper.getIsDelOrderByCustomerId(customerId);
+
+        // 未查到时返回空信息
+        if (orderList == null || orderList.isEmpty()) {
+            throw new SAException(ExceptionEnum.ORDER_EMPTY);
+        }
+
+        // 封装成分页对象
+        PageInfo<OrderExtend> pageInfo = new PageInfo<>(orderList);
+        return pageInfo;
     }
     // ----------------------------------------- 内部使用方法 -------------------------------------------
     /**

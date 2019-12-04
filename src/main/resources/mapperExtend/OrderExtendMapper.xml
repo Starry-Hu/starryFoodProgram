@@ -6,11 +6,13 @@
     <select id="getAllOrderByCustomerUuid" parameterType="java.lang.String" resultType="com.practice.starryfood.pojo.OrderExtend">
      SELECT
         A.order_id AS orderId,
-        A.order_create_customer AS orderCreateCustomer,
+        B.customer_id AS orderCreateCustomer,-- 取顾客账号作为创建者
         A.order_create_time AS orderCreateTime,
         A.order_sum_price AS orderSumPrice,
+        C.admin_name AS orderDealAdmin,
         A.order_update_time AS orderUpdateTime,
-        A.order_condition AS orderCondition
+        A.order_condition AS orderCondition,
+        A.is_del AS isDel
     FROM
         order_make A
         INNER JOIN customer B ON A.order_create_customer = B.customer_uuid
@@ -26,12 +28,13 @@
     <select id="getAllOrders" resultType="com.practice.starryfood.pojo.OrderExtend">
      SELECT
         A.order_id AS orderId,
-        B.customer_id AS orderCreateCustomer,-- 取顾客账号作为创造者
+        B.customer_id AS orderCreateCustomer,-- 取顾客账号作为创建者
         A.order_create_time AS orderCreateTime,
         A.order_sum_price AS orderSumPrice,
+        C.admin_name AS orderDealAdmin,
         A.order_update_time AS orderUpdateTime,
         A.order_condition AS orderCondition,
-        C.admin_name AS orderDealAdmin
+        A.is_del AS isDel
     FROM
         order_make A
         INNER JOIN customer B ON A.order_create_customer = B.customer_uuid
@@ -46,12 +49,13 @@
     <select id="getUndoOrders" resultType="com.practice.starryfood.pojo.OrderExtend">
      SELECT
         A.order_id AS orderId,
-        B.customer_id AS orderCreateCustomer,-- 取顾客账号作为创造者
+        B.customer_id AS orderCreateCustomer,-- 取顾客账号作为创建者
         A.order_create_time AS orderCreateTime,
         A.order_sum_price AS orderSumPrice,
+        C.admin_name AS orderDealAdmin,
         A.order_update_time AS orderUpdateTime,
         A.order_condition AS orderCondition,
-        C.admin_name AS orderDealAdmin
+        A.is_del AS isDel
     FROM
         order_make A
         INNER JOIN customer B ON A.order_create_customer = B.customer_uuid
@@ -67,12 +71,13 @@
     <select id="getMakingOrders" resultType="com.practice.starryfood.pojo.OrderExtend">
      SELECT
         A.order_id AS orderId,
-        B.customer_id AS orderCreateCustomer,-- 取顾客账号作为创造者
+        B.customer_id AS orderCreateCustomer,-- 取顾客账号作为创建者
         A.order_create_time AS orderCreateTime,
         A.order_sum_price AS orderSumPrice,
+        C.admin_name AS orderDealAdmin,
         A.order_update_time AS orderUpdateTime,
         A.order_condition AS orderCondition,
-        C.admin_name AS orderDealAdmin
+        A.is_del AS isDel
     FROM
         order_make A
         INNER JOIN customer B ON A.order_create_customer = B.customer_uuid
@@ -88,12 +93,13 @@
     <select id="getWaitPayOrders" resultType="com.practice.starryfood.pojo.OrderExtend">
     SELECT
         A.order_id AS orderId,
-        B.customer_id AS orderCreateCustomer,-- 取顾客账号作为创造者
+        B.customer_id AS orderCreateCustomer,-- 取顾客账号作为创建者
         A.order_create_time AS orderCreateTime,
         A.order_sum_price AS orderSumPrice,
+        C.admin_name AS orderDealAdmin,
         A.order_update_time AS orderUpdateTime,
         A.order_condition AS orderCondition,
-        C.admin_name AS orderDealAdmin
+        A.is_del AS isDel
     FROM
         order_make A
         INNER JOIN customer B ON A.order_create_customer = B.customer_uuid
@@ -109,12 +115,13 @@
     <select id="getDoneOrders" resultType="com.practice.starryfood.pojo.OrderExtend">
     SELECT
         A.order_id AS orderId,
-        B.customer_id AS orderCreateCustomer,-- 取顾客账号作为创造者
+        B.customer_id AS orderCreateCustomer,-- 取顾客账号作为创建者
         A.order_create_time AS orderCreateTime,
         A.order_sum_price AS orderSumPrice,
+        C.admin_name AS orderDealAdmin,
         A.order_update_time AS orderUpdateTime,
         A.order_condition AS orderCondition,
-        C.admin_name AS orderDealAdmin
+        A.is_del AS isDel
     FROM
         order_make A
         INNER JOIN customer B ON A.order_create_customer = B.customer_uuid
@@ -130,18 +137,64 @@
     <select id="getIsDelOrders" resultType="com.practice.starryfood.pojo.OrderExtend">
     SELECT
         A.order_id AS orderId,
-        B.customer_id AS orderCreateCustomer,-- 取顾客账号作为创造者
+        B.customer_id AS orderCreateCustomer,-- 取顾客账号作为创建者
         A.order_create_time AS orderCreateTime,
         A.order_sum_price AS orderSumPrice,
+        C.admin_name AS orderDealAdmin,
         A.order_update_time AS orderUpdateTime,
         A.order_condition AS orderCondition,
-        C.admin_name AS orderDealAdmin
+        A.is_del AS isDel
     FROM
         order_make A
         INNER JOIN customer B ON A.order_create_customer = B.customer_uuid
         LEFT JOIN admin C ON A.order_deal_admin = C.admin_uuid
     WHERE
         A.is_del = 1
+    ORDER BY
+        A.order_create_time DESC
+    </select>
+
+    <!-- 获取已删除订单 -->
+    <select id="getIsDelOrderByCustomerId" resultType="com.practice.starryfood.pojo.OrderExtend">
+    SELECT
+        A.order_id AS orderId,
+        B.customer_id AS orderCreateCustomer,-- 取顾客账号作为创建者
+        A.order_create_time AS orderCreateTime,
+        A.order_sum_price AS orderSumPrice,
+        C.admin_name AS orderDealAdmin,
+        A.order_update_time AS orderUpdateTime,
+        A.order_condition AS orderCondition,
+        A.is_del AS isDel
+    FROM
+        order_make A
+        INNER JOIN customer B ON A.order_create_customer = B.customer_uuid
+        LEFT JOIN admin C ON A.order_deal_admin = C.admin_uuid
+    WHERE
+        A.is_del = 1
+        AND B.customer_id = #{customerId}
+    ORDER BY
+        A.order_create_time DESC
+    </select>
+
+
+    <!-- 获取某一订单 -->
+    <select id="getByOrderId" resultType="com.practice.starryfood.pojo.OrderExtend">
+    SELECT
+        A.order_id AS orderId,
+        B.customer_id AS orderCreateCustomer,-- 取顾客账号作为创建者
+        A.order_create_time AS orderCreateTime,
+        A.order_sum_price AS orderSumPrice,
+        C.admin_name AS orderDealAdmin,
+        A.order_update_time AS orderUpdateTime,
+        A.order_condition AS orderCondition,
+        A.is_del AS isDel
+    FROM
+        order_make A
+        INNER JOIN customer B ON A.order_create_customer = B.customer_uuid
+        LEFT JOIN admin C ON A.order_deal_admin = C.admin_uuid
+    WHERE
+        A.is_del = 0
+        AND A.order_id=#{orderId}
     ORDER BY
         A.order_create_time DESC
     </select>

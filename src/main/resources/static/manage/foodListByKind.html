@@ -25,22 +25,7 @@
 
 <body class="layui-anim layui-anim-up">
 <div>
-    <div class="demoTable">
-        <form id="editForm" class="layui-form">
-            <div class="layui-form-item layui-inline">
-                <label class="layui-form-label must">顾客账号</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="customerId" id="customerId" required placeholder="请输入顾客账号"
-                           autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item layui-inline">
-                <div class="layui-btn" data-type="reload" id="search">搜索</div>
-            </div>
-        </form>
-    </div>
-
-    <button class="layui-btn layui-btn-sm" onclick="javascript:location.reload();">
+    <button class="layui-btn" onclick="javascript:location.reload();">
         <i class="layui-icon layui-icon-refresh-3"></i>
     </button>
     <table id="allFoodByKind" lay-filter="allFoodByKind"></table>
@@ -48,8 +33,8 @@
 
 
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-sm" lay-event="update">修改</a>
-    <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delete">删除</a>
+    <a class="layui-btn" lay-event="update">修改</a>
+    <a class="layui-btn layui-btn-danger" lay-event="delete">删除</a>
 </script>
 <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="lib/layui/layui.js"></script>
@@ -193,7 +178,7 @@
                     },function(){
                     $.ajax({
                         type: "get",
-                        url: path + "/customer/delete?customerUuid=" + data.customerUuid,
+                        url: path + "/food/delete?customerUuid=" + data.customerUuid,
                         dataType: "json",
                         success: function (response) {
                             layer.msg(`${response.msg}`, {
