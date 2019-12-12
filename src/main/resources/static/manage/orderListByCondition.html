@@ -51,6 +51,18 @@
     <a class="layui-btn layui-btn-sm" lay-event="update">修改</a>
     <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delete">删除</a>
 </script>
+
+<script type="text/html" id="conditionDemo">
+    {{#  if(d.orderCondition == 0 ){ }}
+    <a class="layui-btn layui-btn-sm layui-btn-danger">等待接单</a>
+    {{# }else if(d.orderCondition == 1 ){ }}
+    <a class="layui-btn layui-btn-sm">制作中</a>
+    {{# }else if(d.orderCondition == 2 ){ }}
+    <a class="layui-btn layui-btn-sm layui-btn-warm">等待支付</a>
+    {{# }else if(d.orderCondition == 3 ){ }}
+    <a class="layui-btn layui-btn-sm layui-btn-normal">已完成</a>
+    {{#  } }}
+</script>
 <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="lib/layui/layui.js"></script>
 
@@ -69,17 +81,17 @@
             loading: true, //翻页加loading
             url: path + '/order/getAllOrdersSimple?searchCondition=' + searchCondition,
             parseData: function (res) {
-                // if (res.code == 631) {
+                if (res.code == 631) {
                     return {
                         "code": res.code, //解析接口状态
                         "msg": res.msg, //解析提示文本
                         "count": res.data.size, //解析数据长度
                         "data": res.data.list, //解析数据列表
                     };
-                // }else{
-                //     layer.msg(`${res.msg}`, {time: 1500,})
-                //     return;
-                // }
+                }else{
+                    layer.msg(`${res.msg}`, {time: 1500,})
+                    return;
+                }
 
             },
             response: {
@@ -106,6 +118,7 @@
                     title: '订单状态',
                     width: '15%',
                     minWidth: 100,
+                    toolbar: '#conditionDemo'
                 }, {
                     field: 'orderCreateCustomer',
                     title: '下单人',

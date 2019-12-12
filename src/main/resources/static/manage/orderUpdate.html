@@ -54,43 +54,46 @@
             <label class="layui-form-label" for="orderId">订单编号</label>
             <div class="layui-input-inline">
                 <input type="text" id="orderId" required placeholder="请输入订单编号"
-                       autocomplete="off" class="layui-input" disabled>
+                       autocomplete="off" class="layui-input" disabled style="background: #999999;opacity: 0.7">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label must" for="orderCreateCustomer">下单顾客</label>
             <div class="layui-input-inline">
                 <input type="text" id="orderCreateCustomer" required placeholder="请输入下单顾客"
-                       autocomplete="off" class="layui-input" disabled>
+                       autocomplete="off" class="layui-input" disabled style="background: #999999;opacity: 0.7">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label must" for="orderCreateTime">下单时间</label>
             <div class="layui-input-inline">
                 <input type="text" id="orderCreateTime" required placeholder="请输入菜品计量单位"
-                       autocomplete="off" class="layui-input" disabled>
+                       autocomplete="off" class="layui-input" disabled style="background: #999999;opacity: 0.7">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label must" for="orderConditon">订单状态</label>
+            <label class="layui-form-label must" for="orderCondition">订单状态</label>
             <div class="layui-input-block">
-                <select name="orderConditon" id="orderConditon" lay-verify="required">
+                <select name="orderConditon" id="orderCondition" lay-verify="required">
                     <option value=""></option>
+                    <option value="0">等待接单</option>
+                    <option value="1">制作中</option>
+                    <option value="2">等待支付</option>
+                    <option value="3">已完成</option>
                 </select>
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label must" for="orderSumPrice">订单总价</label>
+            <label class="layui-form-label must" for="orderSumPrice">订单总价(RMB)</label>
             <div class="layui-input-inline">
                 <input type="text" id="orderSumPrice" required placeholder="请输入订单总价"
-                       autocomplete="off" class="layui-input">
+                       autocomplete="off" class="layui-input" disabled style="background: #999999;opacity: 0.7">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label must" for="orderFood">所选菜品</label>
-            <div class="layui-input-inline">
-                <input type="text" id="orderFood" required placeholder="请输入订单总价"
-                       autocomplete="off" class="layui-input">
+            <div class="layui-input-block">
+                <textarea placeholder="请输入菜品内容" id="orderFood" class="layui-textarea" disabled style="background: #999999;opacity: 0.7"></textarea>
             </div>
         </div>
         <div class="layui-form-item">
@@ -115,13 +118,27 @@
             url: path + "/order/getByOrderId?orderId=" + orderId, // 需要带上项目名(只有上传文件的时候不需要)
             dataType: "json",
             success: function (response) {
-                if (response.code == 431) {
+                if (response.code == 631) {
                     const element = response.data;
                     $('#orderId').val(element.orderId);
                     $('#orderCreateCustomer').val(element.orderCreateCustomer);
                     $('#orderCreateTime').val(element.orderCreateTime);
-                    $('#orderConditon').val(element.orderConditon);
+                    $('#orderCondition').val(element.orderCondition);
                     $('#orderSumPrice').val(element.orderSumPrice);
+                    // 循环显示出每个菜品信息
+                    if (element.orderFoodExtendList != null){
+                        let $orderFoodContent = "";
+                        for(let i = 0;i < element.orderFoodExtendList.length;i++){
+                            const oneFood = element.orderFoodExtendList[i];
+                            $orderFoodContent = `${oneFood.foodId}号 - ${oneFood.foodName} : ${oneFood.foodNum} * ${oneFood.foodPrice} RMB ${oneFood.foodMeasurement} \n`;
+                        }
+                        if ($orderFoodContent == ""){
+                            $('#orderFood').val("暂未选择商品！");
+                        } else{
+                            $('#orderFood').val($orderFoodContent);
+                        }
+                    }
+
                     form.render();
                 } else {
                     layer.msg(response.msg);
@@ -131,30 +148,24 @@
 
         // 提交表单
         $('#submit').click(function () {
-            let foodName = $('#foodName').val();
-            let foodPrice = $('#foodPrice').val();
-            let foodMeasurement = $('#foodMeasurement').val();
-            let foodIntroduce = $('#foodIntroduce').val();
-            let foodImg = $('#foodImg').val();
-            if (foodName == "" || foodPrice == "" || foodMeasurement == "" || foodIntroduce == "" || foodImg == "") {
-                layer.msg("请确保所需信息填写完毕");
+            let orderCondition = $('#orderCondition').val();
+            if (orderCondition == "") {
+                layer.msg("请选择订单状态！");
                 return;
             } else {
                 $.ajax({
                     type: "post",
-                    url: path + '/food/update', // 需要带上项目名(只有上传文件的时候不需要)
+                    url: path + '/order/updateOrderCondition', // 需要带上项目名(只有上传文件的时候不需要)
                     data: {
-                        "foodId": foodId,
-                        "foodName": foodName,
-                        "foodKindId": foodKindId,
-                        "foodPrice": foodPrice,
-                        "foodMeasurement": foodMeasurement,
-                        "foodIntroduce": foodIntroduce,
-                        "foodImg": foodImg
+                        "orderId": orderId,
+                        "orderCondition": orderCondition
                     },
                     dataType: "json",
                     success: function (response) {
-                        layer.msg(response.msg);
+                        layer.msg(response.msg, {
+                            time: 1500,
+                        });
+
                     }
                 })
             }

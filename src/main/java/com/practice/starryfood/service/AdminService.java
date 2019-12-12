@@ -14,8 +14,11 @@ public interface AdminService {
     // 恢复已删除管理员
     int restoreDeleteAdmin(String adminUuid,String updateUser) throws Exception;
 
-        // 更新管理员
+    // 更新管理员
     int updateAdmin(String adminUuid, String adminName, String adminPassword, String updateUser) throws Exception;
+
+    // 更新管理员名称
+    int updateAdminName(String adminUuid, String adminName, String updateUser) throws Exception;
 
     // 查找管理员
     Admin getAdminByUuid(String adminUuid) throws Exception;

@@ -68,42 +68,6 @@
                 <div class="zerogrid" style="margin-bottom: 100px">
                     <div id="main-content">
                         <!-- 每个菜品的内容展示 -->
-                        <div class="layui-card">
-                            <div class="layui-card-header">订单编号：1C43B19EACBD4860AFC8A757E2A7A44B<p
-                                    style="float: right">下单时间：2019-12-01 19:19:52 <span
-                                    class="layui-badge layui-bg-green">制作中</span></p></div>
-                            <div class="layui-card-body">
-                                <table class="layui-table">
-                                    <colgroup>
-                                        <col width="150">
-                                        <col width="150">
-                                        <col width="200">
-                                        <col>
-                                    </colgroup>
-                                    <thead>
-                                    <tr>
-                                        <th>菜品名称</th>
-                                        <th>单价 / 单位</th>
-                                        <th>数量</th>
-                                        <th>总价</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>鸡肉咖喱沙拉2222</td>
-                                        <td>14 RMB /份</td>
-                                        <td>* 2</td>
-                                        <td>28 RMB</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-
-                                <blockquote class="layui-elem-quote" style="margin-bottom: 10px">
-                                    <p> 最新订单更新时间：2019-12-01 19:19:52 <span class="layui-btn">制作中</span></p>
-                                </blockquote>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
         </div>
@@ -126,7 +90,8 @@
 </footer>
 </div>
 <script src="js/jquery-3.3.1.js" type="text/javascript"></script>
-
+<script type="text/javascript" src="lib/layui/layui.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
 <script>
     const path = location.protocol + "//" + window.location.host + "/starryfood/customer/logined/getAllOrder";
 
@@ -194,8 +159,8 @@
                                     <p> 最新订单更新时间： ${ element.updateTimeString == null? '无' : element.updateTimeString }
                                         ${ element.orderCondition == 0? '<span class="layui-btn layui-bg-cyan"> 等待接单 </span>' : '' }
                                         ${ element.orderCondition == 1? '<span class="layui-btn"> 制作中 </span>' : '' }
-                                        ${ element.orderCondition == 2? '<span class="layui-btn layui-bg-warm"> 等待支付 </span>' : '' }
-                                        ${ element.orderCondition == 3? '<span class="layui-btn layui-bg-normal"> 已完成 </span>' : '' }
+                                        ${ element.orderCondition == 2? '<span class="layui-btn layui-btn-warm"> 等待支付 </span>' : '' }
+                                        ${ element.orderCondition == 3? '<span class="layui-btn layui-btn-normal"> 已完成 </span>' : '' }
                                     </p>
                                 </blockquote>`;
                     $cardBody.append(updateTime);

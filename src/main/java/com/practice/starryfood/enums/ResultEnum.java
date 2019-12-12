@@ -18,7 +18,7 @@ public enum ResultEnum {
     ADMIN_UPDATE_SUCCESS(221,"更新管理员信息成功"),
     ADMIN_SEARCH_SUCCESS(231,"查找管理员成功"),
     ADMIN_LOGIN_SUCCESS(241,"登录成功"),
-    ADMIN_RESTORE_SUCCESS(251,"删除管理员成功"),
+    ADMIN_RESTORE_SUCCESS(251,"恢复管理员成功"),
 
     ADMIN_EDITPSW_PERSON_SUCCESS(251,"个人密码修改成功！"),
 
@@ -64,6 +64,7 @@ public enum ResultEnum {
     // 订单相关
     ORDER_SEARCH_SUCCESS(631,"订单查询成功"),
     ORDER_DELETE_SUCCESS(641,"订单删除成功"),
+    ORDER_UPDATE_SUCCESS(651,"订单更新成功"),
     ORDER_INFO_NOT_FULL(689,"信息填写不完全"),
     ;
     private Integer code;

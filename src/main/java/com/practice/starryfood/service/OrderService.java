@@ -26,4 +26,6 @@ public interface OrderService {
     // 获取某顾客已删除的订单（列表显示）
     PageInfo<OrderExtend> getIsDelOrderByCustomerId(String customerId, int pageNum, int pageSize) throws Exception;
 
+    // 更新订单状态
+    int updateOrderCondition(String orderId, int orderCondition, String updateUser) throws Exception;
 }

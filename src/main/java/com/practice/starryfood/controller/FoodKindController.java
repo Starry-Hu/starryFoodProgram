@@ -95,6 +95,7 @@ public class FoodKindController extends BaseController{
     */
     @GetMapping("/getAllFoodKinds")
     public BaseResponse getAllFoodKinds() throws Exception {
+        // 非详细查询
         List<FoodKindExtend> foodKindExtendList = foodKindService.getAllFoodKinds();
         return ajaxSucc(foodKindExtendList,ResultEnum.FOOD_KIND_SEARCH_SUCCESS);
     }

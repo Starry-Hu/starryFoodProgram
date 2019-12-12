@@ -20,6 +20,7 @@ import com.practice.starryfood.util.DateStamp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.xml.crypto.Data;
 import java.util.Date;
 import java.util.List;
 
@@ -42,6 +43,7 @@ public class OrderServiceImpl implements OrderService {
     CustomerMapper customerMapper;
 
     // --------------------------  简洁版，不带相应菜品信息，用于列表展示  -------------------------------------------
+
     /**
      * @Description: 根据顾客id账号 获取某顾客的全部订单信息(带分页)【简洁查找】
      * @Param: [customerUuid]
@@ -80,7 +82,7 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * @Description: 根据条件查询全部订单详细信息（-1为全部订单信息，0为未处理订单，1为制作中订单，2为等待支付订单，3为已完成订单）
-     *               同时通过isDetail判断是否为详细查询，是则还需将每个种类的菜品添加进去
+     * 同时通过isDetail判断是否为详细查询，是则还需将每个种类的菜品添加进去
      * @Param: []
      * @return: java.util.List<com.practice.starryfood.pojo.OrderExtend>
      * @Author: StarryHu
@@ -112,7 +114,7 @@ public class OrderServiceImpl implements OrderService {
             // 如果该订单已经删除，则不用处理
             if (orderExtend.getIsDel() == 1) continue;
             // 详细查找 - 用订单号去查询该订单的菜品购买情况，填充到OrderFoodExtend数组中
-            if (isDetail){
+            if (isDetail) {
                 List<OrderFoodExtend> orderFoodExtendList = orderFoodExtendMapper.getFoodByOrderId(orderExtend.getOrderId());
                 orderExtend.setOrderFoodExtendList(orderFoodExtendList);
             }
@@ -124,7 +126,6 @@ public class OrderServiceImpl implements OrderService {
         PageInfo<OrderExtend> pageInfo = new PageInfo<>(orderExtendList);
         return pageInfo;
     }
-
 
 
     /**
@@ -163,10 +164,10 @@ public class OrderServiceImpl implements OrderService {
         return pageInfo;
     }
 
-    public OrderExtend getByOrderId(String orderId) throws Exception{
+    public OrderExtend getByOrderId(String orderId) throws Exception {
         OrderExtend orderExtend = orderExtendMapper.getByOrderId(orderId);
         // 检查该订单是否存在
-        if (orderExtend ==null || orderExtend.getIsDel() == 1) throw new SAException(ExceptionEnum.ORDER_EMPTY);
+        if (orderExtend == null || orderExtend.getIsDel() == 1) throw new SAException(ExceptionEnum.ORDER_EMPTY);
         // 填充相关的菜品信息
         List<OrderFoodExtend> orderFoodExtendList = orderFoodExtendMapper.getFoodByOrderId(orderExtend.getOrderId());
         orderExtend.setOrderFoodExtendList(orderFoodExtendList);
@@ -178,17 +179,18 @@ public class OrderServiceImpl implements OrderService {
 
 
     // ----------------------------- 删除 ------------------------------
+
     /**
-    * @Description: 删除某订单 逻辑删除
-    * @Param: [orderId]
-    * @return: int
-    * @Author: StarryHu
-    * @Date: 2019/12/4
-    */
-    public int delete(String orderId,String updateUser) throws Exception{
+     * @Description: 删除某订单 逻辑删除
+     * @Param: [orderId]
+     * @return: int
+     * @Author: StarryHu
+     * @Date: 2019/12/4
+     */
+    public int delete(String orderId, String updateUser) throws Exception {
         Order order = orderMapper.selectByPrimaryKey(orderId);
         // 判断该订单号的商品是否存在
-        if (order == null || order.getIsDel() ==1){
+        if (order == null || order.getIsDel() == 1) {
             throw new SAException(ExceptionEnum.ORDER_NOT_EXIST);
         }
         // 进行逻辑删除
@@ -198,18 +200,18 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderDealAdmin(updateUser);
 
         int n = orderMapper.updateByPrimaryKeySelective(order);
-        if (n <=0) throw new SAException(ExceptionEnum.ORDER_DELETE_FAIL);
+        if (n <= 0) throw new SAException(ExceptionEnum.ORDER_DELETE_FAIL);
         return n;
     }
 
-    /** 
-    * @Description: 获取已删除订单 
-    * @Param: [pageNum, pageSize] 
-    * @return: com.github.pagehelper.PageInfo<com.practice.starryfood.pojo.OrderExtend> 
-    * @Author: StarryHu
-    * @Date: 2019/12/4 
-    */ 
-    public PageInfo<OrderExtend> getIsDelOrders(int pageNum, int pageSize) throws Exception{
+    /**
+     * @Description: 获取已删除订单
+     * @Param: [pageNum, pageSize]
+     * @return: com.github.pagehelper.PageInfo<com.practice.starryfood.pojo.OrderExtend>
+     * @Author: StarryHu
+     * @Date: 2019/12/4
+     */
+    public PageInfo<OrderExtend> getIsDelOrders(int pageNum, int pageSize) throws Exception {
         // 开启分页查询，写在查询语句之前
         PageHelper.startPage(pageNum, pageSize);
 
@@ -228,13 +230,13 @@ public class OrderServiceImpl implements OrderService {
 
 
     /**
-    * @Description: 获取某顾客的已删除订单列表（不需要详细信息）
-    * @Param: [customerId, pageNum, pageSize]
-    * @return: com.github.pagehelper.PageInfo<com.practice.starryfood.pojo.OrderExtend>
-    * @Author: StarryHu
-    * @Date: 2019/12/4
-    */
-    public PageInfo<OrderExtend> getIsDelOrderByCustomerId(String customerId, int pageNum, int pageSize) throws Exception{
+     * @Description: 获取某顾客的已删除订单列表（不需要详细信息）
+     * @Param: [customerId, pageNum, pageSize]
+     * @return: com.github.pagehelper.PageInfo<com.practice.starryfood.pojo.OrderExtend>
+     * @Author: StarryHu
+     * @Date: 2019/12/4
+     */
+    public PageInfo<OrderExtend> getIsDelOrderByCustomerId(String customerId, int pageNum, int pageSize) throws Exception {
         // 开启分页查询，写在查询语句之前
         PageHelper.startPage(pageNum, pageSize);
 
@@ -250,15 +252,41 @@ public class OrderServiceImpl implements OrderService {
         PageInfo<OrderExtend> pageInfo = new PageInfo<>(orderList);
         return pageInfo;
     }
-    // ----------------------------------------- 内部使用方法 -------------------------------------------
+
+    // ----------------------------- 更新订单状态 -------------------------------------
     /**
-    * @Description: 处理订单的时间戳
-    * @Param: [orderExtend]
-    * @return: void
-    * @Author: StarryHu
-    * @Date: 2019/12/3
-    */
-    private void dealOrderTimeStamp(OrderExtend orderExtend){
+     * @Description: 更新订单状态
+     * @Param: [orderId, orderCondition]
+     * @return: int
+     * @Author: StarryHu
+     * @Date: 2019/12/4
+     */
+    public int updateOrderCondition(String orderId, int orderCondition, String updateUser) throws Exception {
+        // 查看对应订单号的订单是否存在
+        Order order = orderMapper.selectByPrimaryKey(orderId);
+        if (order == null || order.getIsDel() == 1) throw new SAException(ExceptionEnum.ORDER_NOT_EXIST);
+
+        // 更新订单状态
+        order.setOrderCondition(orderCondition);
+        Date date = new Date();
+        order.setOrderUpdateTime(date);
+        order.setOrderDealAdmin(updateUser);
+
+        int n = orderMapper.updateByPrimaryKeySelective(order);
+        if (n <= 0) throw new SAException(ExceptionEnum.ORDER_UPDATE_FAIL);
+        return n;
+    }
+
+    // ----------------------------------------- 内部使用方法 -------------------------------------------
+
+    /**
+     * @Description: 处理订单的时间戳
+     * @Param: [orderExtend]
+     * @return: void
+     * @Author: StarryHu
+     * @Date: 2019/12/3
+     */
+    private void dealOrderTimeStamp(OrderExtend orderExtend) {
         // 处理时间戳 需要判空
         if (null != orderExtend.getOrderCreateTime()) {
             String createTimeString = DateStamp.stampToDate(orderExtend.getOrderCreateTime());

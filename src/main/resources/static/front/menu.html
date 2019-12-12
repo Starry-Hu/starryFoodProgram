@@ -87,6 +87,8 @@
 </div>
 
 <script src="js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="lib/layui/layui.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
 <script>
     const path = location.protocol + "//" + window.location.host + "/starryfood/food/getAllFoodsWithKind";
     // 获取全部菜品
@@ -108,10 +110,10 @@
                                             <legend>${elementKind.foodKindName}类</legend>
                                         </fieldset>`;
                     row.append(kindTitle); //将种类标题添加到row盒子中
-
+                    mainContent.append(row)
                     // 获取每个种类下的菜品数组对象
                     if (elementKind.foodExtendList == null) {// 如果该种类下还没有设置菜品则显示无
-                        break;
+                        continue;
                     }
                     for(let j = 0; j < elementKind.foodExtendList.length; j++){
                         // 得到该种类下的每个菜品对象

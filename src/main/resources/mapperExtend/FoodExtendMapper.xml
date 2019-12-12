@@ -15,8 +15,8 @@
         A.food_img AS foodImg,
         A.create_time AS createTime,
         A.update_time AS updateTime,
-        B.admin_name AS create_user,
-        C.admin_name AS update_user
+        B.admin_name AS createUser,
+        C.admin_name AS updateUser
     FROM
         food A
         INNER JOIN admin B ON A.create_user = B.admin_uuid
@@ -39,8 +39,8 @@
         A.food_img AS foodImg,
         A.create_time AS createTime,
         A.update_time AS updateTime,
-        B.admin_name AS create_user,
-        C.admin_name AS update_user
+        B.admin_name AS createUser,
+        C.admin_name AS updateUser
     FROM
         food A
         INNER JOIN admin B ON A.create_user = B.admin_uuid

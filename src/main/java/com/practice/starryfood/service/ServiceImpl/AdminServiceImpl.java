@@ -138,13 +138,36 @@ public class AdminServiceImpl implements AdminService {
         throw new SAException(ExceptionEnum.ADMIN_UPDATE_FAIL);
     }
 
-    /**
-     * 根据uuid获取管理员信息
-     *
-     * @param adminUuid
-     * @return
-     * @throws Exception
-     */
+    /** 
+    * @Description: 更新管理员名称 
+    * @Param: [adminUuid, adminName, updateUser] 
+    * @return: int 
+    * @Author: StarryHu
+    * @Date: 2019/12/4 
+    */ 
+    public int updateAdminName(String adminUuid, String adminName, String updateUser) throws Exception {
+        Admin admin = adminMapper.selectByPrimaryKey(adminUuid);
+        // 根据uuid获取管理员对象，并判断是否存在
+        if (admin == null || admin.getIsDel() == 1) throw new SAException(ExceptionEnum.ADMIN_UPDATE_NOT_EXIST);
+        Date date = new Date();
+        admin.setAdminName(adminName);
+        admin.setUpdateTime(date);
+        admin.setUpdateUser(updateUser);
+
+        int n = adminMapper.updateByPrimaryKeySelective(admin);
+        // 更新成功
+        if (n > 0) {
+            return n;
+        }
+        throw new SAException(ExceptionEnum.ADMIN_UPDATE_FAIL);
+    }
+        /**
+         * 根据uuid获取管理员信息
+         *
+         * @param adminUuid
+         * @return
+         * @throws Exception
+         */
     public Admin getAdminByUuid(String adminUuid) throws Exception {
         Admin admin = adminMapper.selectByPrimaryKey(adminUuid);
         // 管理员不存在或已删除

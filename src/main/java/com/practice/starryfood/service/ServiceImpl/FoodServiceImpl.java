@@ -48,8 +48,8 @@ public class FoodServiceImpl implements FoodService {
         Food food = new Food();
         Date date = new Date();
         food.setFoodId(IDGenerator.generator());
+        food.setFoodKindId(foodKindId);
         food.setFoodName(foodName);
-        food.setFoodId(foodKindId);
         food.setFoodPrice(foodPrice);
         food.setFoodMeasurement(foodMeasurement);
         food.setFoodIntroduce(foodIntroduce);
@@ -171,7 +171,7 @@ public class FoodServiceImpl implements FoodService {
         for(FoodKindExtend foodKindExtend : foodKindExtendList){
             List<FoodExtend> foodList = foodExtendMapper.getFoodsByOneKind(foodKindExtend.getFoodKindId());
             //如果查到的菜品数据为空，则跳过
-            if (foodList.size() == 0) break;
+            if (foodList.size() == 0) continue;
 
             // 处理菜品时间戳
             for(FoodExtend foodExtend : foodList){

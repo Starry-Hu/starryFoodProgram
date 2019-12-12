@@ -25,22 +25,22 @@
 
 <body class="layui-anim layui-anim-up">
 <div>
-    <div class="demoTable">
-        <form id="editForm" class="layui-form">
-            <div class="layui-form-item layui-inline">
-                <label class="layui-form-label must">管理员名称</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="adminName" id="adminName" required placeholder="请输入管理员名称"
-                           autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item layui-inline">
-                <div class="layui-btn" data-type="reload" id="search">搜索</div>
-            </div>
-        </form>
-    </div>
+    <!--<div class="demoTable">-->
+        <!--<form id="editForm" class="layui-form">-->
+            <!--<div class="layui-form-item layui-inline">-->
+                <!--<label class="layui-form-label must">管理员名称</label>-->
+                <!--<div class="layui-input-inline">-->
+                    <!--<input type="text" name="adminName" id="adminName" required placeholder="请输入管理员名称"-->
+                           <!--autocomplete="off" class="layui-input">-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="layui-form-item layui-inline">-->
+                <!--<div class="layui-btn" data-type="reload" id="search">搜索</div>-->
+            <!--</div>-->
+        <!--</form>-->
+    <!--</div>-->
     <section style="margin-bottom: 10px;">
-        <button class="layui-btn" id="add">添加管理员</button>
+        <button class="layui-btn layui-btn-normal" id="add">添加管理员</button>
         <button class="layui-btn" onclick="javascript:location.reload();">
             <i class="layui-icon layui-icon-refresh-3"></i>
         </button>
@@ -55,7 +55,6 @@
 
 
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-sm" lay-event="update">修改</a>
     <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delete">删除</a>
 </script>
 <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
@@ -147,37 +146,37 @@
             id: "dataTable"
         });
 
-        // 数据重载（查询）
-        const active = {
-            reload: function () {
-                //执行重载
-                table.reload('dataTable', {
-                    url: path + '/customer/getByCustomerId',
-                    parseData: function (res) { //res 即为原始返回的数据
-                        return {
-                            "code": res.code, //解析接口状态
-                            "msg": res.msg, //解析提示文本
-                            "count": 1, //解析数据总个数
-                            "data": [res.data], //解析数据列表
-                        };
-                    },
-                    response: {
-                        statusCode: 331 //规定成功的状态码，默认：0
-                    },
-                    page: {
-                        curr: 1 //重新从第 1 页开始
-                    },
-                    where: { //类似于 data
-                        customerId: $('#customerId').val()
-                    }
-                });
-            }
-        };
-        // 数据重载之后的刷新重载表格
-        $('#search').on('click', function () {
-            const type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
-        });
+        // // 数据重载（查询）
+        // const active = {
+        //     reload: function () {
+        //         //执行重载
+        //         table.reload('dataTable', {
+        //             url: path + '/customer/getByCustomerId',
+        //             parseData: function (res) { //res 即为原始返回的数据
+        //                 return {
+        //                     "code": res.code, //解析接口状态
+        //                     "msg": res.msg, //解析提示文本
+        //                     "count": 1, //解析数据总个数
+        //                     "data": [res.data], //解析数据列表
+        //                 };
+        //             },
+        //             response: {
+        //                 statusCode: 331 //规定成功的状态码，默认：0
+        //             },
+        //             page: {
+        //                 curr: 1 //重新从第 1 页开始
+        //             },
+        //             where: { //类似于 data
+        //                 customerId: $('#customerId').val()
+        //             }
+        //         });
+        //     }
+        // };
+        // // 数据重载之后的刷新重载表格
+        // $('#search').on('click', function () {
+        //     const type = $(this).data('type');
+        //     active[type] ? active[type].call(this) : '';
+        // });
 
         //监听行工具事件
         table.on('tool(allAdmin)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
@@ -222,7 +221,7 @@
 
             $.ajax({
                 type: "post",
-                url: path + "/admin/update",
+                url: path + "/admin/updateName",
                 data: {
                     "adminUuid": data.adminUuid,
                     "adminName": value, //修改的管理员名称，此处字段名称也可以用obj.field代替

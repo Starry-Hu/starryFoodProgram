@@ -209,6 +209,27 @@ public class AdminController extends BaseController{
         return ajaxSucc(null,ResultEnum.ADMIN_UPDATE_SUCCESS);
     }
 
+    /** 
+    * @Description: 更新管理员名称
+    * @Param: [adminUuid, adminName, session] 
+    * @return: com.practice.starryfood.util.BaseResponse 
+    * @Author: StarryHu
+    * @Date: 2019/12/4 
+    */ 
+    @PostMapping("/updateName")
+    public BaseResponse updateName(String adminUuid, String adminName,HttpSession session) throws Exception{
+        // 检查内容是否填写完全
+        if (adminUuid == null || adminName == null || adminUuid.trim().equals("") || adminName.trim().equals("")) {
+            return ajaxFail(ResultEnum.ADMIN_INFO_NOT_FULL);
+        }
+
+        // 获取当前登录的管理员
+        String updateUser = (String) session.getAttribute("adminUuid");
+
+        adminService.updateAdminName(adminUuid,adminName,updateUser);
+        return ajaxSucc(null,ResultEnum.ADMIN_UPDATE_SUCCESS);
+    }
+    
     // ------------------------------------ 查询管理员信息 ---------------------------------
     /**
      * 根据管理员账户名获取管理员对象
