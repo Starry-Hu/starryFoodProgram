@@ -349,13 +349,20 @@ public class CustomerServiceImpl implements CustomerService {
     // ------------------------- 对购物车进行操作 --------------------------
 
     /***
-     * 添加菜品到顾客的购物车中
+     *
      * @param customerUuid 顾客uuid
      * @param foodId 菜品id
      * @param foodNum 菜品数量
      * @return
      * @throws Exception
      */
+    /**
+    * @Description:  添加菜品到顾客的购物车中
+    * @Param: [customerUuid, foodId, foodNum]
+    * @return: int
+    * @Author: StarryHu
+    * @Date: 2019/12/15
+    */
     public int addFoodToCart(String customerUuid, String foodId, int foodNum) throws Exception {
         // 查询顾客对象
         Customer customer = customerMapper.selectByPrimaryKey(customerUuid);
@@ -394,12 +401,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     /**
-     * @Description: 从购物车中删除菜品
-     * @Param: [uuid, foodId, foodNum]
-     * @return: int
-     * @Author: StarryHu
-     * @Date: 2019/12/1
-     */
+    * @Description: 从购物车中删除菜品
+    * @Param: [uuid, foodId, foodNum]
+    * @return: int
+    * @Author: StarryHu
+    */
     public int deleteFoodFromCart(String uuid, String foodId, int foodNum) throws Exception {
         // 查询顾客对象
         Customer customer = customerMapper.selectByPrimaryKey(uuid);

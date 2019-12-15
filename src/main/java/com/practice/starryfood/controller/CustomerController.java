@@ -288,14 +288,13 @@ public class CustomerController extends BaseController {
         return ajaxSucc(data, ResultEnum.SUCCESS);
     }
 
-    /***
-     * 添加菜品到当前登录顾客的购物车中
-     * @param session
-     * @param foodId
-     * @param foodNum
-     * @return
-     * @throws Exception
-     */
+    /**
+    * @Description: 添加菜品到当前登录顾客的购物车中
+    * @Param: [session, foodId, foodNum]
+    * @return: com.practice.starryfood.util.BaseResponse
+    * @Author: StarryHu
+    * @Date: 2019/11/15
+    */
     @PostMapping("/logined/addToCart")
     public BaseResponse addFoodToCart(HttpSession session, String foodId, Integer foodNum) throws Exception {
         // 获取当前登录顾客
@@ -309,14 +308,13 @@ public class CustomerController extends BaseController {
         return ajaxSucc(null, ResultEnum.CART_ADD_FOOD_SUCCESS);
     }
 
-    /***
-     * 当前登录顾客 从购物车中删除菜品
-     * @param session
-     * @param foodId
-     * @param foodNum
-     * @return
-     * @throws Exception
-     */
+    /**
+    * @Description:  当前登录顾客 从购物车中删除菜品
+    * @Param: [session, foodId, foodNum]
+    * @return: com.practice.starryfood.util.BaseResponse
+    * @Author: StarryHu
+    * @Date: 2019/12/15
+    */
     @PostMapping("/logined/deleteFromCart")
     public BaseResponse deleteFoodFromCart(HttpSession session, String foodId, Integer foodNum) throws Exception {
         // 获取当前登录顾客
